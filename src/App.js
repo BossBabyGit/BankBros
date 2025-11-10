@@ -58,7 +58,7 @@ function Layout({ children }) {
   return (
     <div
       className="relative min-h-screen text-white overflow-hidden selection:bg-white/10 selection:text-white"
-      style={{ backgroundColor: "#0b0704" }}
+      style={{ backgroundColor: "#050302" }}
     >
       {/* BACKGROUND LAYERS */}
       <Noise />
@@ -75,7 +75,7 @@ function Layout({ children }) {
             backgroundImage: "linear-gradient(110deg, rgba(255,255,255,0.05), transparent 45%, rgba(68,33,12,0.82))",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/70 to-black" />
       </div>
 
       {/* PARTICLES */}
@@ -190,9 +190,6 @@ function Navbar() {
             <div>
               <div className="text-lg font-semibold tracking-tight" style={{ color: BRAND_PRIMARY }}>
                 BankBros Rewards
-              </div>
-              <div className="text-xs uppercase tracking-[0.2em] text-amber-200/70">
-                Loyalty Unlocked
               </div>
             </div>
           </div>
@@ -413,19 +410,19 @@ function HomePage() {
           />
         </motion.div>
 
-        <div className="mx-auto flex max-w-6xl flex-col gap-16 md:grid md:grid-cols-[1.15fr,1fr] md:items-center">
-          <div className="space-y-10 text-left">
+        <div className="mx-auto flex max-w-5xl flex-col items-center gap-12 text-center">
+          <div className="w-full space-y-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-amber-100/80"
+              className="mx-auto inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-amber-100/80"
             >
               <Sparkles size={14} style={{ color: BRAND_PRIMARY }} /> Season VIII Live Now
             </motion.div>
 
             <motion.h1
-              className="text-4xl font-black leading-[1.05] text-white sm:text-5xl md:text-6xl"
+              className="text-center text-4xl font-black leading-[1.05] text-white sm:text-5xl md:text-6xl"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.7 }}
@@ -434,7 +431,7 @@ function HomePage() {
             </motion.h1>
 
             <motion.p
-              className="max-w-xl text-base text-slate-300/90 sm:text-lg"
+              className="mx-auto max-w-2xl text-base text-slate-300/90 sm:text-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.7 }}
@@ -444,7 +441,7 @@ function HomePage() {
             </motion.p>
 
             <motion.div
-              className="grid grid-cols-2 gap-3 sm:grid-cols-3"
+              className="mx-auto grid w-full max-w-2xl grid-cols-2 gap-3 sm:grid-cols-3"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25, duration: 0.7 }}
@@ -454,7 +451,10 @@ function HomePage() {
                 { label: "Season Rewards", value: "$8.5K" },
                 { label: "Daily Drops", value: "3" },
               ].map((s) => (
-                <div key={s.label} className="rounded-3xl border border-amber-500/20 bg-white/[0.05] px-4 py-5 shadow-[0_25px_80px_-45px_rgba(217,119,6,0.55)]">
+                <div
+                  key={s.label}
+                  className="rounded-3xl border border-amber-500/20 bg-white/[0.05] px-4 py-5 text-center shadow-[0_25px_80px_-45px_rgba(217,119,6,0.55)]"
+                >
                   <div className="text-xs uppercase tracking-[0.3em] text-slate-400">{s.label}</div>
                   <div className="mt-2 text-2xl font-extrabold" style={{ color: BRAND_PRIMARY }}>
                     {s.value}
@@ -464,7 +464,7 @@ function HomePage() {
             </motion.div>
 
             <motion.div
-              className="flex flex-col gap-4 sm:flex-row sm:items-center"
+              className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.7 }}
@@ -487,7 +487,7 @@ function HomePage() {
             </motion.div>
 
             <motion.div
-              className="flex flex-wrap items-center gap-4 text-xs uppercase tracking-[0.3em] text-slate-400"
+              className="flex flex-wrap items-center justify-center gap-4 text-xs uppercase tracking-[0.3em] text-slate-400"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.45, duration: 0.7 }}
@@ -504,41 +504,6 @@ function HomePage() {
             </motion.div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.7 }}
-            className="relative overflow-hidden rounded-[28px] border border-amber-500/15 bg-white/[0.06] p-6 shadow-[0_35px_120px_-45px_rgba(217,119,6,0.75)]"
-          >
-            <div className="absolute -top-24 right-0 h-48 w-48 rounded-full blur-3xl" style={{ background: `${BRAND_PRIMARY}33` }} />
-            <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-white/60">
-              <span>Current Cycle</span>
-              <span>Ends in {`<`}14d</span>
-            </div>
-            <div className="mt-6 rounded-2xl border border-white/10 bg-black/50 p-5">
-              <div className="flex items-center justify-between text-sm text-white/70">
-                <span>Next Reward Drop</span>
-                <span className="font-semibold" style={{ color: BRAND_PRIMARY }}>
-                  $500 Cash
-                </span>
-              </div>
-              <div className="mt-6 flex items-end gap-3">
-                {[72, 100, 84].map((h, i) => (
-                  <div key={i} className="flex flex-1 flex-col items-center gap-2">
-                    <div className="w-full rounded-2xl bg-white/10">
-                      <div
-                        className="rounded-2xl"
-                        style={{ backgroundImage: BRAND_GRADIENT, height: `${h}%` }}
-                      />
-                    </div>
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-white/60">
-                      {['Top 50', 'Top 10', 'Top 3'][i]}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
         </div>
       </section>
 
@@ -854,7 +819,7 @@ function LeaderboardsPage() {
                   placement={1}
                   item={top3[0]}
                   className="md:order-2"
-                  height="h-[260px]"
+                  height="min-h-[260px]"
                   tint="rgba(249,115,22,0.32)"
                   edgeColor={BRAND_PRIMARY}
                   badge={<Crown size={18} color={BRAND_PRIMARY} />}
@@ -866,7 +831,7 @@ function LeaderboardsPage() {
                   placement={2}
                   item={top3[1]}
                   className="md:order-1"
-                  height="h-[220px]"
+                  height="min-h-[220px]"
                   tint="rgba(234,179,8,0.18)"
                   edgeColor="#fbbf24"
                   badge={<MedalRibbon n={2} color="#fbbf24" />}
@@ -878,7 +843,7 @@ function LeaderboardsPage() {
                   placement={3}
                   item={top3[2]}
                   className="md:order-3"
-                  height="h-[200px]"
+                  height="min-h-[200px]"
                   tint="rgba(146,64,14,0.28)"
                   edgeColor="#b45309"
                   badge={<MedalRibbon n={3} color="#b45309" />}
