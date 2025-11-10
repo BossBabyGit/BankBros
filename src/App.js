@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronDown, Sparkles, Trophy, ShieldCheck, Twitter, MessageCircle, Play, ExternalLink, Crown, Medal, Timer, Users, Instagram } from "lucide-react";
+import { ChevronDown, Sparkles, Trophy, ShieldCheck, MessageCircle, Play, ExternalLink, Crown, Medal, Timer, Users, Instagram } from "lucide-react";
 import useLeaderboardCountdown from "./useLeaderboardCountdown";
 
 // —— Brand Tokens ——
@@ -878,20 +878,6 @@ function TimeTile({ label, value }) {
         <div className="text-2xl font-black tracking-tight text-white">{String(value).padStart(2, "0")}</div>
       </div>
       <div className="mt-1 text-[11px] uppercase tracking-wider text-gray-400">{label}</div>
-    </div>
-  );
-}
-
-function BadgeCard({ icon, title, desc }) {
-  return (
-    <div className="flex items-start gap-4 rounded-2xl border border-white/10 bg-black/50 p-5">
-      <div className="flex h-10 w-10 items-center justify-center rounded-2xl" style={{ backgroundImage: BRAND_GRADIENT }}>
-        {icon}
-      </div>
-      <div>
-        <div className="text-lg font-semibold text-white">{title}</div>
-        <div className="mt-1 text-sm text-slate-300/80">{desc}</div>
-      </div>
     </div>
   );
 }
