@@ -62,7 +62,7 @@
   transform-style: preserve-3d;
   transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform: rotateX(5deg) rotateY(5deg);
-  box-shadow: 0 10px 30px rgba(0, 150, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(217, 119, 6, 0.2);
 }
 
 .card-face {
@@ -131,7 +131,7 @@
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  border: 3px solid #0096ff;
+  border: 3px solid #d97706;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   position: relative;
   z-index: 2;
@@ -143,7 +143,7 @@
   left: -5px;
   right: -5px;
   bottom: -5px;
-  background: radial-gradient(circle, rgba(0,150,255,0.4) 0%, rgba(0,150,255,0) 70%);
+  background: radial-gradient(circle, rgba(217,119,6,0.4) 0%, rgba(217,119,6,0) 70%);
   border-radius: 50%;
   z-index: 1;
   animation: pulse 2s infinite alternate;
@@ -169,7 +169,7 @@
 
 .profile-info p {
   margin: 0.3rem 0;
-  color: #00ffaa;
+  color: #fbbf24;
   font-size: 1.1rem;
   font-weight: bold;
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
@@ -178,11 +178,11 @@
 /* Hover Effects */
 .profile-container:hover .profile-card {
   transform: rotateX(0deg) rotateY(0deg) translateZ(30px);
-  box-shadow: 0 15px 40px rgba(0, 150, 255, 0.4);
+  box-shadow: 0 15px 40px rgba(217, 119, 6, 0.4);
 }
 
 .profile-container:hover .card-front {
-  border-color: #00ffaa;
+  border-color: #fbbf24;
 }
 
 /* Responsive Design */
