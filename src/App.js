@@ -4,7 +4,9 @@ import { ChevronDown, Sparkles, Gift, Trophy, ShieldCheck, Twitter, MessageCircl
 import useLeaderboardCountdown from "./useLeaderboardCountdown";
 
 // —— Brand Tokens ——
-const BANKBROS_ORANGE = "#d97706";
+const BRAND_PRIMARY = "#6366f1";
+const BRAND_SECONDARY = "#22d3ee";
+const BRAND_GRADIENT = `linear-gradient(135deg, ${BRAND_PRIMARY}, ${BRAND_SECONDARY})`;
 
 function DiscordIcon({ size = 24, ...props }) {
   return (
@@ -55,13 +57,26 @@ export default function App() {
 // —— Shared Layout: background, particles, navbar, footer ——
 function Layout({ children }) {
   return (
-    <div className="relative min-h-screen text-white overflow-hidden selection:bg-[#d97706]/40 selection:text-white" style={{ backgroundColor: "black" }}>
+    <div
+      className="relative min-h-screen text-white overflow-hidden selection:bg-white/20 selection:text-white"
+      style={{ backgroundColor: "#040513" }}
+    >
       {/* BACKGROUND LAYERS */}
       <Noise />
       <div className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#030604] to-black" />
-        <div className="absolute inset-0 opacity-25" style={{ backgroundImage: "radial-gradient(rgba(217,119,6,0.16) 1px, transparent 1px)", backgroundSize: "18px 18px" }} />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70" />
+        <div
+          className="absolute inset-0 opacity-80"
+          style={{
+            background: `radial-gradient(circle at 18% 18%, ${BRAND_PRIMARY}20, transparent 55%), radial-gradient(circle at 80% 12%, ${BRAND_SECONDARY}18, transparent 60%)`,
+          }}
+        />
+        <div
+          className="absolute inset-0 opacity-60"
+          style={{
+            backgroundImage: "linear-gradient(115deg, rgba(255,255,255,0.06), transparent 50%, rgba(15,23,42,0.8))",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black" />
       </div>
 
       {/* PARTICLES */}
@@ -153,72 +168,103 @@ function Particles() {
 function Navbar() {
   const [open, setOpen] = useState(false);
   const link = (to, label) => (
-    <a href={`#${to}`} className="hover:text-white">
+    <a
+      href={`#${to}`}
+      className="px-3 py-1.5 rounded-full text-sm font-medium transition-colors hover:text-white hover:bg-white/10"
+    >
       {label}
     </a>
   );
   return (
-    <nav className="relative z-30">
-      <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between rounded-b-2xl border-b border-white/10 backdrop-blur supports-[backdrop-filter]:bg-black/40" style={{ boxShadow: "0 10px 40px -20px rgba(217,119,6,0.35)" }}>
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl flex items-center justify-center" style={{ background: `radial-gradient(ellipse at center, ${BANKBROS_ORANGE}, #7c3d0c)`, boxShadow: "0 0 30px rgba(217,119,6,0.6)" }}>BB</div>
-          <span className="text-2xl font-extrabold tracking-tight" style={{ color: BANKBROS_ORANGE }}>BankBros</span>
-        </div>
-        <ul className="hidden md:flex items-center gap-8 text-sm md:text-base text-gray-300">
-          <li>{link("/", "Home")}</li>
-          <li>{link("/leaderboards", "Leaderboards")}</li>
-          <li>{link("/bonuses", "Bonuses")}</li>
-          <li>{link("/rules", "Rules")}</li>
-        </ul>
-        <div className="hidden md:flex items-center gap-4 text-gray-300">
-          <a
-            href="https://discord.gg/bankbros"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Discord"
-            className="hover:text-white"
-          >
-            <DiscordIcon size={20} />
-          </a>
-          <a
-            href="https://www.instagram.com/bankbros"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-            className="hover:text-white"
-          >
-            <Instagram size={20} />
-          </a>
-        </div>
-        <button aria-label="menu" className="md:hidden border rounded-xl px-3 py-2 text-sm" style={{ borderColor: BANKBROS_ORANGE, color: BANKBROS_ORANGE }} onClick={() => setOpen((v) => !v)}>
-          Menu
-        </button>
-      </div>
-      {open && (
-        <div className="md:hidden mx-auto max-w-7xl px-6 py-3 grid gap-2 text-gray-200">
-          {link("/", "Home")}
-          {link("/leaderboards", "Leaderboards")}
-          {link("/bonuses", "Bonuses")}
-          {link("/rules", "Rules")}
-          <div className="flex gap-4 pt-2 text-gray-300">
+    <nav className="relative z-30 pt-8">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="flex items-center justify-between gap-4 rounded-3xl border border-white/10 bg-white/[0.05] px-5 py-4 backdrop-blur-xl supports-[backdrop-filter]:bg-white/[0.05]" style={{ boxShadow: "0 25px 80px -40px rgba(99,102,241,0.45)" }}>
+          <div className="flex items-center gap-3">
+            <div
+              className="relative h-12 w-12 shrink-0 overflow-hidden rounded-2xl"
+              style={{ backgroundImage: BRAND_GRADIENT, boxShadow: "0 15px 35px -15px rgba(34,211,238,0.7)" }}
+            >
+              <div className="absolute inset-0 flex items-center justify-center font-black text-lg tracking-tight text-white">
+                BB
+              </div>
+            </div>
+            <div>
+              <div className="text-lg font-semibold tracking-tight" style={{ color: BRAND_PRIMARY }}>
+                BankBros Collective
+              </div>
+              <div className="text-xs uppercase tracking-[0.2em] text-slate-300/80">
+                Rewards Reimagined
+              </div>
+            </div>
+          </div>
+
+          <ul className="hidden md:flex items-center gap-1 text-gray-200">
+            <li>{link("/", "Home")}</li>
+            <li>{link("/leaderboards", "Leaderboards")}</li>
+            <li>{link("/bonuses", "Bonuses")}</li>
+            <li>{link("/rules", "Rules")}</li>
+          </ul>
+
+          <div className="hidden md:flex items-center gap-3">
             <a
               href="https://discord.gg/bankbros"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Discord"
-              className="hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white/80 hover:text-white hover:border-white/40"
             >
-              <DiscordIcon size={20} />
+              <DiscordIcon size={18} />
+              Join Discord
             </a>
             <a
               href="https://www.instagram.com/bankbros"
               target="_blank"
               rel="noopener noreferrer"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/70 transition hover:text-white hover:border-white/40"
               aria-label="Instagram"
-              className="hover:text-white"
             >
-              <Instagram size={20} />
+              <Instagram size={18} />
             </a>
+          </div>
+
+          <button
+            aria-label="Toggle menu"
+            className="md:hidden rounded-2xl border border-white/15 px-3 py-2 text-sm text-white/80"
+            onClick={() => setOpen((v) => !v)}
+          >
+            Menu
+          </button>
+        </div>
+      </div>
+
+      {open && (
+        <div className="md:hidden mx-auto mt-3 max-w-6xl px-6">
+          <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-5 backdrop-blur-xl">
+            <div className="grid gap-2 text-sm text-gray-200">
+              {link("/", "Home")}
+              {link("/leaderboards", "Leaderboards")}
+              {link("/bonuses", "Bonuses")}
+              {link("/rules", "Rules")}
+            </div>
+            <div className="mt-4 flex items-center gap-3 text-white/80">
+              <a
+                href="https://discord.gg/bankbros"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-widest"
+              >
+                <DiscordIcon size={18} />
+                Join Discord
+              </a>
+              <a
+                href="https://www.instagram.com/bankbros"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10"
+              >
+                <Instagram size={18} />
+              </a>
+            </div>
           </div>
         </div>
       )}
@@ -228,39 +274,92 @@ function Navbar() {
 
 function Footer() {
   return (
-    <footer className="relative z-20 mt-10 border-t bg-black/70 backdrop-blur" style={{ borderColor: "rgba(217,119,6,0.2)" }}>
-      <div className="mx-auto max-w-7xl px-6 py-14 grid gap-10 md:grid-cols-4">
-        <div>
-          <div className="text-2xl font-extrabold" style={{ color: BANKBROS_ORANGE }}>BankBros</div>
-          <p className="mt-3 text-sm text-gray-400">Live leaderboards, curated bonuses, and community-driven rewards.</p>
-        </div>
-        <FooterCol
-          title="Pages"
-          links={[
-            { label: "Home", href: "#/" },
-            { label: "Leaderboards", href: "#/leaderboards" },
-            { label: "Bonuses", href: "#/bonuses" },
-            { label: "Rules", href: "#/rules" },
-          ]}
-        />
-        <FooterCol
-          title="Socials"
-          links={[
-            { label: "Kick", href: "https://kick.com/bankbros" },
-            { label: "Discord", href: "https://discord.gg/bankbros" },
-            { label: "X", href: "https://twitter.com/bankbros" },
-          ]}
-        />
-        <FooterCol
-          title="Legal"
-          links={[
-            { label: "Terms", href: "#" },
-            { label: "Privacy", href: "#" },
-            { label: "Responsible Gaming", href: "#" },
-          ]}
+    <footer className="relative z-20 mt-20 border-t border-white/10 bg-black/70 backdrop-blur">
+      <div className="absolute inset-x-0 -top-20 h-20" aria-hidden>
+        <div
+          className="mx-auto h-full w-full max-w-5xl rounded-full blur-3xl"
+          style={{ backgroundImage: BRAND_GRADIENT, opacity: 0.25 }}
         />
       </div>
-      <div className="mx-auto max-w-7xl px-6 pb-10 text-xs text-gray-500">© {new Date().getFullYear()} BankBros — All rights reserved.</div>
+      <div className="mx-auto max-w-6xl px-6 py-16">
+        <div className="grid gap-12 md:grid-cols-[1.4fr,1fr,1fr]">
+          <div className="space-y-4">
+            <div className="inline-flex items-center gap-3">
+              <div
+                className="h-11 w-11 rounded-2xl"
+                style={{ backgroundImage: BRAND_GRADIENT, boxShadow: "0 18px 40px -18px rgba(34,211,238,0.65)" }}
+              />
+              <div>
+                <div className="text-xl font-bold tracking-tight" style={{ color: BRAND_PRIMARY }}>
+                  BankBros Collective
+                </div>
+                <div className="text-xs uppercase tracking-[0.3em] text-slate-400">EST. 2024</div>
+              </div>
+            </div>
+            <p className="text-sm text-slate-300/80">
+              A forward-looking rewards club crafted for our community of grinders. Daily drops, real-time leaderboards, and
+              VIP experiences built around transparency.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="https://discord.gg/bankbros"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white/90 hover:bg-white/20"
+              >
+                <DiscordIcon size={18} />
+                Join the Lounge
+              </a>
+              <a
+                href="https://kick.com/bankbros"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white/70 hover:text-white"
+              >
+                <Play size={16} />
+                Watch Live
+              </a>
+            </div>
+          </div>
+          <FooterCol
+            title="Navigation"
+            links={[
+              { label: "Home", href: "#/" },
+              { label: "Leaderboards", href: "#/leaderboards" },
+              { label: "Bonuses", href: "#/bonuses" },
+              { label: "Rules", href: "#/rules" },
+            ]}
+          />
+          <FooterCol
+            title="Connect"
+            links={[
+              { label: "Discord", href: "https://discord.gg/bankbros" },
+              { label: "Kick", href: "https://kick.com/bankbros" },
+              { label: "Instagram", href: "https://www.instagram.com/bankbros" },
+              { label: "X", href: "https://twitter.com/bankbros" },
+            ]}
+          />
+        </div>
+        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-slate-500/80 md:flex-row md:items-center md:justify-between">
+          <div>© {new Date().getFullYear()} BankBros Collective. All rights reserved.</div>
+          <div className="flex gap-4">
+            <a href="https://bankbros.vercel.app/terms" className="hover:text-white" target="_blank" rel="noopener noreferrer">
+              Terms
+            </a>
+            <a href="https://bankbros.vercel.app/privacy" className="hover:text-white" target="_blank" rel="noopener noreferrer">
+              Privacy
+            </a>
+            <a
+              href="https://bankbros.vercel.app/responsible-play"
+              className="hover:text-white"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Responsible Play
+            </a>
+          </div>
+        </div>
+      </div>
     </footer>
   );
 }
@@ -268,11 +367,14 @@ function Footer() {
 function FooterCol({ title, links }) {
   return (
     <div>
-      <div className="font-semibold mb-3" style={{ color: BANKBROS_ORANGE }}>{title}</div>
-      <ul className="space-y-2 text-gray-300">
+      <div className="font-semibold uppercase tracking-widest text-xs text-white/60">{title}</div>
+      <ul className="mt-3 space-y-2 text-sm text-slate-300">
         {links.map((l) => (
-          <li key={l.label} className="hover:text-white/90 cursor-pointer">
-            <a href={l.href}>{l.label}</a>
+          <li key={l.label}>
+            <a href={l.href} className="relative inline-flex items-center gap-2 rounded-full px-2 py-1 transition hover:text-white">
+              <span className="h-1 w-1 rounded-full" style={{ background: BRAND_GRADIENT }} />
+              {l.label}
+            </a>
           </li>
         ))}
       </ul>
@@ -304,113 +406,313 @@ function HomePage() {
   const scrollObj = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const orbOpacity = useTransform(scrollObj.scrollYProgress || 0, [0, 1], [0.35, 0]);
 
-  const gradientRing = {
-    boxShadow: "0 0 0 1px rgba(255,255,255,0.05), 0 25px 60px -25px rgba(217,119,6,0.2)",
-    border: "1px solid rgba(217,119,6,0.25)",
-    background: "linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.2))",
-  };
-
   return (
     <>
       {/* HERO */}
-      <section ref={heroRef} className="relative z-20 h-[92vh] flex items-center justify-center text-center px-6">
-        <motion.div style={{ opacity: orbOpacity }} className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">
-          <div className="h-[62vmin] w-[62vmin] rounded-full blur-2xl" style={{ background: "radial-gradient(circle at center, rgba(217,119,6,0.28), transparent 60%)" }} />
+      <section ref={heroRef} className="relative z-20 px-6 pt-24 pb-20 md:pb-32">
+        <motion.div
+          style={{ opacity: orbOpacity }}
+          className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center"
+        >
+          <div
+            className="h-[65vmin] w-[65vmin] rounded-full blur-3xl"
+            style={{ background: `radial-gradient(circle at center, ${BRAND_PRIMARY}33, transparent 60%)` }}
+          />
         </motion.div>
 
-        <div className="max-w-5xl mx-auto">
-          <motion.h1 className="text-5xl md:text-7xl font-black leading-tight mb-6 tracking-tight" style={{ textShadow: "0 0 25px rgba(217,119,6,0.45)", color: "#fff" }} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            Welcome to the <span style={{ color: BANKBROS_ORANGE }}>BankBros Hub</span>
-          </motion.h1>
+        <div className="mx-auto flex max-w-6xl flex-col gap-16 md:grid md:grid-cols-[1.15fr,1fr] md:items-center">
+          <div className="space-y-10 text-left">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/70"
+            >
+              <Sparkles size={14} /> Season VIII Live Now
+            </motion.div>
 
-          <motion.p className="mx-auto max-w-2xl text-base md:text-lg text-gray-300/90 mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.8 }}>
-            Premium bonuses, live leaderboards, and a community built around good vibes (and better prizes).
-          </motion.p>
+            <motion.h1
+              className="text-4xl font-black leading-[1.1] text-white sm:text-5xl md:text-6xl"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.7 }}
+            >
+              Power up with the
+              <span
+                className="ml-2 inline-block bg-clip-text text-transparent"
+                style={{ backgroundImage: BRAND_GRADIENT }}
+              >
+                BankBros Collective
+              </span>
+            </motion.h1>
 
-          {/* Quick stats */}
-          <motion.div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-3 mb-10" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.8 }}>
-            {[
-              { label: "Community", value: "1.000+" },
-              { label: "Prizes Paid", value: "$5.000+" },
-              { label: "Partners", value: "1" },
-            ].map((s) => (
-              <div key={s.label} className="rounded-2xl p-3 md:p-4 text-left" style={gradientRing}>
-                <div className="text-xs uppercase tracking-wider text-gray-400">{s.label}</div>
-                <div className="text-xl md:text-2xl font-extrabold" style={{ color: BANKBROS_ORANGE }}>{s.value}</div>
+            <motion.p
+              className="max-w-xl text-base text-slate-300/90 sm:text-lg"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.7 }}
+            >
+              Track leaderboards in real time, unlock bespoke bonuses, and access exclusive drops for our verified members. It’s
+              everything you loved about the original hub, reframed for the next era.
+            </motion.p>
+
+            <motion.div
+              className="grid grid-cols-2 gap-3 sm:grid-cols-3"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25, duration: 0.7 }}
+            >
+              {[
+                { label: "Active Players", value: "1.4K" },
+                { label: "Season Rewards", value: "$8.5K" },
+                { label: "Daily Drops", value: "3" },
+              ].map((s) => (
+                <div key={s.label} className="rounded-3xl border border-white/10 bg-white/[0.05] px-4 py-5 shadow-[0_25px_80px_-45px_rgba(99,102,241,0.55)]">
+                  <div className="text-xs uppercase tracking-[0.3em] text-slate-400">{s.label}</div>
+                  <div className="mt-2 text-2xl font-extrabold" style={{ color: BRAND_SECONDARY }}>
+                    {s.value}
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+
+            <motion.div
+              className="flex flex-col gap-4 sm:flex-row sm:items-center"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.7 }}
+            >
+              <a
+                href="#/leaderboards"
+                className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 text-base font-semibold text-white"
+                style={{ backgroundImage: BRAND_GRADIENT, boxShadow: "0 30px 90px -40px rgba(34,211,238,0.75)" }}
+              >
+                <Trophy size={18} /> View Live Leaderboard
+              </a>
+              <a
+                href="#/bonuses"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-8 py-3 text-base font-semibold text-white/80 hover:text-white"
+              >
+                <Gift size={18} /> Explore Bonuses
+              </a>
+            </motion.div>
+
+            <motion.div
+              className="flex flex-wrap items-center gap-4 text-xs uppercase tracking-[0.3em] text-slate-400"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.45, duration: 0.7 }}
+            >
+              <div className="inline-flex items-center gap-2">
+                <ShieldCheck size={14} style={{ color: BRAND_SECONDARY }} /> Verified payouts
               </div>
+              <div className="inline-flex items-center gap-2">
+                <Timer size={14} style={{ color: BRAND_SECONDARY }} /> Reset every 14 days
+              </div>
+              <div className="inline-flex items-center gap-2">
+                <Users size={14} style={{ color: BRAND_SECONDARY }} /> Community-first support
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25, duration: 0.7 }}
+            className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.06] p-6 shadow-[0_35px_120px_-45px_rgba(34,211,238,0.8)]"
+          >
+            <div className="absolute -top-24 right-0 h-48 w-48 rounded-full blur-3xl" style={{ background: `${BRAND_SECONDARY}33` }} />
+            <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-white/60">
+              <span>Current Cycle</span>
+              <span>Ends in {`<`}14d</span>
+            </div>
+            <div className="mt-6 rounded-2xl border border-white/10 bg-black/50 p-5">
+              <div className="flex items-center justify-between text-sm text-white/70">
+                <span>Next Reward Drop</span>
+                <span className="font-semibold" style={{ color: BRAND_SECONDARY }}>
+                  $500 Cash
+                </span>
+              </div>
+              <div className="mt-6 flex items-end gap-3">
+                {[72, 100, 84].map((h, i) => (
+                  <div key={i} className="flex flex-1 flex-col items-center gap-2">
+                    <div className="w-full rounded-2xl bg-white/10">
+                      <div
+                        className="rounded-2xl"
+                        style={{ backgroundImage: BRAND_GRADIENT, height: `${h}%` }}
+                      />
+                    </div>
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-white/60">
+                      {['Top 50', 'Top 10', 'Top 3'][i]}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="mt-6 rounded-2xl border border-white/10 bg-black/60 p-4">
+              <div className="flex items-center justify-between text-sm text-white/70">
+                <span>Invite friends</span>
+                <button className="inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-white/70">
+                  <Copy size={14} /> Copy link
+                </button>
+              </div>
+              <p className="mt-3 text-xs text-white/60">
+                Share your referral to unlock co-op bonuses and double drops during blitz events.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section className="relative z-20 px-6 pb-24">
+        <div className="mx-auto max-w-6xl rounded-[32px] border border-white/10 bg-white/[0.04] px-8 py-14 backdrop-blur-xl">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr,0.9fr] lg:items-center">
+            <div>
+              <h2 className="text-3xl font-black text-white sm:text-4xl">
+                A transparent climb from your first wager to the champions lounge
+              </h2>
+              <p className="mt-4 text-base text-slate-300/90">
+                We’ve rebuilt the BankBros experience with clarity front and center. Connect your account, play on our partner
+                sites, and watch the leaderboard respond instantly.
+              </p>
+              <div className="mt-8 space-y-5">
+                {[
+                  {
+                    icon: <ShieldCheck size={18} />,
+                    title: "Connect & verify",
+                    desc: "Use our secure tracked links and promo code so every wager is captured in your personal feed.",
+                  },
+                  {
+                    icon: <Trophy size={18} />,
+                    title: "Compete for tiers",
+                    desc: "Rise through five prize tiers with escalating cash, merch, and IRL experience drops.",
+                  },
+                  {
+                    icon: <Sparkles size={18} />,
+                    title: "Unlock bonuses",
+                    desc: "Milestone chests, surprise blitz events, and co-op missions keep the grind fresh.",
+                  },
+                ].map((item) => (
+                  <div key={item.title} className="flex items-start gap-4 rounded-2xl border border-white/10 bg-black/50 p-5">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl" style={{ backgroundImage: BRAND_GRADIENT }}>
+                      {item.icon}
+                    </div>
+                    <div>
+                      <div className="text-lg font-semibold text-white">{item.title}</div>
+                      <div className="mt-1 text-sm text-slate-300/80">{item.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-8 flex flex-wrap gap-3 text-xs uppercase tracking-[0.3em] text-slate-400">
+                <a href="#/rules" className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-white/80 hover:text-white">
+                  <Timer size={14} /> Review Rules
+                </a>
+                <a href="#/leaderboards" className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-white/80 hover:text-white">
+                  <ExternalLink size={14} /> Open Leaderboard
+                </a>
+              </div>
+            </div>
+
+            <div className="rounded-[28px] border border-white/10 bg-black/60 p-6 shadow-[0_30px_110px_-60px_rgba(99,102,241,0.7)]">
+              <div className="mb-5 flex items-center justify-between text-xs uppercase tracking-[0.35em] text-white/50">
+                <span>Snapshot</span>
+                <span>Updated live</span>
+              </div>
+              <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/60">
+                <LeaderboardPreview />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* COMMUNITY */}
+      <section className="relative z-20 px-6 pb-12">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h3 className="text-3xl font-black text-white sm:text-4xl">Where the collective hangs out</h3>
+              <p className="mt-2 max-w-xl text-sm text-slate-300/80">
+                Tune into our broadcasts, hop into strategy chats, or scroll highlights from the community. Every space has a
+                dedicated crew keeping things on-brand.
+              </p>
+            </div>
+            <a
+              href="https://discord.gg/bankbros"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-white/80 hover:text-white"
+            >
+              <ExternalLink size={14} /> All Channels
+            </a>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              {
+                title: "Kick Broadcast",
+                desc: "Watch live bankrolls, giveaways, and community challenges twice a week.",
+                href: "https://kick.com/bankbros",
+                icon: <Play size={18} />,
+                tag: "Streaming",
+              },
+              {
+                title: "Discord Lounge",
+                desc: "Drop receipts, track leaderboards, and vibe with the squad in themed channels.",
+                href: "https://discord.gg/bankbros",
+                icon: <MessageCircle size={18} />,
+                tag: "Community",
+              },
+              {
+                title: "Highlights on X",
+                desc: "Instant updates on winners, collabs, and flash missions.",
+                href: "https://x.com/bankbros",
+                icon: <Twitter size={18} />,
+                tag: "News",
+              },
+            ].map((item) => (
+              <a
+                key={item.title}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] p-6 transition hover:border-white/25"
+                style={{ boxShadow: "0 35px 120px -60px rgba(99,102,241,0.65)" }}
+              >
+                <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ backgroundImage: BRAND_GRADIENT, mixBlendMode: "soft-light" }} />
+                <div className="relative flex flex-col gap-5">
+                  <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-white/70">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-white/70">
+                      {item.icon}
+                    </span>
+                    {item.tag}
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold text-white">{item.title}</h4>
+                    <p className="mt-2 text-sm text-slate-300/80">{item.desc}</p>
+                  </div>
+                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-white/80">
+                    Enter space <ChevronDown className="-rotate-90" size={16} />
+                  </span>
+                </div>
+              </a>
             ))}
-          </motion.div>
-
-          {/* CTAs */}
-          <motion.div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-6" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.8 }}>
-            <a href="#/leaderboards" className="relative group px-8 py-4 text-base md:text-lg rounded-2xl font-semibold inline-flex items-center justify-center" style={{ border: `2px solid ${BANKBROS_ORANGE}`, boxShadow: "0 8px 30px rgba(217,119,6,0.18)" }}>
-              <span className="relative z-10" style={{ color: BANKBROS_ORANGE }}><Trophy className="inline mr-2" size={20}/>Leaderboards</span>
-              <span className="absolute inset-0 rounded-2xl -z-0 scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300" style={{ backgroundColor: "rgba(217,119,6,0.12)" }} />
-            </a>
-            <a href="#/bonuses" className="relative overflow-hidden px-8 py-4 text-base md:text-lg rounded-2xl font-semibold inline-flex items-center justify-center" style={{ backgroundColor: BANKBROS_ORANGE, color: "#0a0a0a", boxShadow: "0 10px 35px rgba(217,119,6,0.35)" }}>
-              <Gift className="mr-2" size={20} /> Bonuses
-            </a>
-          </motion.div>
-
-          {/* Scroll cue */}
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 text-sm" style={{ color: BANKBROS_ORANGE }}>
-            <div className="relative h-8 w-5 rounded-full border" style={{ borderColor: BANKBROS_ORANGE }}>
-              <span className="absolute left-1/2 top-1 -translate-x-1/2 h-2 w-[2px] rounded-full" style={{ backgroundColor: BANKBROS_ORANGE, animation: "scrollDot 1.6s infinite" }} />
-            </div>
-            <ChevronDown className="animate-bounce" size={20} color={BANKBROS_ORANGE} />
           </div>
-        </div>
-
-        <style>{`@keyframes scrollDot {0%{opacity:1; transform:translate(-50%,0)}60%{opacity:0; transform:translate(-50%,10px)}100%{opacity:0}}`}</style>
-      </section>
-
-      {/* LEADERBOARD EXPLAINER */}
-      <section className="relative z-20 py-24 px-6">
-        <div className="mx-auto max-w-7xl grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-4" style={{ color: BANKBROS_ORANGE }}>How Leaderboards Work</h2>
-            <p className="text-gray-300 mb-6">Wager on partnered sites, collect points, and climb the ranks. Frequent resets keep races fresh and competitive.</p>
-            <ul className="space-y-3 text-gray-200">
-              <li><span style={{ color: BANKBROS_ORANGE }}>•</span> Earn points by wagering on <b>Roobet</b></li>
-              <li><span style={{ color: BANKBROS_ORANGE }}>•</span> Top ranks receive <b>CASH Prizes</b></li>
-              <li><span style={{ color: BANKBROS_ORANGE }}>•</span> Anti-wager abuse & real-time updates</li>
-            </ul>
-            <div className="mt-8 flex gap-4">
-              <a className="px-6 py-3 rounded-xl font-semibold" href="#/rules" style={{ border: `2px solid ${BANKBROS_ORANGE}`, color: BANKBROS_ORANGE }}>View Rules</a>
-              <a className="px-6 py-3 rounded-xl font-semibold" href="#/leaderboards" style={{ backgroundColor: BANKBROS_ORANGE, color: "#0a0a0a" }}>Open Leaderboards</a>
-            </div>
-          </div>
-          <div>
-            <div className="w-full rounded-2xl overflow-hidden backdrop-blur" style={gradientRing}>
-              <LeaderboardPreview />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SOCIAL STRIP */}
-      <section className="relative z-20 px-6 pb-10">
-        <div className="mx-auto max-w-7xl grid sm:grid-cols-3 gap-4">
-          <a href="https://kick.com/bankbros" className="rounded-2xl p-4 flex items-center justify-between" style={gradientRing}>
-            <div className="flex items-center gap-3"><Play /><span className="font-semibold">Watch Streams</span></div>
-            <span style={{ color: BANKBROS_ORANGE }} className="text-sm">Kick</span>
-          </a>
-          <a href="https://discord.gg/bankbros" className="rounded-2xl p-4 flex items-center justify-between" style={gradientRing}>
-            <div className="flex items-center gap-3"><MessageCircle /><span className="font-semibold">Join the Chat</span></div>
-            <span style={{ color: BANKBROS_ORANGE }} className="text-sm">Discord</span>
-          </a>
-          <a href="https://x.com/bankbros" className="rounded-2xl p-4 flex items-center justify-between" style={gradientRing}>
-            <div className="flex items-center gap-3"><Twitter /><span className="font-semibold">Follow Updates</span></div>
-            <span style={{ color: BANKBROS_ORANGE }} className="text-sm">X</span>
-          </a>
         </div>
       </section>
 
       {/* FAQ / Rules preview */}
-      <section id="rules" className="relative z-20 py-20 px-6">
+      <section id="rules" className="relative z-20 px-6 pb-24">
         <div className="mx-auto max-w-5xl">
-          <h3 className="text-3xl md:text-4xl font-extrabold mb-8" style={{ color: BANKBROS_ORANGE }}>FAQ & Rules</h3>
-          <div className="space-y-3">
+          <h3 className="text-3xl font-black text-white sm:text-4xl">
+            Everything you need to know before you grind
+          </h3>
+          <p className="mt-2 text-sm text-slate-300/80">
+            Transparent rules, tracked wagers, and support that actually replies. Start with the essentials below.
+          </p>
+          <div className="mt-8 space-y-3">
             {faqItems.map((f, i) => (
               <Accordion key={f.q} defaultOpen={i === 0} question={f.q} answer={f.a} />
             ))}
@@ -430,7 +732,7 @@ function BonusesPage() {
       title: "Visit Roobet & Sign Up",
       desc: (
         <>
-          Head to Roobet using our tracked link and create your account. When prompted, enter the promo code <b style={{ color: BANKBROS_ORANGE }}>BANKBROS</b> so every $1 you wager counts toward BankBros bonuses and the leaderboard.
+          Head to Roobet using our tracked link and create your account. When prompted, enter the promo code <b style={{ color: BRAND_PRIMARY }}>BANKBROS</b> so every $1 you wager counts toward BankBros bonuses and the leaderboard.
         </>
       ),
       img: "/roobet.png",
@@ -469,9 +771,9 @@ function BonusesPage() {
           <p className="mt-3 text-gray-300">How to register, claim perks, and get auto-entered into the BankBros leaderboard.</p>
 
           {/* Promo Code */}
-          <div className="mt-5 inline-flex items-center gap-2 rounded-2xl border px-3 py-2 text-sm" style={{ borderColor: "rgba(217,119,6,0.3)", boxShadow: "0 0 0 1px rgba(255,255,255,0.04)" }}>
+          <div className="mt-5 inline-flex items-center gap-2 rounded-2xl border px-3 py-2 text-sm" style={{ borderColor: "rgba(99,102,241,0.45)", boxShadow: "0 0 0 1px rgba(255,255,255,0.05)" }}>
             <span className="opacity-80">Promo code:</span>
-            <code className="font-bold tracking-wider" style={{ color: BANKBROS_ORANGE }}>BANKBROS</code>
+            <code className="font-bold tracking-wider" style={{ color: BRAND_PRIMARY }}>BANKBROS</code>
             <button
               onClick={() => { navigator.clipboard.writeText("BANKBROS"); setCopied(true); setTimeout(() => setCopied(false), 1200); }}
               className="ml-2 inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs border"
@@ -491,10 +793,15 @@ function BonusesPage() {
               {/* Text */}
               <div>
                 <div className="text-xs uppercase tracking-wider text-gray-400 mb-2">Step {s.id}</div>
-                <h2 className="text-2xl md:text-3xl font-extrabold mb-3" style={{ color: BANKBROS_ORANGE }}>{s.title}</h2>
+                <h2 className="text-2xl md:text-3xl font-extrabold mb-3 text-white" style={{ textShadow: "0 0 40px rgba(99,102,241,0.4)" }}>{s.title}</h2>
                 <p className="text-gray-300 mb-5">{s.desc}</p>
 
-                <a href={s.ctaHref} {...(s.external ? { target: "_blank", rel: "noreferrer" } : {})} className="inline-flex items-center gap-2 rounded-xl px-4 py-3 font-semibold" style={{ backgroundColor: BANKBROS_ORANGE, color: "#0a0a0a" }}>
+                <a
+                  href={s.ctaHref}
+                  {...(s.external ? { target: "_blank", rel: "noreferrer" } : {})}
+                  className="inline-flex items-center gap-2 rounded-xl px-4 py-3 font-semibold text-white"
+                  style={{ backgroundImage: BRAND_GRADIENT, boxShadow: "0 25px 70px -35px rgba(34,211,238,0.7)" }}
+                >
                   {s.ctaText}
                   {s.external ? <ExternalLink size={16} /> : <Trophy size={16} />}
                 </a>
@@ -514,7 +821,10 @@ function BonusesPage() {
 
               {/* Image */}
               <div>
-                <div className="w-full aspect-[16/10] rounded-2xl overflow-hidden border backdrop-blur flex items-center justify-center" style={{ borderColor: "rgba(217,119,6,0.25)", borderWidth: 1, boxShadow: "0 0 0 1px rgba(255,255,255,0.04), 0 25px 60px -25px rgba(217,119,6,0.18)" }}>
+                <div
+                  className="w-full aspect-[16/10] rounded-2xl overflow-hidden border backdrop-blur flex items-center justify-center"
+                  style={{ borderColor: "rgba(148,163,184,0.2)", borderWidth: 1, boxShadow: "0 0 0 1px rgba(255,255,255,0.06), 0 35px 90px -45px rgba(99,102,241,0.4)" }}
+                >
                   <img src={s.img} alt={s.title} className="w-full h-full object-cover" />
                 </div>
               </div>
@@ -668,13 +978,13 @@ function LeaderboardsPage() {
           <>
             {/* Title stays up top */}
             <header className="mb-6 flex items-center justify-center gap-4">
-              <h1 className="text-3xl md:text-4xl font-extrabold" style={{ color: BANKBROS_ORANGE }}>
+              <h1 className="text-3xl md:text-4xl font-extrabold text-white" style={{ textShadow: "0 0 45px rgba(99,102,241,0.5)" }}>
                 Current Leaderboard
               </h1>
               <button
                 onClick={() => setShowHistory(true)}
-                className="text-xs px-3 py-1 rounded border"
-                style={{ borderColor: BANKBROS_ORANGE, color: BANKBROS_ORANGE }}
+                className="text-xs px-3 py-1 rounded-full border text-white/80 hover:text-white"
+                style={{ borderColor: "rgba(99,102,241,0.6)" }}
               >
                 History
               </button>
@@ -688,9 +998,9 @@ function LeaderboardsPage() {
                   item={top3[0]}
                   className="md:order-2"
                   height="h-[260px]"
-                  tint="rgba(217,119,6,0.12)"
-                  edgeColor={BANKBROS_ORANGE}
-                  badge={<Crown size={18} color={BANKBROS_ORANGE} />}
+                  tint="rgba(99,102,241,0.22)"
+                  edgeColor={BRAND_PRIMARY}
+                  badge={<Crown size={18} color={BRAND_PRIMARY} />}
                   highlight
                 />
               )}
@@ -760,7 +1070,7 @@ function LeaderboardsPage() {
                     <div className="col-span-2 font-black text-white">#{r.rank}</div>
                     <div className="col-span-5">{maskName(r.name)}</div>
                     <div className="col-span-3 text-gray-300">{formatMoney(r.wagered)}</div>
-                    <div className="col-span-2 text-right font-semibold" style={{ color: BANKBROS_ORANGE }}>
+                    <div className="col-span-2 text-right font-semibold" style={{ color: BRAND_SECONDARY }}>
                       {formatMoney(r.prize)}
                     </div>
                   </div>
@@ -790,7 +1100,7 @@ function LeaderboardsPage() {
 
 function PodiumCard({ placement, item, className, height, tint, edgeColor, badge, highlight }) {
   const edge = { boxShadow: `inset 0 0 0 1px ${edgeColor}22, 0 30px 80px -40px ${edgeColor}66` };
-  const ribbon = placement === 1 ? "bg-[rgba(217,119,6,0.12)]" : placement === 2 ? "bg-cyan-400/10" : "bg-yellow-400/10";
+  const ribbon = placement === 1 ? "bg-[rgba(99,102,241,0.18)]" : placement === 2 ? "bg-cyan-400/10" : "bg-rose-400/10";
   return (
     <motion.div
       className={`relative ${className}`}
@@ -816,14 +1126,14 @@ function PodiumCard({ placement, item, className, height, tint, edgeColor, badge
         </div>
         <div className="flex items-end justify-between">
           <div>
-            <div className="text-5xl font-black" style={{ color: highlight ? BANKBROS_ORANGE : "white" }}>#{item.rank}</div>
+            <div className="text-5xl font-black" style={{ color: highlight ? BRAND_PRIMARY : "white" }}>#{item.rank}</div>
             <div className="text-lg font-semibold">{maskName(item.name)}</div>
           </div>
           <div className="text-right">
             <div className="text-xs text-gray-400">Wagered</div>
             <div className="text-lg font-extrabold">{formatMoney(item.wagered)}</div>
             <div className="text-xs text-gray-400 mt-1">Prize</div>
-            <div className="text-base font-bold" style={{ color: BANKBROS_ORANGE }}>{formatMoney(item.prize)}</div>
+            <div className="text-base font-bold" style={{ color: BRAND_SECONDARY }}>{formatMoney(item.prize)}</div>
           </div>
         </div>
       </div>
@@ -840,15 +1150,6 @@ function MedalRibbon({ n, color }) {
         {n}
         {suffix}
       </span>
-    </div>
-  );
-}
-
-function TimeTile({ label, value }) {
-  return (
-    <div className="rounded-xl px-2 py-2 md:px-2 md:py-2 text-center border border-white/10 bg-black/20">
-      <div className="text-2xl md:text-3xl font-black" style={{ color: BANKBROS_ORANGE }}>{String(value).padStart(2, "0")}</div>
-      <div className="text-[10px] uppercase tracking-wider text-gray-400 mt-1">{label}</div>
     </div>
   );
 }
@@ -871,7 +1172,7 @@ function HistoryTable({ rows, range, loading }) {
             <div className="col-span-2 font-black text-white">#{r.rank}</div>
             <div className="col-span-5">{maskName(r.name)}</div>
             <div className="col-span-3 text-gray-300">{formatMoney(r.wagered)}</div>
-            <div className="col-span-2 text-right font-semibold" style={{ color: BANKBROS_ORANGE }}>
+            <div className="col-span-2 text-right font-semibold" style={{ color: BRAND_SECONDARY }}>
               {formatMoney(r.prize)}
             </div>
           </div>
@@ -910,18 +1211,6 @@ function formatPeriod(start, end) {
   const e = new Date(end);
   const opts = { month: 'short', day: 'numeric' };
   return `${s.toLocaleDateString('en-US', opts)} – ${e.toLocaleDateString('en-US', opts)}`;
-}
-
-function BadgeCard({ icon, title, desc }) {
-  return (
-    <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 flex items-start gap-3">
-      <div className="h-8 w-8 rounded-lg flex items-center justify-center bg-black/50" style={{ color: BANKBROS_ORANGE, boxShadow: "0 0 20px rgba(217,119,6,0.25)" }}>{icon}</div>
-      <div>
-        <div className="font-semibold text-sm">{title}</div>
-        <div className="text-gray-400 text-xs">{desc}</div>
-      </div>
-    </div>
-  );
 }
 
 
@@ -996,8 +1285,8 @@ function LeaderboardPreview() {
   return (
     <div className="p-5 md:p-6">
       <div className="flex items-center justify-between mb-4">
-        <div className="text-xl font-extrabold">Current Leaderboard</div>
-        <a href="#/leaderboards" className="text-sm" style={{ color: BANKBROS_ORANGE }}>
+        <div className="text-xl font-extrabold text-white">Current Leaderboard</div>
+        <a href="#/leaderboards" className="text-sm" style={{ color: BRAND_SECONDARY }}>
           View all
         </a>
       </div>
@@ -1010,7 +1299,7 @@ function LeaderboardPreview() {
       <div className="divide-y divide-white/5">
         {rows.map((r) => (
           <div key={r.rank} className="grid grid-cols-12 items-center px-3 py-3">
-            <div className="col-span-2 font-black" style={{ color: r.rank <= 3 ? BANKBROS_ORANGE : "white" }}>#{r.rank}</div>
+            <div className="col-span-2 font-black" style={{ color: r.rank <= 3 ? BRAND_PRIMARY : "white" }}>#{r.rank}</div>
             <div className="col-span-5">{maskName(r.user)}</div>
             <div className="col-span-3 text-gray-300">{r.points.toLocaleString()}</div>
             <div className="col-span-2 text-right font-semibold">{formatMoney(r.prize)}</div>
@@ -1024,10 +1313,16 @@ function LeaderboardPreview() {
 function Accordion({ question, answer, defaultOpen }) {
   const [open, setOpen] = useState(!!defaultOpen);
   return (
-    <div className="rounded-2xl" style={{ border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 10px 30px -20px rgba(217,119,6,0.18)" }}>
-      <button className="w-full text-left px-5 py-4 font-semibold flex items-center justify-between" onClick={() => setOpen((v) => !v)}>
+    <div
+      className="rounded-2xl border border-white/10 bg-white/[0.04]"
+      style={{ boxShadow: "0 25px 80px -45px rgba(99,102,241,0.35)" }}
+    >
+      <button
+        className="w-full text-left px-5 py-4 font-semibold flex items-center justify-between text-white"
+        onClick={() => setOpen((v) => !v)}
+      >
         <span>{question}</span>
-        <ChevronDown className={`transition-transform ${open ? "rotate-180" : ""}`} size={18} color={BANKBROS_ORANGE} />
+        <ChevronDown className={`transition-transform ${open ? "rotate-180" : ""}`} size={18} color={BRAND_PRIMARY} />
       </button>
       <div className={`grid transition-all duration-300 px-5 ${open ? "grid-rows-[1fr] py-0 pb-5" : "grid-rows-[0fr]"}`}>
         <div className="overflow-hidden text-gray-300 text-sm">{answer}</div>
@@ -1045,13 +1340,13 @@ const faqItems = [
 
 function RulesPage() {
   const cardStyle = {
-    border: "1px solid rgba(255,255,255,0.06)",
-    boxShadow: "0 10px 30px -20px rgba(217,119,6,0.18)",
-    background: "linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.2))",
+    border: "1px solid rgba(148,163,184,0.18)",
+    boxShadow: "0 30px 90px -45px rgba(99,102,241,0.35)",
+    background: "linear-gradient(160deg, rgba(99,102,241,0.15), rgba(15,23,42,0.85))",
   };
   return (
     <div className="mx-auto max-w-3xl px-6 py-16 space-y-8">
-      <h1 className="text-4xl font-extrabold mb-8" style={{ color: BANKBROS_ORANGE }}>Rules</h1>
+      <h1 className="text-4xl font-extrabold mb-8 text-white" style={{ textShadow: "0 0 45px rgba(99,102,241,0.45)" }}>Rules</h1>
       <div className="space-y-8">
         <div style={cardStyle} className="p-6 rounded-2xl">
           <h2 className="text-xl font-semibold mb-4">Wagering Rules</h2>
