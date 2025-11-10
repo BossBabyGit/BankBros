@@ -572,15 +572,7 @@ function HomePage() {
                     desc: "Milestone chests, surprise blitz events, and co-op missions keep the grind fresh.",
                   },
                 ].map((item) => (
-                  <div key={item.title} className="flex items-start gap-4 rounded-2xl border border-white/10 bg-black/50 p-5">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl" style={{ backgroundImage: BRAND_GRADIENT }}>
-                      {item.icon}
-                    </div>
-                    <div>
-                      <div className="text-lg font-semibold text-white">{item.title}</div>
-                      <div className="mt-1 text-sm text-slate-300/80">{item.desc}</div>
-                    </div>
-                  </div>
+                  <BadgeCard key={item.title} icon={item.icon} title={item.title} desc={item.desc} />
                 ))}
               </div>
               <div className="mt-8 flex flex-wrap gap-3 text-xs uppercase tracking-[0.3em] text-slate-400">
@@ -904,16 +896,7 @@ function LeaderboardsPage() {
                   { label: "Minutes", value: minutes },
                   { label: "Seconds", value: seconds },
                 ].map((b) => (
-                  <div key={b.label} className="flex flex-col items-center">
-                    <div className="rounded-xl px-4 py-3 border border-white/10 bg-white/[0.03] min-w-[72px] text-center">
-                      <div className="text-2xl font-black tracking-tight text-white">
-                        {String(b.value).padStart(2, "0")}
-                      </div>
-                    </div>
-                    <div className="mt-1 text-[11px] uppercase tracking-wider text-gray-400">
-                      {b.label}
-                    </div>
-                  </div>
+                  <TimeTile key={b.label} label={b.label} value={b.value} />
                 ))}
               </div>
               <div className="mt-3 text-center text-gray-400 text-sm">
@@ -1041,6 +1024,31 @@ function MedalRibbon({ n, color }) {
         {n}
         {suffix}
       </span>
+    </div>
+  );
+}
+
+function TimeTile({ label, value }) {
+  return (
+    <div className="flex flex-col items-center">
+      <div className="rounded-xl px-4 py-3 border border-white/10 bg-white/[0.03] min-w-[72px] text-center">
+        <div className="text-2xl font-black tracking-tight text-white">{String(value).padStart(2, "0")}</div>
+      </div>
+      <div className="mt-1 text-[11px] uppercase tracking-wider text-gray-400">{label}</div>
+    </div>
+  );
+}
+
+function BadgeCard({ icon, title, desc }) {
+  return (
+    <div className="flex items-start gap-4 rounded-2xl border border-white/10 bg-black/50 p-5">
+      <div className="flex h-10 w-10 items-center justify-center rounded-2xl" style={{ backgroundImage: BRAND_GRADIENT }}>
+        {icon}
+      </div>
+      <div>
+        <div className="text-lg font-semibold text-white">{title}</div>
+        <div className="mt-1 text-sm text-slate-300/80">{desc}</div>
+      </div>
     </div>
   );
 }
