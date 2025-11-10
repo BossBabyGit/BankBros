@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronDown, Sparkles, Trophy, ShieldCheck, MessageCircle, Play, ExternalLink, Crown, Medal, Timer, Users } from "lucide-react";
+import { ChevronDown, Sparkles, Trophy, ShieldCheck, MessageCircle, Play, ExternalLink, Timer, Users } from "lucide-react";
 import useLeaderboardCountdown from "./useLeaderboardCountdown";
 
 // —— Brand Tokens ——
@@ -706,7 +706,6 @@ function LeaderboardsPage() {
             <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-4">
               {top3[0] && (
                 <PodiumCard
-                  placement={1}
                   item={top3[0]}
                   className="md:order-2"
                   height="min-h-[260px]"
@@ -714,12 +713,10 @@ function LeaderboardsPage() {
                   edgeColor={PODIUM_GOLD.edge}
                   accentColor={PODIUM_GOLD.accent}
                   glowColor={PODIUM_GOLD.glow}
-                  badge={<Crown size={18} color={PODIUM_GOLD.accent} />}
                 />
               )}
               {top3[1] && (
                 <PodiumCard
-                  placement={2}
                   item={top3[1]}
                   className="md:order-1"
                   height="min-h-[220px]"
@@ -727,12 +724,10 @@ function LeaderboardsPage() {
                   edgeColor={PODIUM_SILVER.edge}
                   accentColor={PODIUM_SILVER.accent}
                   glowColor={PODIUM_SILVER.glow}
-                  badge={<MedalRibbon n={2} color={PODIUM_SILVER.accent} />}
                 />
               )}
               {top3[2] && (
                 <PodiumCard
-                  placement={3}
                   item={top3[2]}
                   className="md:order-3"
                   height="min-h-[200px]"
@@ -740,7 +735,6 @@ function LeaderboardsPage() {
                   edgeColor={PODIUM_BRONZE.edge}
                   accentColor={PODIUM_BRONZE.accent}
                   glowColor={PODIUM_BRONZE.glow}
-                  badge={<MedalRibbon n={3} color={PODIUM_BRONZE.accent} />}
                 />
               )}
             </div>
@@ -804,17 +798,16 @@ function LeaderboardsPage() {
 
 
 
-function PodiumCard({ placement, item, className, height, tint, edgeColor, badge, accentColor, glowColor }) {
+function PodiumCard({ item, className, height, tint, edgeColor, accentColor, glowColor }) {
   const accent = accentColor || edgeColor || BRAND_PRIMARY;
-  const label = placement === 1 ? "Champion" : placement === 2 ? "Runner-up" : "Third";
-  const progress = 70 - placement * 5;
+  const delay = item && typeof item.rank === "number" ? Math.max(0, (item.rank - 1) * 0.05) : 0;
   return (
     <motion.div
       className={`relative ${className}`}
       initial={{ y: 30, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: placement * 0.05 }}
+      transition={{ duration: 0.6, delay }}
     >
       <div
         className={`rounded-3xl ${height} p-5 md:p-6 flex flex-col justify-between border`}
@@ -824,92 +817,33 @@ function PodiumCard({ placement, item, className, height, tint, edgeColor, badge
           boxShadow: `0 25px 80px -45px ${glowColor || `${accent}55`}`,
         }}
       >
-        <div className="flex items-start justify-between">
-          <div
-            className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] uppercase tracking-[0.25em]"
-            style={{
-              borderColor: `${accent}66`,
-              backgroundColor: `${accent}18`,
-              color: accent,
-              boxShadow: `0 0 25px ${glowColor || `${accent}33`}`,
-            }}
-          >
-            {label}
-          </div>
-          <div
-            className="rounded-2xl border bg-black/60 p-2"
-            style={{
-              borderColor: `${accent}40`,
-              boxShadow: `0 18px 50px -28px ${glowColor || `${accent}44`}`,
-              color: accent,
-            }}
-          >
-            {badge}
-          </div>
-        </div>
-
-        <div className="mt-8 flex items-end justify-between gap-4">
-          <div>
-            <div className="text-5xl font-black tracking-tight" style={{ color: accent }}>#{item.rank}</div>
-            <div className="text-sm uppercase tracking-[0.3em]" style={{ color: `${accent}cc` }}>
-              Top {placement}
+        <div className="flex flex-col gap-8">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <div className="text-5xl font-black tracking-tight text-white" style={{ color: accent }}>#{item.rank}</div>
+            </div>
+            <div className="text-right">
+              <div className="text-sm font-semibold text-white">{maskName(item.name)}</div>
             </div>
           </div>
-          <div className="text-right">
-            <div className="text-xs" style={{ color: `${accent}b3` }}>
-              Player
-            </div>
-            <div className="text-lg font-semibold text-white">{maskName(item.name)}</div>
-          </div>
-        </div>
 
-        <div className="mt-6 space-y-4">
-          <div
-            className="flex items-center justify-between text-xs uppercase tracking-[0.25em]"
-            style={{ color: `${accent}b3` }}
-          >
-            <span>Wagered</span>
-            <span className="text-base font-extrabold text-white">{formatMoney(item.wagered)}</span>
-          </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-            <div
-              className="h-full rounded-full"
-              style={{
-                width: `${progress}%`,
-                background: `linear-gradient(90deg, ${accent} 0%, ${accent}aa 100%)`,
-                boxShadow: `0 0 14px ${glowColor || `${accent}44`}`,
-              }}
-            />
-          </div>
-          <div
-            className="flex items-center justify-between text-xs uppercase tracking-[0.25em]"
-            style={{ color: `${accent}b3` }}
-          >
-            <span>Prize</span>
-            <span className="text-base font-semibold" style={{ color: accent }}>
-              {formatMoney(item.prize)}
-            </span>
+          <div className="grid grid-cols-2 gap-6 text-xs uppercase tracking-[0.25em]" style={{ color: `${accent}b3` }}>
+            <div>
+              <div>Wagered</div>
+              <div className="mt-2 text-base font-extrabold text-white tracking-tight">
+                {formatMoney(item.wagered)}
+              </div>
+            </div>
+            <div className="text-right">
+              <div>Prize</div>
+              <div className="mt-2 text-base font-semibold" style={{ color: accent }}>
+                {formatMoney(item.prize)}
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </motion.div>
-  );
-}
-
-function MedalRibbon({ n, color }) {
-  const suffix = n === 1 ? "st" : n === 2 ? "nd" : n === 3 ? "rd" : "th";
-  const glow = color ? `${color}40` : "rgba(255,255,255,0.25)";
-  return (
-    <div
-      className="flex items-center gap-1 rounded-full border px-2 py-1"
-      style={{ borderColor: glow, backgroundColor: `${color}15`, boxShadow: `0 0 18px ${glow}` }}
-    >
-      <Medal size={16} color={color} />
-      <span className="text-xs font-semibold" style={{ color }}>
-        {n}
-        {suffix}
-      </span>
-    </div>
   );
 }
 
