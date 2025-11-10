@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronDown, Sparkles, Trophy, ShieldCheck, MessageCircle, Play, ExternalLink, Crown, Medal, Timer, Users, Instagram } from "lucide-react";
+import { ChevronDown, Sparkles, Trophy, ShieldCheck, MessageCircle, Play, ExternalLink, Crown, Medal, Timer, Users } from "lucide-react";
 import useLeaderboardCountdown from "./useLeaderboardCountdown";
 
 // —— Brand Tokens ——
@@ -8,6 +8,27 @@ const BRAND_PRIMARY = "#f97316"; // deep orange
 const BRAND_SECONDARY = "#92400e"; // rich brown accent
 const BRAND_GLOW = "rgba(250,204,21,0.65)";
 const BRAND_GRADIENT = `linear-gradient(135deg, ${BRAND_PRIMARY}, ${BRAND_SECONDARY})`;
+
+const PODIUM_GOLD = {
+  accent: "#ffd166",
+  edge: "#f9d66b",
+  tint: "rgba(255, 209, 102, 0.35)",
+  glow: "rgba(255, 209, 102, 0.65)",
+};
+
+const PODIUM_SILVER = {
+  accent: "#d1d5db",
+  edge: "#cbd5f5",
+  tint: "rgba(209, 213, 219, 0.28)",
+  glow: "rgba(209, 213, 219, 0.5)",
+};
+
+const PODIUM_BRONZE = {
+  accent: "#cd7f32",
+  edge: "#c46a28",
+  tint: "rgba(205, 127, 50, 0.28)",
+  glow: "rgba(205, 127, 50, 0.55)",
+};
 
 function DiscordIcon({ size = 24, ...props }) {
   return (
@@ -208,15 +229,6 @@ function Navbar() {
             >
               <DiscordIcon size={18} />
               Join Discord
-            </a>
-            <a
-              href="https://www.instagram.com/bankbros"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/70 transition hover:text-white hover:border-white/40"
-              aria-label="Instagram"
-            >
-              <Instagram size={18} />
             </a>
           </div>
 
@@ -698,10 +710,11 @@ function LeaderboardsPage() {
                   item={top3[0]}
                   className="md:order-2"
                   height="min-h-[260px]"
-                  tint="rgba(249,115,22,0.32)"
-                  edgeColor={BRAND_PRIMARY}
-                  badge={<Crown size={18} color={BRAND_PRIMARY} />}
-                  highlight
+                  tint={PODIUM_GOLD.tint}
+                  edgeColor={PODIUM_GOLD.edge}
+                  accentColor={PODIUM_GOLD.accent}
+                  glowColor={PODIUM_GOLD.glow}
+                  badge={<Crown size={18} color={PODIUM_GOLD.accent} />}
                 />
               )}
               {top3[1] && (
@@ -710,10 +723,11 @@ function LeaderboardsPage() {
                   item={top3[1]}
                   className="md:order-1"
                   height="min-h-[220px]"
-                  tint="rgba(234,179,8,0.18)"
-                  edgeColor="#fbbf24"
-                  badge={<MedalRibbon n={2} color="#fbbf24" />}
-                  highlight={false}
+                  tint={PODIUM_SILVER.tint}
+                  edgeColor={PODIUM_SILVER.edge}
+                  accentColor={PODIUM_SILVER.accent}
+                  glowColor={PODIUM_SILVER.glow}
+                  badge={<MedalRibbon n={2} color={PODIUM_SILVER.accent} />}
                 />
               )}
               {top3[2] && (
@@ -722,10 +736,11 @@ function LeaderboardsPage() {
                   item={top3[2]}
                   className="md:order-3"
                   height="min-h-[200px]"
-                  tint="rgba(146,64,14,0.28)"
-                  edgeColor="#b45309"
-                  badge={<MedalRibbon n={3} color="#b45309" />}
-                  highlight={false}
+                  tint={PODIUM_BRONZE.tint}
+                  edgeColor={PODIUM_BRONZE.edge}
+                  accentColor={PODIUM_BRONZE.accent}
+                  glowColor={PODIUM_BRONZE.glow}
+                  badge={<MedalRibbon n={3} color={PODIUM_BRONZE.accent} />}
                 />
               )}
             </div>
@@ -789,8 +804,8 @@ function LeaderboardsPage() {
 
 
 
-function PodiumCard({ placement, item, className, height, tint, edgeColor, badge, highlight }) {
-  const accent = highlight ? BRAND_PRIMARY : edgeColor;
+function PodiumCard({ placement, item, className, height, tint, edgeColor, badge, accentColor, glowColor }) {
+  const accent = accentColor || edgeColor || BRAND_PRIMARY;
   const label = placement === 1 ? "Champion" : placement === 2 ? "Runner-up" : "Third";
   const progress = 70 - placement * 5;
   return (
@@ -804,21 +819,30 @@ function PodiumCard({ placement, item, className, height, tint, edgeColor, badge
       <div
         className={`rounded-3xl ${height} p-5 md:p-6 flex flex-col justify-between border`}
         style={{
-          borderColor: `${edgeColor}55`,
+          borderColor: `${(edgeColor || accent)}55`,
           background: `linear-gradient(165deg, ${tint}, rgba(12,9,7,0.92))`,
-          boxShadow: `0 25px 80px -45px ${edgeColor}aa`,
+          boxShadow: `0 25px 80px -45px ${glowColor || `${accent}55`}`,
         }}
       >
         <div className="flex items-start justify-between">
           <div
             className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] uppercase tracking-[0.25em]"
-            style={{ borderColor: `${edgeColor}66`, backgroundColor: `${edgeColor}1f`, color: accent }}
+            style={{
+              borderColor: `${accent}66`,
+              backgroundColor: `${accent}18`,
+              color: accent,
+              boxShadow: `0 0 25px ${glowColor || `${accent}33`}`,
+            }}
           >
             {label}
           </div>
           <div
-            className="rounded-2xl border border-white/10 bg-black/60 p-2"
-            style={{ boxShadow: `0 18px 50px -28px ${edgeColor}aa`, color: accent }}
+            className="rounded-2xl border bg-black/60 p-2"
+            style={{
+              borderColor: `${accent}40`,
+              boxShadow: `0 18px 50px -28px ${glowColor || `${accent}44`}`,
+              color: accent,
+            }}
           >
             {badge}
           </div>
@@ -827,26 +851,40 @@ function PodiumCard({ placement, item, className, height, tint, edgeColor, badge
         <div className="mt-8 flex items-end justify-between gap-4">
           <div>
             <div className="text-5xl font-black tracking-tight" style={{ color: accent }}>#{item.rank}</div>
-            <div className="text-sm uppercase tracking-[0.3em] text-amber-100/70">Top {placement}</div>
+            <div className="text-sm uppercase tracking-[0.3em]" style={{ color: `${accent}cc` }}>
+              Top {placement}
+            </div>
           </div>
           <div className="text-right">
-            <div className="text-xs text-amber-200/70">Player</div>
+            <div className="text-xs" style={{ color: `${accent}b3` }}>
+              Player
+            </div>
             <div className="text-lg font-semibold text-white">{maskName(item.name)}</div>
           </div>
         </div>
 
         <div className="mt-6 space-y-4">
-          <div className="flex items-center justify-between text-xs text-amber-200/70 uppercase tracking-[0.25em]">
+          <div
+            className="flex items-center justify-between text-xs uppercase tracking-[0.25em]"
+            style={{ color: `${accent}b3` }}
+          >
             <span>Wagered</span>
             <span className="text-base font-extrabold text-white">{formatMoney(item.wagered)}</span>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
             <div
               className="h-full rounded-full"
-              style={{ width: `${progress}%`, backgroundImage: BRAND_GRADIENT }}
+              style={{
+                width: `${progress}%`,
+                background: `linear-gradient(90deg, ${accent} 0%, ${accent}aa 100%)`,
+                boxShadow: `0 0 14px ${glowColor || `${accent}44`}`,
+              }}
             />
           </div>
-          <div className="flex items-center justify-between text-xs text-amber-200/70 uppercase tracking-[0.25em]">
+          <div
+            className="flex items-center justify-between text-xs uppercase tracking-[0.25em]"
+            style={{ color: `${accent}b3` }}
+          >
             <span>Prize</span>
             <span className="text-base font-semibold" style={{ color: accent }}>
               {formatMoney(item.prize)}
@@ -860,10 +898,14 @@ function PodiumCard({ placement, item, className, height, tint, edgeColor, badge
 
 function MedalRibbon({ n, color }) {
   const suffix = n === 1 ? "st" : n === 2 ? "nd" : n === 3 ? "rd" : "th";
+  const glow = color ? `${color}40` : "rgba(255,255,255,0.25)";
   return (
-    <div className="flex items-center gap-1">
+    <div
+      className="flex items-center gap-1 rounded-full border px-2 py-1"
+      style={{ borderColor: glow, backgroundColor: `${color}15`, boxShadow: `0 0 18px ${glow}` }}
+    >
       <Medal size={16} color={color} />
-      <span className="text-xs" style={{ color }}>
+      <span className="text-xs font-semibold" style={{ color }}>
         {n}
         {suffix}
       </span>
