@@ -390,7 +390,7 @@ function HomePage() {
               transition={{ duration: 0.6 }}
               className="mx-auto inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-amber-100/80"
             >
-              <Sparkles size={14} style={{ color: BRAND_PRIMARY }} /> Season VIII Live Now
+              <Sparkles size={14} style={{ color: BRAND_PRIMARY }} /> Leaderboard Live Now!
             </motion.div>
 
             <motion.h1
