@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronDown, Sparkles, Gift, Trophy, ShieldCheck, Twitter, MessageCircle, Play, Copy, ExternalLink, Crown, Medal, Timer, Users, Instagram } from "lucide-react";
+import { ChevronDown, Sparkles, Trophy, ShieldCheck, Twitter, MessageCircle, Play, ExternalLink, Crown, Medal, Timer, Users, Instagram } from "lucide-react";
 import useLeaderboardCountdown from "./useLeaderboardCountdown";
 
 // —— Brand Tokens ——
-const BRAND_PRIMARY = "#6366f1";
-const BRAND_SECONDARY = "#22d3ee";
+const BRAND_PRIMARY = "#f97316"; // deep orange
+const BRAND_SECONDARY = "#92400e"; // rich brown accent
+const BRAND_GLOW = "rgba(250,204,21,0.65)";
 const BRAND_GRADIENT = `linear-gradient(135deg, ${BRAND_PRIMARY}, ${BRAND_SECONDARY})`;
 
 function DiscordIcon({ size = 24, ...props }) {
@@ -43,9 +44,7 @@ export default function App() {
 
   // Map hash path → page
   let Page = HomePage;
-  if (path.startsWith("/bonuses")) Page = BonusesPage;
   if (path.startsWith("/leaderboards")) Page = LeaderboardsPage;
-  if (path.startsWith("/rules")) Page = RulesPage;
 
   return (
     <Layout>
@@ -58,8 +57,8 @@ export default function App() {
 function Layout({ children }) {
   return (
     <div
-      className="relative min-h-screen text-white overflow-hidden selection:bg-white/20 selection:text-white"
-      style={{ backgroundColor: "#040513" }}
+      className="relative min-h-screen text-white overflow-hidden selection:bg-white/10 selection:text-white"
+      style={{ backgroundColor: "#0b0704" }}
     >
       {/* BACKGROUND LAYERS */}
       <Noise />
@@ -67,16 +66,16 @@ function Layout({ children }) {
         <div
           className="absolute inset-0 opacity-80"
           style={{
-            background: `radial-gradient(circle at 18% 18%, ${BRAND_PRIMARY}20, transparent 55%), radial-gradient(circle at 80% 12%, ${BRAND_SECONDARY}18, transparent 60%)`,
+            background: `radial-gradient(circle at 18% 18%, ${BRAND_PRIMARY}26, transparent 55%), radial-gradient(circle at 80% 12%, ${BRAND_SECONDARY}22, transparent 60%)`,
           }}
         />
         <div
-          className="absolute inset-0 opacity-60"
+          className="absolute inset-0 opacity-70"
           style={{
-            backgroundImage: "linear-gradient(115deg, rgba(255,255,255,0.06), transparent 50%, rgba(15,23,42,0.8))",
+            backgroundImage: "linear-gradient(110deg, rgba(255,255,255,0.05), transparent 45%, rgba(68,33,12,0.82))",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black" />
       </div>
 
       {/* PARTICLES */}
@@ -178,11 +177,11 @@ function Navbar() {
   return (
     <nav className="relative z-30 pt-8">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex items-center justify-between gap-4 rounded-3xl border border-white/10 bg-white/[0.05] px-5 py-4 backdrop-blur-xl supports-[backdrop-filter]:bg-white/[0.05]" style={{ boxShadow: "0 25px 80px -40px rgba(99,102,241,0.45)" }}>
+        <div className="flex items-center justify-between gap-4 rounded-3xl border border-white/10 bg-white/[0.05] px-5 py-4 backdrop-blur-xl supports-[backdrop-filter]:bg-white/[0.05]" style={{ boxShadow: `0 25px 80px -40px ${BRAND_GLOW}` }}>
           <div className="flex items-center gap-3">
             <div
               className="relative h-12 w-12 shrink-0 overflow-hidden rounded-2xl"
-              style={{ backgroundImage: BRAND_GRADIENT, boxShadow: "0 15px 35px -15px rgba(34,211,238,0.7)" }}
+              style={{ backgroundImage: BRAND_GRADIENT, boxShadow: `0 15px 35px -15px ${BRAND_GLOW}` }}
             >
               <div className="absolute inset-0 flex items-center justify-center font-black text-lg tracking-tight text-white">
                 BB
@@ -190,10 +189,10 @@ function Navbar() {
             </div>
             <div>
               <div className="text-lg font-semibold tracking-tight" style={{ color: BRAND_PRIMARY }}>
-                BankBros Collective
+                BankBros Rewards
               </div>
-              <div className="text-xs uppercase tracking-[0.2em] text-slate-300/80">
-                Rewards Reimagined
+              <div className="text-xs uppercase tracking-[0.2em] text-amber-200/70">
+                Loyalty Unlocked
               </div>
             </div>
           </div>
@@ -201,8 +200,6 @@ function Navbar() {
           <ul className="hidden md:flex items-center gap-1 text-gray-200">
             <li>{link("/", "Home")}</li>
             <li>{link("/leaderboards", "Leaderboards")}</li>
-            <li>{link("/bonuses", "Bonuses")}</li>
-            <li>{link("/rules", "Rules")}</li>
           </ul>
 
           <div className="hidden md:flex items-center gap-3">
@@ -242,8 +239,6 @@ function Navbar() {
             <div className="grid gap-2 text-sm text-gray-200">
               {link("/", "Home")}
               {link("/leaderboards", "Leaderboards")}
-              {link("/bonuses", "Bonuses")}
-              {link("/rules", "Rules")}
             </div>
             <div className="mt-4 flex items-center gap-3 text-white/80">
               <a
@@ -274,11 +269,11 @@ function Navbar() {
 
 function Footer() {
   return (
-    <footer className="relative z-20 mt-20 border-t border-white/10 bg-black/70 backdrop-blur">
+    <footer className="relative z-20 mt-20 border-t border-amber-500/10 bg-black/70 backdrop-blur">
       <div className="absolute inset-x-0 -top-20 h-20" aria-hidden>
         <div
           className="mx-auto h-full w-full max-w-5xl rounded-full blur-3xl"
-          style={{ backgroundImage: BRAND_GRADIENT, opacity: 0.25 }}
+          style={{ backgroundImage: BRAND_GRADIENT, opacity: 0.3 }}
         />
       </div>
       <div className="mx-auto max-w-6xl px-6 py-16">
@@ -287,13 +282,13 @@ function Footer() {
             <div className="inline-flex items-center gap-3">
               <div
                 className="h-11 w-11 rounded-2xl"
-                style={{ backgroundImage: BRAND_GRADIENT, boxShadow: "0 18px 40px -18px rgba(34,211,238,0.65)" }}
+                style={{ backgroundImage: BRAND_GRADIENT, boxShadow: `0 18px 40px -18px ${BRAND_GLOW}` }}
               />
               <div>
                 <div className="text-xl font-bold tracking-tight" style={{ color: BRAND_PRIMARY }}>
-                  BankBros Collective
+                  BankBros Rewards
                 </div>
-                <div className="text-xs uppercase tracking-[0.3em] text-slate-400">EST. 2024</div>
+                <div className="text-xs uppercase tracking-[0.3em] text-amber-200/70">EST. 2024</div>
               </div>
             </div>
             <p className="text-sm text-slate-300/80">
@@ -326,8 +321,6 @@ function Footer() {
             links={[
               { label: "Home", href: "#/" },
               { label: "Leaderboards", href: "#/leaderboards" },
-              { label: "Bonuses", href: "#/bonuses" },
-              { label: "Rules", href: "#/rules" },
             ]}
           />
           <FooterCol
@@ -341,7 +334,7 @@ function Footer() {
           />
         </div>
         <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-slate-500/80 md:flex-row md:items-center md:justify-between">
-          <div>© {new Date().getFullYear()} BankBros Collective. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} BankBros Rewards. All rights reserved.</div>
           <div className="flex gap-4">
             <a href="https://bankbros.vercel.app/terms" className="hover:text-white" target="_blank" rel="noopener noreferrer">
               Terms
@@ -426,24 +419,18 @@ function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/70"
+              className="inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-amber-100/80"
             >
-              <Sparkles size={14} /> Season VIII Live Now
+              <Sparkles size={14} style={{ color: BRAND_PRIMARY }} /> Season VIII Live Now
             </motion.div>
 
             <motion.h1
-              className="text-4xl font-black leading-[1.1] text-white sm:text-5xl md:text-6xl"
+              className="text-4xl font-black leading-[1.05] text-white sm:text-5xl md:text-6xl"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.7 }}
             >
-              Power up with the
-              <span
-                className="ml-2 inline-block bg-clip-text text-transparent"
-                style={{ backgroundImage: BRAND_GRADIENT }}
-              >
-                BankBros Collective
-              </span>
+              BankBros Rewards
             </motion.h1>
 
             <motion.p
@@ -452,8 +439,8 @@ function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.7 }}
             >
-              Track leaderboards in real time, unlock bespoke bonuses, and access exclusive drops for our verified members. It’s
-              everything you loved about the original hub, reframed for the next era.
+              Track wagers in real time, climb the leaderboard, and tap into seasonal drops curated for the BankBros family. The
+              club you know—now sharper, darker, and dialed for loyalty.
             </motion.p>
 
             <motion.div
@@ -467,9 +454,9 @@ function HomePage() {
                 { label: "Season Rewards", value: "$8.5K" },
                 { label: "Daily Drops", value: "3" },
               ].map((s) => (
-                <div key={s.label} className="rounded-3xl border border-white/10 bg-white/[0.05] px-4 py-5 shadow-[0_25px_80px_-45px_rgba(99,102,241,0.55)]">
+                <div key={s.label} className="rounded-3xl border border-amber-500/20 bg-white/[0.05] px-4 py-5 shadow-[0_25px_80px_-45px_rgba(217,119,6,0.55)]">
                   <div className="text-xs uppercase tracking-[0.3em] text-slate-400">{s.label}</div>
-                  <div className="mt-2 text-2xl font-extrabold" style={{ color: BRAND_SECONDARY }}>
+                  <div className="mt-2 text-2xl font-extrabold" style={{ color: BRAND_PRIMARY }}>
                     {s.value}
                   </div>
                 </div>
@@ -485,15 +472,17 @@ function HomePage() {
               <a
                 href="#/leaderboards"
                 className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 text-base font-semibold text-white"
-                style={{ backgroundImage: BRAND_GRADIENT, boxShadow: "0 30px 90px -40px rgba(34,211,238,0.75)" }}
+                style={{ backgroundImage: BRAND_GRADIENT, boxShadow: `0 30px 90px -40px ${BRAND_GLOW}` }}
               >
                 <Trophy size={18} /> View Live Leaderboard
               </a>
               <a
-                href="#/bonuses"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-8 py-3 text-base font-semibold text-white/80 hover:text-white"
+                href="https://discord.gg/bankbros"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-amber-500/30 px-8 py-3 text-base font-semibold text-white/80 transition hover:text-white hover:border-amber-400"
               >
-                <Gift size={18} /> Explore Bonuses
+                <MessageCircle size={18} /> Join the Lounge
               </a>
             </motion.div>
 
@@ -504,13 +493,13 @@ function HomePage() {
               transition={{ delay: 0.45, duration: 0.7 }}
             >
               <div className="inline-flex items-center gap-2">
-                <ShieldCheck size={14} style={{ color: BRAND_SECONDARY }} /> Verified payouts
+                <ShieldCheck size={14} style={{ color: BRAND_PRIMARY }} /> Verified payouts
               </div>
               <div className="inline-flex items-center gap-2">
-                <Timer size={14} style={{ color: BRAND_SECONDARY }} /> Reset every 14 days
+                <Timer size={14} style={{ color: BRAND_PRIMARY }} /> Reset every 14 days
               </div>
               <div className="inline-flex items-center gap-2">
-                <Users size={14} style={{ color: BRAND_SECONDARY }} /> Community-first support
+                <Users size={14} style={{ color: BRAND_PRIMARY }} /> Community-first support
               </div>
             </motion.div>
           </div>
@@ -519,9 +508,9 @@ function HomePage() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.7 }}
-            className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.06] p-6 shadow-[0_35px_120px_-45px_rgba(34,211,238,0.8)]"
+            className="relative overflow-hidden rounded-[28px] border border-amber-500/15 bg-white/[0.06] p-6 shadow-[0_35px_120px_-45px_rgba(217,119,6,0.75)]"
           >
-            <div className="absolute -top-24 right-0 h-48 w-48 rounded-full blur-3xl" style={{ background: `${BRAND_SECONDARY}33` }} />
+            <div className="absolute -top-24 right-0 h-48 w-48 rounded-full blur-3xl" style={{ background: `${BRAND_PRIMARY}33` }} />
             <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-white/60">
               <span>Current Cycle</span>
               <span>Ends in {`<`}14d</span>
@@ -529,7 +518,7 @@ function HomePage() {
             <div className="mt-6 rounded-2xl border border-white/10 bg-black/50 p-5">
               <div className="flex items-center justify-between text-sm text-white/70">
                 <span>Next Reward Drop</span>
-                <span className="font-semibold" style={{ color: BRAND_SECONDARY }}>
+                <span className="font-semibold" style={{ color: BRAND_PRIMARY }}>
                   $500 Cash
                 </span>
               </div>
@@ -548,17 +537,6 @@ function HomePage() {
                   </div>
                 ))}
               </div>
-            </div>
-            <div className="mt-6 rounded-2xl border border-white/10 bg-black/60 p-4">
-              <div className="flex items-center justify-between text-sm text-white/70">
-                <span>Invite friends</span>
-                <button className="inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-white/70">
-                  <Copy size={14} /> Copy link
-                </button>
-              </div>
-              <p className="mt-3 text-xs text-white/60">
-                Share your referral to unlock co-op bonuses and double drops during blitz events.
-              </p>
             </div>
           </motion.div>
         </div>
@@ -606,16 +584,16 @@ function HomePage() {
                 ))}
               </div>
               <div className="mt-8 flex flex-wrap gap-3 text-xs uppercase tracking-[0.3em] text-slate-400">
-                <a href="#/rules" className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-white/80 hover:text-white">
-                  <Timer size={14} /> Review Rules
+                <a href="#/" className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 px-4 py-2 text-white/80 transition hover:text-white hover:border-amber-400">
+                  <Timer size={14} /> View FAQ
                 </a>
-                <a href="#/leaderboards" className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-white/80 hover:text-white">
+                <a href="#/leaderboards" className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 px-4 py-2 text-white/80 transition hover:text-white hover:border-amber-400">
                   <ExternalLink size={14} /> Open Leaderboard
                 </a>
               </div>
             </div>
 
-            <div className="rounded-[28px] border border-white/10 bg-black/60 p-6 shadow-[0_30px_110px_-60px_rgba(99,102,241,0.7)]">
+            <div className="rounded-[28px] border border-amber-500/15 bg-black/60 p-6 shadow-[0_30px_110px_-60px_rgba(217,119,6,0.7)]">
               <div className="mb-5 flex items-center justify-between text-xs uppercase tracking-[0.35em] text-white/50">
                 <span>Snapshot</span>
                 <span>Updated live</span>
@@ -643,7 +621,7 @@ function HomePage() {
               href="https://discord.gg/bankbros"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-white/80 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-white/80 transition hover:text-white hover:border-amber-400"
             >
               <ExternalLink size={14} /> All Channels
             </a>
@@ -678,8 +656,8 @@ function HomePage() {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] p-6 transition hover:border-white/25"
-                style={{ boxShadow: "0 35px 120px -60px rgba(99,102,241,0.65)" }}
+                className="group relative overflow-hidden rounded-[28px] border border-amber-500/15 bg-white/[0.05] p-6 transition hover:border-amber-400/60"
+                style={{ boxShadow: "0 35px 120px -60px rgba(217,119,6,0.65)" }}
               >
                 <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ backgroundImage: BRAND_GRADIENT, mixBlendMode: "soft-light" }} />
                 <div className="relative flex flex-col gap-5">
@@ -703,8 +681,8 @@ function HomePage() {
         </div>
       </section>
 
-      {/* FAQ / Rules preview */}
-      <section id="rules" className="relative z-20 px-6 pb-24">
+      {/* FAQ */}
+      <section id="faq" className="relative z-20 px-6 pb-24">
         <div className="mx-auto max-w-5xl">
           <h3 className="text-3xl font-black text-white sm:text-4xl">
             Everything you need to know before you grind
@@ -717,119 +695,6 @@ function HomePage() {
               <Accordion key={f.q} defaultOpen={i === 0} question={f.q} answer={f.a} />
             ))}
           </div>
-        </div>
-      </section>
-    </>
-  );
-}
-
-// —— Bonuses (adapted from your BonusesPage) ——
-function BonusesPage() {
-  const [copied, setCopied] = useState(false);
-  const steps = [
-    {
-      id: 1,
-      title: "Visit Roobet & Sign Up",
-      desc: (
-        <>
-          Head to Roobet using our tracked link and create your account. When prompted, enter the promo code <b style={{ color: BRAND_PRIMARY }}>BANKBROS</b> so every $1 you wager counts toward BankBros bonuses and the leaderboard.
-        </>
-      ),
-      img: "/roobet.png",
-      ctaText: "SignUp on Roobet",
-      ctaHref: "https://roobet.com/?ref=bankbros",
-      external: true,
-    },
-    {
-      id: 2,
-      title: "Verify Your Account",
-      desc: <>Complete KYC (identity verification) and secure your profile. Verified accounts unlock all promos and leaderboard prizes.</>,
-      img: "/verify.png",
-      ctaText: "Verify Account",
-      ctaHref: "https://roobet.com/?ref=bankbros",
-      external: true,
-    },
-    {
-      id: 3,
-      title: "Enjoy Bonuses & Auto-Entry",
-      desc: <>
-        Claim exclusive bonuses, weekly drops, and reloads. Your wagers are <i>automatically</i> tracked toward the BankBros Leaderboard.
-      </>,
-      img: "/leaderboard2d.png",
-      ctaText: "View Leaderboards",
-      ctaHref: "#/leaderboards",
-      external: false,
-    },
-  ];
-
-  return (
-    <>
-      {/* HEADER */}
-      <header className="relative z-20 border-b border-white/10 bg-black/60 backdrop-blur">
-        <div className="mx-auto max-w-5xl px-6 py-12 text-center">
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight">Bonuses</h1>
-          <p className="mt-3 text-gray-300">How to register, claim perks, and get auto-entered into the BankBros leaderboard.</p>
-
-          {/* Promo Code */}
-          <div className="mt-5 inline-flex items-center gap-2 rounded-2xl border px-3 py-2 text-sm" style={{ borderColor: "rgba(99,102,241,0.45)", boxShadow: "0 0 0 1px rgba(255,255,255,0.05)" }}>
-            <span className="opacity-80">Promo code:</span>
-            <code className="font-bold tracking-wider" style={{ color: BRAND_PRIMARY }}>BANKBROS</code>
-            <button
-              onClick={() => { navigator.clipboard.writeText("BANKBROS"); setCopied(true); setTimeout(() => setCopied(false), 1200); }}
-              className="ml-2 inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs border"
-              style={{ borderColor: "rgba(255,255,255,0.15)" }}
-            >
-              <Copy size={14} />{copied ? "Copied" : "Copy"}
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* STEPS */}
-      <section className="relative z-20 px-6 py-14">
-        <div className="mx-auto max-w-6xl space-y-12">
-          {steps.map((s, i) => (
-            <div key={s.id} className={`grid md:grid-cols-2 gap-8 items-center ${i % 2 === 1 ? "md:[&>div:first-child]:order-2" : ""}`}>
-              {/* Text */}
-              <div>
-                <div className="text-xs uppercase tracking-wider text-gray-400 mb-2">Step {s.id}</div>
-                <h2 className="text-2xl md:text-3xl font-extrabold mb-3 text-white" style={{ textShadow: "0 0 40px rgba(99,102,241,0.4)" }}>{s.title}</h2>
-                <p className="text-gray-300 mb-5">{s.desc}</p>
-
-                <a
-                  href={s.ctaHref}
-                  {...(s.external ? { target: "_blank", rel: "noreferrer" } : {})}
-                  className="inline-flex items-center gap-2 rounded-xl px-4 py-3 font-semibold text-white"
-                  style={{ backgroundImage: BRAND_GRADIENT, boxShadow: "0 25px 70px -35px rgba(34,211,238,0.7)" }}
-                >
-                  {s.ctaText}
-                  {s.external ? <ExternalLink size={16} /> : <Trophy size={16} />}
-                </a>
-
-                {/* Slim tips */}
-                {s.id === 2 && (
-                  <div className="flex items-center gap-1 text-xs text-gray-400 mt-2">
-                    <ShieldCheck size={14} /> Secure your account for full bonuses.
-                  </div>
-                )}
-                {s.id === 3 && (
-                  <div className="flex items-center gap-1 text-xs text-gray-400 mt-2">
-                    <Sparkles size={14} /> Weekly drops for active players.
-                  </div>
-                )}
-              </div>
-
-              {/* Image */}
-              <div>
-                <div
-                  className="w-full aspect-[16/10] rounded-2xl overflow-hidden border backdrop-blur flex items-center justify-center"
-                  style={{ borderColor: "rgba(148,163,184,0.2)", borderWidth: 1, boxShadow: "0 0 0 1px rgba(255,255,255,0.06), 0 35px 90px -45px rgba(99,102,241,0.4)" }}
-                >
-                  <img src={s.img} alt={s.title} className="w-full h-full object-cover" />
-                </div>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
     </>
@@ -978,13 +843,13 @@ function LeaderboardsPage() {
           <>
             {/* Title stays up top */}
             <header className="mb-6 flex items-center justify-center gap-4">
-              <h1 className="text-3xl md:text-4xl font-extrabold text-white" style={{ textShadow: "0 0 45px rgba(99,102,241,0.5)" }}>
+              <h1 className="text-3xl md:text-4xl font-extrabold text-white" style={{ textShadow: `0 0 45px ${BRAND_PRIMARY}55` }}>
                 Current Leaderboard
               </h1>
               <button
                 onClick={() => setShowHistory(true)}
                 className="text-xs px-3 py-1 rounded-full border text-white/80 hover:text-white"
-                style={{ borderColor: "rgba(99,102,241,0.6)" }}
+                style={{ borderColor: `${BRAND_PRIMARY}aa` }}
               >
                 History
               </button>
@@ -998,7 +863,7 @@ function LeaderboardsPage() {
                   item={top3[0]}
                   className="md:order-2"
                   height="h-[260px]"
-                  tint="rgba(99,102,241,0.22)"
+                  tint="rgba(249,115,22,0.32)"
                   edgeColor={BRAND_PRIMARY}
                   badge={<Crown size={18} color={BRAND_PRIMARY} />}
                   highlight
@@ -1010,9 +875,9 @@ function LeaderboardsPage() {
                   item={top3[1]}
                   className="md:order-1"
                   height="h-[220px]"
-                  tint="rgba(0, 255, 255, 0.10)"
-                  edgeColor="#22d3ee"
-                  badge={<MedalRibbon n={2} color="#22d3ee" />}
+                  tint="rgba(234,179,8,0.18)"
+                  edgeColor="#fbbf24"
+                  badge={<MedalRibbon n={2} color="#fbbf24" />}
                   highlight={false}
                 />
               )}
@@ -1022,9 +887,9 @@ function LeaderboardsPage() {
                   item={top3[2]}
                   className="md:order-3"
                   height="h-[200px]"
-                  tint="rgba(250,204,21,0.10)"
-                  edgeColor="#facc15"
-                  badge={<MedalRibbon n={3} color="#facc15" />}
+                  tint="rgba(146,64,14,0.28)"
+                  edgeColor="#b45309"
+                  badge={<MedalRibbon n={3} color="#b45309" />}
                   highlight={false}
                 />
               )}
@@ -1070,7 +935,7 @@ function LeaderboardsPage() {
                     <div className="col-span-2 font-black text-white">#{r.rank}</div>
                     <div className="col-span-5">{maskName(r.name)}</div>
                     <div className="col-span-3 text-gray-300">{formatMoney(r.wagered)}</div>
-                    <div className="col-span-2 text-right font-semibold" style={{ color: BRAND_SECONDARY }}>
+                    <div className="col-span-2 text-right font-semibold" style={{ color: BRAND_PRIMARY }}>
                       {formatMoney(r.prize)}
                     </div>
                   </div>
@@ -1099,8 +964,9 @@ function LeaderboardsPage() {
 
 
 function PodiumCard({ placement, item, className, height, tint, edgeColor, badge, highlight }) {
-  const edge = { boxShadow: `inset 0 0 0 1px ${edgeColor}22, 0 30px 80px -40px ${edgeColor}66` };
-  const ribbon = placement === 1 ? "bg-[rgba(99,102,241,0.18)]" : placement === 2 ? "bg-cyan-400/10" : "bg-rose-400/10";
+  const accent = highlight ? BRAND_PRIMARY : edgeColor;
+  const label = placement === 1 ? "Champion" : placement === 2 ? "Runner-up" : "Third";
+  const progress = 70 - placement * 5;
   return (
     <motion.div
       className={`relative ${className}`}
@@ -1110,30 +976,55 @@ function PodiumCard({ placement, item, className, height, tint, edgeColor, badge
       transition={{ duration: 0.6, delay: placement * 0.05 }}
     >
       <div
-        className={`rounded-3xl ${height} p-5 md:p-6 flex flex-col justify-end`}
+        className={`rounded-3xl ${height} p-5 md:p-6 flex flex-col justify-between border`}
         style={{
-          background: `linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.2)), radial-gradient(120% 160% at 50% 0%, ${tint}, transparent 60%)`,
-          border: `1px solid ${edgeColor}40`,
-          transform: "perspective(800px) rotateX(4deg)",
-          ...edge,
+          borderColor: `${edgeColor}55`,
+          background: `linear-gradient(165deg, ${tint}, rgba(12,9,7,0.92))`,
+          boxShadow: `0 25px 80px -45px ${edgeColor}aa`,
         }}
       >
-        <div className={`absolute -top-3 left-5 px-3 py-1 rounded-xl text-xs tracking-wide ${ribbon}`} style={{ border: `1px solid ${edgeColor}55` }}>
-          {placement === 1 ? "Champion" : placement === 2 ? "Runner-up" : "Third"}
+        <div className="flex items-start justify-between">
+          <div
+            className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] uppercase tracking-[0.25em]"
+            style={{ borderColor: `${edgeColor}66`, backgroundColor: `${edgeColor}1f`, color: accent }}
+          >
+            {label}
+          </div>
+          <div
+            className="rounded-2xl border border-white/10 bg-black/60 p-2"
+            style={{ boxShadow: `0 18px 50px -28px ${edgeColor}aa`, color: accent }}
+          >
+            {badge}
+          </div>
         </div>
-        <div className="absolute -top-5 right-5 bg-black/70 rounded-2xl p-2 border border-white/10" style={{ boxShadow: `0 10px 40px -20px ${edgeColor}88` }}>
-          {badge}
-        </div>
-        <div className="flex items-end justify-between">
+
+        <div className="mt-8 flex items-end justify-between gap-4">
           <div>
-            <div className="text-5xl font-black" style={{ color: highlight ? BRAND_PRIMARY : "white" }}>#{item.rank}</div>
-            <div className="text-lg font-semibold">{maskName(item.name)}</div>
+            <div className="text-5xl font-black tracking-tight" style={{ color: accent }}>#{item.rank}</div>
+            <div className="text-sm uppercase tracking-[0.3em] text-amber-100/70">Top {placement}</div>
           </div>
           <div className="text-right">
-            <div className="text-xs text-gray-400">Wagered</div>
-            <div className="text-lg font-extrabold">{formatMoney(item.wagered)}</div>
-            <div className="text-xs text-gray-400 mt-1">Prize</div>
-            <div className="text-base font-bold" style={{ color: BRAND_SECONDARY }}>{formatMoney(item.prize)}</div>
+            <div className="text-xs text-amber-200/70">Player</div>
+            <div className="text-lg font-semibold text-white">{maskName(item.name)}</div>
+          </div>
+        </div>
+
+        <div className="mt-6 space-y-4">
+          <div className="flex items-center justify-between text-xs text-amber-200/70 uppercase tracking-[0.25em]">
+            <span>Wagered</span>
+            <span className="text-base font-extrabold text-white">{formatMoney(item.wagered)}</span>
+          </div>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
+            <div
+              className="h-full rounded-full"
+              style={{ width: `${progress}%`, backgroundImage: BRAND_GRADIENT }}
+            />
+          </div>
+          <div className="flex items-center justify-between text-xs text-amber-200/70 uppercase tracking-[0.25em]">
+            <span>Prize</span>
+            <span className="text-base font-semibold" style={{ color: accent }}>
+              {formatMoney(item.prize)}
+            </span>
           </div>
         </div>
       </div>
@@ -1172,7 +1063,7 @@ function HistoryTable({ rows, range, loading }) {
             <div className="col-span-2 font-black text-white">#{r.rank}</div>
             <div className="col-span-5">{maskName(r.name)}</div>
             <div className="col-span-3 text-gray-300">{formatMoney(r.wagered)}</div>
-            <div className="col-span-2 text-right font-semibold" style={{ color: BRAND_SECONDARY }}>
+            <div className="col-span-2 text-right font-semibold" style={{ color: BRAND_PRIMARY }}>
               {formatMoney(r.prize)}
             </div>
           </div>
@@ -1286,7 +1177,7 @@ function LeaderboardPreview() {
     <div className="p-5 md:p-6">
       <div className="flex items-center justify-between mb-4">
         <div className="text-xl font-extrabold text-white">Current Leaderboard</div>
-        <a href="#/leaderboards" className="text-sm" style={{ color: BRAND_SECONDARY }}>
+        <a href="#/leaderboards" className="text-sm" style={{ color: BRAND_PRIMARY }}>
           View all
         </a>
       </div>
@@ -1302,7 +1193,9 @@ function LeaderboardPreview() {
             <div className="col-span-2 font-black" style={{ color: r.rank <= 3 ? BRAND_PRIMARY : "white" }}>#{r.rank}</div>
             <div className="col-span-5">{maskName(r.user)}</div>
             <div className="col-span-3 text-gray-300">{r.points.toLocaleString()}</div>
-            <div className="col-span-2 text-right font-semibold">{formatMoney(r.prize)}</div>
+            <div className="col-span-2 text-right font-semibold" style={{ color: BRAND_PRIMARY }}>
+              {formatMoney(r.prize)}
+            </div>
           </div>
         ))}
       </div>
@@ -1315,7 +1208,7 @@ function Accordion({ question, answer, defaultOpen }) {
   return (
     <div
       className="rounded-2xl border border-white/10 bg-white/[0.04]"
-      style={{ boxShadow: "0 25px 80px -45px rgba(99,102,241,0.35)" }}
+      style={{ boxShadow: `0 25px 80px -45px ${BRAND_PRIMARY}33` }}
     >
       <button
         className="w-full text-left px-5 py-4 font-semibold flex items-center justify-between text-white"
@@ -1337,38 +1230,3 @@ const faqItems = [
   { q: "Is there an entry fee?", a: "No entry fees. Participation is free — just play on partnered sites via BankBros to track your stats." },
   { q: "How do you prevent abuse?", a: "We flag suspicious wager patterns, collusion, and risk-free loops. Violations may lead to point removal or disqualification." },
 ];
-
-function RulesPage() {
-  const cardStyle = {
-    border: "1px solid rgba(148,163,184,0.18)",
-    boxShadow: "0 30px 90px -45px rgba(99,102,241,0.35)",
-    background: "linear-gradient(160deg, rgba(99,102,241,0.15), rgba(15,23,42,0.85))",
-  };
-  return (
-    <div className="mx-auto max-w-3xl px-6 py-16 space-y-8">
-      <h1 className="text-4xl font-extrabold mb-8 text-white" style={{ textShadow: "0 0 45px rgba(99,102,241,0.45)" }}>Rules</h1>
-      <div className="space-y-8">
-        <div style={cardStyle} className="p-6 rounded-2xl">
-          <h2 className="text-xl font-semibold mb-4">Wagering Rules</h2>
-          <p className="mb-2">Only Slots and House Games are eligible.</p>
-          <p>🚫 Dice, live games, and sports bets do not count.</p>
-        </div>
-        <div style={cardStyle} className="p-6 rounded-2xl">
-          <h2 className="text-xl font-semibold mb-4">Wager contribution by RTP</h2>
-          <ul className="space-y-2">
-            <li>🎰 RTP ≤ 97% → 100% of wager counts</li>
-            <li>🎯 RTP &gt; 97% → 50% of wager counts</li>
-            <li>💎 RTP ≥ 98% → 10% of wager counts</li>
-          </ul>
-        </div>
-        <div style={cardStyle} className="p-6 rounded-2xl">
-          <h2 className="text-xl font-semibold mb-4">Important Notes</h2>
-          <ul className="space-y-2">
-            <li>📅 You must be wagering under my referral to qualify.</li>
-            <li>Prizes are paid directly to your Roobet account.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  );
-}
