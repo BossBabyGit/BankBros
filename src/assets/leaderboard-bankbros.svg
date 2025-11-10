@@ -1,0 +1,12 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title>BankBros Logo</title>
+  <defs>
+    <linearGradient id="bb-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f97316" />
+      <stop offset="100%" stop-color="#92400e" />
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="104" height="104" rx="28" fill="url(#bb-gradient)" />
+  <path d="M60 28c-17.2 0-32 14.2-32 32s14.8 32 32 32c11.4 0 21.5-6.2 27.3-15.3l-12-6.7C72 76 66.5 80 60 80c-11 0-20-9-20-20s9-20 20-20c5.6 0 10.6 2.4 14.1 6.1l12.5-6.8C80.7 33.6 70.9 28 60 28z" fill="#fff" opacity="0.92" />
+  <path d="M52 66h22v-12H52v-8h26v-10H40v36h38V62H52z" fill="#fff" />
+</svg>

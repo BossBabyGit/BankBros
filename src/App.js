@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Sparkles, Trophy, ShieldCheck, MessageCircle, Play, ExternalLink, Timer, Users } from "lucide-react";
 import useLeaderboardCountdown from "./useLeaderboardCountdown";
+import bankbrosLogo from "./assets/leaderboard-bankbros.svg";
+import csgoldLogo from "./assets/leaderboard-csgold.svg";
 
 // —— Brand Tokens ——
 const BRAND_PRIMARY = "#f97316"; // deep orange
@@ -29,6 +31,114 @@ const PODIUM_BRONZE = {
   tint: "rgba(205, 127, 50, 0.28)",
   glow: "rgba(205, 127, 50, 0.55)",
 };
+
+function applyPrizeLadder(rows, prizeLadder) {
+  return (rows ?? []).map((row) => ({
+    ...row,
+    prize: prizeLadder?.[row.rank] ?? row.prize ?? 0,
+  }));
+}
+
+const BANKBROS_PRIZE_LADDER = Object.freeze({
+  1: 175,
+  2: 125,
+  3: 100,
+  4: 80,
+  5: 65,
+  6: 55,
+  7: 0,
+  8: 0,
+  9: 0,
+  10: 0,
+  11: 0,
+  12: 0,
+  13: 0,
+  14: 0,
+  15: 0,
+});
+
+const BANKBROS_FALLBACK = Object.freeze([
+  { rank: 1, name: "BossBaby", wagered: 3430.32, prize: 0 },
+  { rank: 2, name: "BossBaby", wagered: 2980.18, prize: 0 },
+  { rank: 3, name: "BossBaby", wagered: 2510.55, prize: 0 },
+  { rank: 4, name: "BossBaby", wagered: 2040.0, prize: 0 },
+  { rank: 5, name: "BossBaby", wagered: 1810.45, prize: 0 },
+  { rank: 6, name: "BossBaby", wagered: 1660.12, prize: 0 },
+  { rank: 7, name: "BossBaby", wagered: 1510.0, prize: 0 },
+  { rank: 8, name: "BossBaby", wagered: 1433.47, prize: 0 },
+  { rank: 9, name: "BossBaby", wagered: 1320.87, prize: 0 },
+  { rank: 10, name: "BossBaby", wagered: 1208.03, prize: 0 },
+  { rank: 11, name: "BossBaby", wagered: 1100.0, prize: 0 },
+  { rank: 12, name: "BossBaby", wagered: 1000.0, prize: 0 },
+  { rank: 13, name: "BossBaby", wagered: 900.0, prize: 0 },
+  { rank: 14, name: "BossBaby", wagered: 800.0, prize: 0 },
+  { rank: 15, name: "BossBaby", wagered: 700.0, prize: 0 },
+]);
+
+const CSGOLD_PRIZE_LADDER = Object.freeze({
+  1: 250,
+  2: 150,
+  3: 110,
+  4: 85,
+  5: 70,
+  6: 55,
+  7: 0,
+  8: 0,
+  9: 0,
+  10: 0,
+  11: 0,
+  12: 0,
+  13: 0,
+  14: 0,
+  15: 0,
+});
+
+const CSGOLD_FALLBACK = Object.freeze([
+  { rank: 1, name: "AuricAce", wagered: 4210.12, prize: 0 },
+  { rank: 2, name: "GlintKing", wagered: 3785.55, prize: 0 },
+  { rank: 3, name: "Goldrush", wagered: 3320.4, prize: 0 },
+  { rank: 4, name: "Bullionaire", wagered: 2888.22, prize: 0 },
+  { rank: 5, name: "MintedMax", wagered: 2510.75, prize: 0 },
+  { rank: 6, name: "TokenTact", wagered: 2304.65, prize: 0 },
+  { rank: 7, name: "ShimmerSol", wagered: 2100.33, prize: 0 },
+  { rank: 8, name: "CacheQueen", wagered: 1995.9, prize: 0 },
+  { rank: 9, name: "GildedGuru", wagered: 1850.11, prize: 0 },
+  { rank: 10, name: "LuxeLink", wagered: 1705.45, prize: 0 },
+  { rank: 11, name: "SpecStack", wagered: 1622.0, prize: 0 },
+  { rank: 12, name: "CacheCraze", wagered: 1540.5, prize: 0 },
+  { rank: 13, name: "VaultVox", wagered: 1460.18, prize: 0 },
+  { rank: 14, name: "MintMuse", wagered: 1384.92, prize: 0 },
+  { rank: 15, name: "AuroraAx", wagered: 1299.67, prize: 0 },
+]);
+
+const LEADERBOARD_CONFIGS = [
+  {
+    id: "bankbros",
+    name: "BankBros",
+    logo: bankbrosLogo,
+    topUrl: "https://bankbros.vercel.app/api/leaderboard/top",
+    historyUrl: "https://bankbros.vercel.app/api/leaderboard/previous",
+    fallback: BANKBROS_FALLBACK,
+    prizes: BANKBROS_PRIZE_LADDER,
+    messages: {
+      empty: "No live BankBros data yet – showing sample data.",
+      error: "Couldn’t load BankBros data – showing sample data.",
+    },
+  },
+  {
+    id: "csgold",
+    name: "CsGold",
+    logo: csgoldLogo,
+    topUrl: "https://bankbros.vercel.app/api/leaderboard/top?board=csgold",
+    historyUrl: "https://bankbros.vercel.app/api/leaderboard/previous?board=csgold",
+    fallback: CSGOLD_FALLBACK,
+    prizes: CSGOLD_PRIZE_LADDER,
+    messages: {
+      empty: "No live CsGold data yet – showing sample data.",
+      error: "Couldn’t load CsGold data – showing sample data.",
+    },
+  },
+];
 
 function DiscordIcon({ size = 24, ...props }) {
   return (
@@ -549,158 +659,240 @@ function HomePage() {
 }
 
 function LeaderboardsPage() {
-  // --- 1) Hardcoded fallback (kept simple; prize = 0 so mapping is the source of truth) ---
-  const FALLBACK = React.useMemo(
-    () => ([
-      { rank: 1,  name: "BossBaby", wagered: 3430.32, prize: 0 },
-      { rank: 2,  name: "BossBaby", wagered: 2980.18, prize: 0 },
-      { rank: 3,  name: "BossBaby", wagered: 2510.55, prize: 0 },
-      { rank: 4,  name: "BossBaby", wagered: 2040.00, prize: 0 },
-      { rank: 5,  name: "BossBaby", wagered: 1810.45, prize: 0 },
-      { rank: 6,  name: "BossBaby", wagered: 1660.12, prize: 0 },
-      { rank: 7,  name: "BossBaby", wagered: 1510.00, prize: 0 },
-      { rank: 8,  name: "BossBaby", wagered: 1433.47, prize: 0 },
-      { rank: 9,  name: "BossBaby", wagered: 1320.87, prize: 0 },
-      { rank: 10, name: "BossBaby", wagered: 1208.03, prize: 0 },
-      { rank: 11, name: "BossBaby", wagered: 1100.00, prize: 0 },
-      { rank: 12, name: "BossBaby", wagered: 1000.00, prize: 0 },
-      { rank: 13, name: "BossBaby", wagered:  900.00, prize: 0 },
-      { rank: 14, name: "BossBaby", wagered:  800.00, prize: 0 },
-      { rank: 15, name: "BossBaby", wagered:  700.00, prize: 0 },
-    ]),
-    []
-  );
-
-  // --- 2) Live state fed by the API (or fallback) ---
-  const [rows, setRows] = React.useState(FALLBACK);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState("");
+  const leaderboardConfigs = LEADERBOARD_CONFIGS;
+  const [activeLeaderboard, setActiveLeaderboard] = React.useState(leaderboardConfigs[0]?.id ?? "");
+  const [leaderboardState, setLeaderboardState] = React.useState(() => {
+    const initial = {};
+    leaderboardConfigs.forEach((cfg) => {
+      initial[cfg.id] = {
+        rows: applyPrizeLadder(cfg.fallback, cfg.prizes),
+        loading: true,
+        error: "",
+        historyRows: [],
+        historyRange: { start: "", end: "" },
+        historyLoading: true,
+      };
+    });
+    return initial;
+  });
   const [showHistory, setShowHistory] = React.useState(false);
-  // store previously fetched leaderboard entries
-  const [historyData, setHistoryData] = React.useState([]);
-  const [historyRange, setHistoryRange] = React.useState({ start: "", end: "" });
-  const [historyLoading, setHistoryLoading] = React.useState(true);
 
-  // --- 3) NEW prize mapping (1–6) ---
-  const prizeByRank = React.useMemo(() => ({
-    1: 175,
-    2: 125,
-    3: 100,
-    4: 80,
-    5: 65,
-    6: 55,
-    7: 0,  8: 0,  9: 0,  10: 0,
-    11: 0, 12: 0, 13: 0, 14: 0, 15: 0,
-  }), []);
+  const updateLeaderboardSlice = React.useCallback((id, patch) => {
+    setLeaderboardState((prev) => {
+      const next = { ...prev };
+      const current = next[id] ?? {
+        rows: [],
+        loading: false,
+        error: "",
+        historyRows: [],
+        historyRange: { start: "", end: "" },
+        historyLoading: false,
+      };
+      next[id] = { ...current, ...patch };
+      return next;
+    });
+  }, []);
 
-  const API_URL = "https://bankbros.vercel.app/api/leaderboard/top"; // <-- sample endpoint
-  const HISTORY_URL = "https://bankbros.vercel.app/api/leaderboard/previous";
-  console.log("Leaderboard API_URL:", API_URL); // leave this for debugging
-
-  // --- 4) Feature toggle: keep fallback while you test ---
-  const forceMock = (typeof window !== "undefined") && window.location.hash.includes("mock");
+  const forceMock = typeof window !== "undefined" && window.location.hash.includes("mock");
 
   React.useEffect(() => {
     let alive = true;
-    (async () => {
-      if (forceMock) {
-        setLoading(false);
-        return; // keep FALLBACK visible
-      }
-      try {
-        const r = await fetch(API_URL, { headers: { "Accept": "application/json" } });
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        const j = await r.json();
-        const items = (j.items ?? []).map((x) => ({
-          rank: x.rank,
-          name: x.username,
-          wagered: Number(x.wagered || 0),
-          // DO NOT trust API prize — always map from our ladder:
-          prize: prizeByRank[x.rank] ?? 0,
-        }));
 
-        if (!alive) return;
+    if (forceMock) {
+      setLeaderboardState((prev) => {
+        const next = { ...prev };
+        leaderboardConfigs.forEach((cfg) => {
+          const current = next[cfg.id] ?? {
+            rows: [],
+            loading: false,
+            error: "",
+            historyRows: [],
+            historyRange: { start: "", end: "" },
+            historyLoading: false,
+          };
+          next[cfg.id] = {
+            ...current,
+            rows: applyPrizeLadder(cfg.fallback, cfg.prizes),
+            loading: false,
+            error: "",
+            historyLoading: false,
+          };
+        });
+        return next;
+      });
+      return () => {
+        alive = false;
+      };
+    }
 
-        setRows(items.length ? items : FALLBACK);
-        setError(items.length ? "" : "No live data yet – showing sample data.");
-      } catch (e) {
-        if (!alive) return;
-        console.error(e);
-        setRows(FALLBACK);
-        setError("Couldn’t load live data – showing sample data.");
-      } finally {
-        if (alive) setLoading(false);
-      }
-    })();
-    return () => { alive = false; };
-  }, [API_URL, prizeByRank, forceMock, FALLBACK]);
+    leaderboardConfigs.forEach((cfg) => {
+      const fallbackRows = applyPrizeLadder(cfg.fallback, cfg.prizes);
+      console.log(`[${cfg.name}] Leaderboard API_URL:`, cfg.topUrl);
+      updateLeaderboardSlice(cfg.id, {
+        loading: true,
+        error: "",
+        historyLoading: true,
+      });
+
+      (async () => {
+        try {
+          const response = await fetch(cfg.topUrl, { headers: { Accept: "application/json" } });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const payload = await response.json();
+          const items = (payload.items ?? []).map((item) => ({
+            rank: item.rank,
+            name: item.username,
+            wagered: Number(item.wagered || 0),
+          }));
+          const normalized = applyPrizeLadder(items, cfg.prizes);
+          if (!alive) return;
+          if (normalized.length) {
+            updateLeaderboardSlice(cfg.id, { rows: normalized, loading: false, error: "" });
+          } else {
+            updateLeaderboardSlice(cfg.id, {
+              rows: fallbackRows,
+              loading: false,
+              error: cfg.messages?.empty ?? "No live data yet – showing sample data.",
+            });
+          }
+        } catch (error) {
+          if (!alive) return;
+          console.error(error);
+          updateLeaderboardSlice(cfg.id, {
+            rows: fallbackRows,
+            loading: false,
+            error: cfg.messages?.error ?? "Couldn’t load live data – showing sample data.",
+          });
+        }
+      })();
+
+      (async () => {
+        try {
+          const response = await fetch(cfg.historyUrl, { headers: { Accept: "application/json" } });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const payload = await response.json();
+          const items = (payload.items ?? []).map((item) => ({
+            rank: item.rank,
+            name: item.username,
+            wagered: Number(item.wagered || 0),
+          }));
+          const normalized = applyPrizeLadder(items, cfg.prizes);
+          if (!alive) return;
+          updateLeaderboardSlice(cfg.id, {
+            historyRows: normalized,
+            historyRange: { start: payload.period_start, end: payload.period_end },
+            historyLoading: false,
+          });
+        } catch (error) {
+          if (!alive) return;
+          console.error(error);
+          updateLeaderboardSlice(cfg.id, {
+            historyRows: [],
+            historyRange: { start: "", end: "" },
+            historyLoading: false,
+          });
+        }
+      })();
+    });
+
+    return () => {
+      alive = false;
+    };
+  }, [forceMock, leaderboardConfigs, updateLeaderboardSlice]);
 
   React.useEffect(() => {
-    let alive = true;
-    (async () => {
-      try {
-        const r = await fetch(HISTORY_URL, { headers: { "Accept": "application/json" } });
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        const j = await r.json();
-        const items = (j.items ?? []).map((x) => ({
-          rank: x.rank,
-          name: x.username,
-          wagered: Number(x.wagered || 0),
-          prize: prizeByRank[x.rank] ?? 0,
-        }));
-        if (!alive) return;
-        setHistoryData(items);
-        setHistoryRange({ start: j.period_start, end: j.period_end });
-      } catch (e) {
-        if (!alive) return;
-        console.error(e);
-        setHistoryData([]);
-        setHistoryRange({ start: "", end: "" });
-      } finally {
-        if (alive) setHistoryLoading(false);
-      }
-    })();
-    return () => { alive = false; };
-  }, [HISTORY_URL, prizeByRank]);
+    if (!activeLeaderboard && leaderboardConfigs[0]) {
+      setActiveLeaderboard(leaderboardConfigs[0].id);
+    }
+  }, [activeLeaderboard, leaderboardConfigs]);
 
-  // --- 5) Normalize prizes AGAIN at render-time (so fallback never leaks old values) ---
-  const viewRows = React.useMemo(
-    () => rows.map(r => ({ ...r, prize: prizeByRank[r.rank] ?? 0 })),
-    [rows, prizeByRank]
-  );
+  React.useEffect(() => {
+    setShowHistory(false);
+  }, [activeLeaderboard]);
 
-  // --- 6) Layout slices + countdown values ---
-  const top3 = viewRows.slice(0, 3);      // [1st, 2nd, 3rd]
-  const rest = viewRows.slice(3, 15);     // 4..15
+  const activeConfig =
+    leaderboardConfigs.find((cfg) => cfg.id === activeLeaderboard) ?? leaderboardConfigs[0];
+
+  const activeSlice = activeConfig ? leaderboardState[activeConfig.id] : undefined;
+  const activeRows = activeSlice?.rows ?? [];
+  const isLoading = activeSlice?.loading ?? false;
+  const activeError = activeSlice?.error ?? "";
+  const historyRows = activeSlice?.historyRows ?? [];
+  const historyRange = activeSlice?.historyRange ?? { start: "", end: "" };
+  const historyLoading = activeSlice?.historyLoading ?? false;
+
+  const top3 = activeRows.slice(0, 3); // [1st, 2nd, 3rd]
+  const rest = activeRows.slice(3, 15); // 4..15
   const { days, hours, minutes, seconds } = useLeaderboardCountdown();
 
   return (
     <section className="relative z-20 py-16 px-6">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        {error && (
+        {activeError && (
           <div className="mb-4 text-sm text-yellow-300 opacity-80">
-            {error}
+            {activeError}
           </div>
         )}
 
-        {loading ? (
+        {isLoading ? (
           <div className="text-white/70">Loading leaderboard…</div>
         ) : (
           <>
             {/* Title stays up top */}
-            <header className="mb-6 flex items-center justify-center gap-4">
-              <h1 className="text-3xl md:text-4xl font-extrabold text-white" style={{ textShadow: `0 0 45px ${BRAND_PRIMARY}55` }}>
-                Current Leaderboard
-              </h1>
-              <button
-                onClick={() => setShowHistory(true)}
-                className="text-xs px-3 py-1 rounded-full border text-white/80 hover:text-white"
-                style={{ borderColor: `${BRAND_PRIMARY}aa` }}
-              >
-                History
-              </button>
+            <header className="mb-6 flex flex-col items-center gap-3 text-center">
+              <div className="flex flex-wrap items-center justify-center gap-4">
+                <h1 className="text-3xl md:text-4xl font-extrabold text-white" style={{ textShadow: `0 0 45px ${BRAND_PRIMARY}55` }}>
+                  Current Leaderboard
+                </h1>
+                <button
+                  type="button"
+                  onClick={() => setShowHistory(true)}
+                  aria-expanded={showHistory}
+                  aria-label={`View ${activeConfig?.name ?? 'current'} leaderboard history`}
+                  className="text-xs px-3 py-1 rounded-full border text-white/80 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black focus-visible:ring-white/80"
+                  style={{ borderColor: `${BRAND_PRIMARY}aa` }}
+                >
+                  History
+                </button>
+              </div>
+              {activeConfig && (
+                <span className="text-xs uppercase tracking-[0.4em] text-white/60">
+                  {activeConfig.name}
+                </span>
+              )}
             </header>
+
+            <div className="mb-8">
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                {leaderboardConfigs.map((cfg) => {
+                  const isActive = cfg.id === (activeConfig?.id ?? activeLeaderboard);
+                  return (
+                    <motion.button
+                      key={cfg.id}
+                      type="button"
+                      onClick={() => setActiveLeaderboard(cfg.id)}
+                      aria-pressed={isActive}
+                      aria-label={`${cfg.name} leaderboard`}
+                      className={`relative flex items-center gap-3 rounded-full border px-4 py-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black focus-visible:ring-white/80 ${
+                        isActive
+                          ? "bg-white/15 border-white/40 text-white shadow-[0_0_30px_rgba(249,115,22,0.45)]"
+                          : "bg-white/[0.04] border-white/10 text-white/70 hover:text-white hover:border-white/30"
+                      }`}
+                      whileTap={{ scale: 0.97 }}
+                    >
+                      <img
+                        src={cfg.logo}
+                        alt=""
+                        aria-hidden="true"
+                        className="h-9 w-9 rounded-full object-contain shadow-inner shadow-black/40"
+                      />
+                      <span className="text-sm font-semibold tracking-wide uppercase">{cfg.name}</span>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </div>
 
             {/* Podium (1 / 2 / 3 on mobile, 2 / 1 / 3 on desktop) */}
             <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-4">
@@ -783,7 +975,7 @@ function LeaderboardsPage() {
 
             {showHistory && (
               <HistoryModal
-                rows={historyData}
+                rows={historyRows}
                 range={historyRange}
                 loading={historyLoading}
                 onClose={() => setShowHistory(false)}

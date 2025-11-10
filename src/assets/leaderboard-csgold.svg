@@ -1,0 +1,13 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title>CsGold Logo</title>
+  <defs>
+    <linearGradient id="cg-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fcd34d" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="100" height="100" rx="24" fill="#111827" />
+  <path d="M60 22l34 19v38l-34 19-34-19V41l34-19z" fill="url(#cg-gradient)" />
+  <path d="M60 40c-11.046 0-20 8.954-20 20s8.954 20 20 20c7.732 0 14.48-4.373 17.86-10.8l-8.96-4.99C66.99 67.66 63.8 70 60 70c-5.523 0-10-4.477-10-10s4.477-10 10-10c3.85 0 7.18 2.21 8.9 5.42l9-4.84C74.71 44.19 67.95 40 60 40z" fill="#111827" opacity="0.9" />
+  <path d="M48 66h24v-12H48v-8h28V36H40v36h36V62H48z" fill="#111827" />
+</svg>
