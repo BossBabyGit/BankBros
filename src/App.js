@@ -201,7 +201,7 @@ function Navbar() {
 
           <div className="hidden md:flex items-center gap-3">
             <a
-              href="https://discord.gg/bankbros"
+              href="https://discord.gg/Web23tM2gB"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white/80 hover:text-white hover:border-white/40"
@@ -239,22 +239,13 @@ function Navbar() {
             </div>
             <div className="mt-4 flex items-center gap-3 text-white/80">
               <a
-                href="https://discord.gg/bankbros"
+                href="https://discord.gg/Web23tM2gB"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-widest"
               >
                 <DiscordIcon size={18} />
                 Join Discord
-              </a>
-              <a
-                href="https://www.instagram.com/bankbros"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10"
-              >
-                <Instagram size={18} />
               </a>
             </div>
           </div>
@@ -285,16 +276,14 @@ function Footer() {
                 <div className="text-xl font-bold tracking-tight" style={{ color: BRAND_PRIMARY }}>
                   BankBros Rewards
                 </div>
-                <div className="text-xs uppercase tracking-[0.3em] text-amber-200/70">EST. 2024</div>
               </div>
             </div>
             <p className="text-sm text-slate-300/80">
-              A forward-looking rewards club crafted for our community of grinders. Daily drops, real-time leaderboards, and
-              VIP experiences built around transparency.
+              Play responsibly. BankBros does not assume responsibility for any losses incurred while wagering.
             </p>
             <div className="flex flex-wrap gap-3">
               <a
-                href="https://discord.gg/bankbros"
+                href="https://discord.gg/Web23tM2gB"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white/90 hover:bg-white/20"
@@ -303,7 +292,7 @@ function Footer() {
                 Join the Lounge
               </a>
               <a
-                href="https://kick.com/bankbros"
+                href="https://kick.com/bankroll-bros"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white/70 hover:text-white"
@@ -323,31 +312,14 @@ function Footer() {
           <FooterCol
             title="Connect"
             links={[
-              { label: "Discord", href: "https://discord.gg/bankbros" },
-              { label: "Kick", href: "https://kick.com/bankbros" },
-              { label: "Instagram", href: "https://www.instagram.com/bankbros" },
+              { label: "Discord", href: "https://discord.gg/Web23tM2gB" },
+              { label: "Kick", href: "https://kick.com/bankroll-bros" },
               { label: "X", href: "https://twitter.com/bankbros" },
             ]}
           />
         </div>
         <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-slate-500/80 md:flex-row md:items-center md:justify-between">
           <div>© {new Date().getFullYear()} BankBros Rewards. All rights reserved.</div>
-          <div className="flex gap-4">
-            <a href="https://bankbros.vercel.app/terms" className="hover:text-white" target="_blank" rel="noopener noreferrer">
-              Terms
-            </a>
-            <a href="https://bankbros.vercel.app/privacy" className="hover:text-white" target="_blank" rel="noopener noreferrer">
-              Privacy
-            </a>
-            <a
-              href="https://bankbros.vercel.app/responsible-play"
-              className="hover:text-white"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Responsible Play
-            </a>
-          </div>
         </div>
       </div>
     </footer>
@@ -436,8 +408,7 @@ function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.7 }}
             >
-              Track wagers in real time, climb the leaderboard, and tap into seasonal drops curated for the BankBros family. The
-              club you know—now sharper, darker, and dialed for loyalty.
+             Earn your spot on the Leaderboards, unlock exclusive Rewards, and enjoy Seasonal drops tailored for the BankBros Community.
             </motion.p>
 
             <motion.div
@@ -447,9 +418,9 @@ function HomePage() {
               transition={{ delay: 0.25, duration: 0.7 }}
             >
               {[
-                { label: "Active Players", value: "1.4K" },
-                { label: "Season Rewards", value: "$8.5K" },
-                { label: "Daily Drops", value: "3" },
+                { label: "Active Community", value: "200+" },
+                { label: "Weekly Rewards", value: "$500" },
+                { label: "Daily Stream", value: "KICK.COM" },
               ].map((s) => (
                 <div
                   key={s.label}
@@ -477,7 +448,7 @@ function HomePage() {
                 <Trophy size={18} /> View Live Leaderboard
               </a>
               <a
-                href="https://discord.gg/bankbros"
+                href="https://discord.gg/Web23tM2gB"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-amber-500/30 px-8 py-3 text-base font-semibold text-white/80 transition hover:text-white hover:border-amber-400"
@@ -493,13 +464,13 @@ function HomePage() {
               transition={{ delay: 0.45, duration: 0.7 }}
             >
               <div className="inline-flex items-center gap-2">
-                <ShieldCheck size={14} style={{ color: BRAND_PRIMARY }} /> Verified payouts
+                <ShieldCheck size={14} style={{ color: BRAND_PRIMARY }} /> Fast Payouts
               </div>
               <div className="inline-flex items-center gap-2">
-                <Timer size={14} style={{ color: BRAND_PRIMARY }} /> Reset every 14 days
+                <Timer size={14} style={{ color: BRAND_PRIMARY }} /> Reset every 7 days
               </div>
               <div className="inline-flex items-center gap-2">
-                <Users size={14} style={{ color: BRAND_PRIMARY }} /> Community-first support
+                <Users size={14} style={{ color: BRAND_PRIMARY }} /> Community-first
               </div>
             </motion.div>
           </div>
@@ -507,49 +478,31 @@ function HomePage() {
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
+      {/* LEADERBOARD */}
       <section className="relative z-20 px-6 pb-24">
         <div className="mx-auto max-w-6xl rounded-[32px] border border-white/10 bg-white/[0.04] px-8 py-14 backdrop-blur-xl">
           <div className="grid gap-12 lg:grid-cols-[1.1fr,0.9fr] lg:items-center">
             <div>
               <h2 className="text-3xl font-black text-white sm:text-4xl">
-                A transparent climb from your first wager to the champions lounge
+                Leaderboards
               </h2>
               <p className="mt-4 text-base text-slate-300/90">
-                We’ve rebuilt the BankBros experience with clarity front and center. Connect your account, play on our partner
-                sites, and watch the leaderboard respond instantly.
+                Climb the ranks by wagering on our partnered casinos using the code
+                <span className="text-amber-400 font-semibold"> “BankBros”</span>.
+                Every tracked bet pushes you up the leaderboard for a shot at cash,
+                merch, and exclusive drops. Compete live, rise fast, and lock in your spot among the BankBros elite.
               </p>
-              <div className="mt-8 space-y-5">
-                {[
-                  {
-                    icon: <ShieldCheck size={18} />,
-                    title: "Connect & verify",
-                    desc: "Use our secure tracked links and promo code so every wager is captured in your personal feed.",
-                  },
-                  {
-                    icon: <Trophy size={18} />,
-                    title: "Compete for tiers",
-                    desc: "Rise through five prize tiers with escalating cash, merch, and IRL experience drops.",
-                  },
-                  {
-                    icon: <Sparkles size={18} />,
-                    title: "Unlock bonuses",
-                    desc: "Milestone chests, surprise blitz events, and co-op missions keep the grind fresh.",
-                  },
-                ].map((item) => (
-                  <BadgeCard key={item.title} icon={item.icon} title={item.title} desc={item.desc} />
-                ))}
-              </div>
+      
               <div className="mt-8 flex flex-wrap gap-3 text-xs uppercase tracking-[0.3em] text-slate-400">
-                <a href="#/" className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 px-4 py-2 text-white/80 transition hover:text-white hover:border-amber-400">
-                  <Timer size={14} /> View FAQ
-                </a>
-                <a href="#/leaderboards" className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 px-4 py-2 text-white/80 transition hover:text-white hover:border-amber-400">
+                <a
+                  href="#/leaderboards"
+                  className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 px-4 py-2 text-white/80 transition hover:text-white hover:border-amber-400"
+                >
                   <ExternalLink size={14} /> Open Leaderboard
                 </a>
               </div>
             </div>
-
+      
             <div className="rounded-[28px] border border-amber-500/15 bg-black/60 p-6 shadow-[0_30px_110px_-60px_rgba(217,119,6,0.7)]">
               <div className="mb-5 flex items-center justify-between text-xs uppercase tracking-[0.35em] text-white/50">
                 <span>Snapshot</span>
@@ -559,81 +512,6 @@ function HomePage() {
                 <LeaderboardPreview />
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* COMMUNITY */}
-      <section className="relative z-20 px-6 pb-12">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h3 className="text-3xl font-black text-white sm:text-4xl">Where the collective hangs out</h3>
-              <p className="mt-2 max-w-xl text-sm text-slate-300/80">
-                Tune into our broadcasts, hop into strategy chats, or scroll highlights from the community. Every space has a
-                dedicated crew keeping things on-brand.
-              </p>
-            </div>
-            <a
-              href="https://discord.gg/bankbros"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-white/80 transition hover:text-white hover:border-amber-400"
-            >
-              <ExternalLink size={14} /> All Channels
-            </a>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-3">
-            {[
-              {
-                title: "Kick Broadcast",
-                desc: "Watch live bankrolls, giveaways, and community challenges twice a week.",
-                href: "https://kick.com/bankbros",
-                icon: <Play size={18} />,
-                tag: "Streaming",
-              },
-              {
-                title: "Discord Lounge",
-                desc: "Drop receipts, track leaderboards, and vibe with the squad in themed channels.",
-                href: "https://discord.gg/bankbros",
-                icon: <MessageCircle size={18} />,
-                tag: "Community",
-              },
-              {
-                title: "Highlights on X",
-                desc: "Instant updates on winners, collabs, and flash missions.",
-                href: "https://x.com/bankbros",
-                icon: <Twitter size={18} />,
-                tag: "News",
-              },
-            ].map((item) => (
-              <a
-                key={item.title}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative overflow-hidden rounded-[28px] border border-amber-500/15 bg-white/[0.05] p-6 transition hover:border-amber-400/60"
-                style={{ boxShadow: "0 35px 120px -60px rgba(217,119,6,0.65)" }}
-              >
-                <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ backgroundImage: BRAND_GRADIENT, mixBlendMode: "soft-light" }} />
-                <div className="relative flex flex-col gap-5">
-                  <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-white/70">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-white/70">
-                      {item.icon}
-                    </span>
-                    {item.tag}
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold text-white">{item.title}</h4>
-                    <p className="mt-2 text-sm text-slate-300/80">{item.desc}</p>
-                  </div>
-                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-white/80">
-                    Enter space <ChevronDown className="-rotate-90" size={16} />
-                  </span>
-                </div>
-              </a>
-            ))}
           </div>
         </div>
       </section>
@@ -662,21 +540,21 @@ function LeaderboardsPage() {
   // --- 1) Hardcoded fallback (kept simple; prize = 0 so mapping is the source of truth) ---
   const FALLBACK = React.useMemo(
     () => ([
-      { rank: 1,  name: "BossBaby", wagered: 342130.32, prize: 0 },
-      { rank: 2,  name: "BossBaby", wagered: 298220.18, prize: 0 },
-      { rank: 3,  name: "BossBaby", wagered: 251980.55, prize: 0 },
-      { rank: 4,  name: "BossBaby", wagered: 203140.00, prize: 0 },
-      { rank: 5,  name: "BossBaby", wagered: 181120.45, prize: 0 },
-      { rank: 6,  name: "BossBaby", wagered: 166780.12, prize: 0 },
-      { rank: 7,  name: "BossBaby", wagered: 154210.00, prize: 0 },
-      { rank: 8,  name: "BossBaby", wagered: 141033.47, prize: 0 },
-      { rank: 9,  name: "BossBaby", wagered: 132440.87, prize: 0 },
-      { rank: 10, name: "BossBaby", wagered: 120008.03, prize: 0 },
-      { rank: 11, name: "BossBaby", wagered: 110000.00, prize: 0 },
-      { rank: 12, name: "BossBaby", wagered: 100000.00, prize: 0 },
-      { rank: 13, name: "BossBaby", wagered:  90000.00, prize: 0 },
-      { rank: 14, name: "BossBaby", wagered:  80000.00, prize: 0 },
-      { rank: 15, name: "BossBaby", wagered:  70000.00, prize: 0 },
+      { rank: 1,  name: "BossBaby", wagered: 3430.32, prize: 0 },
+      { rank: 2,  name: "BossBaby", wagered: 2980.18, prize: 0 },
+      { rank: 3,  name: "BossBaby", wagered: 2510.55, prize: 0 },
+      { rank: 4,  name: "BossBaby", wagered: 2040.00, prize: 0 },
+      { rank: 5,  name: "BossBaby", wagered: 1810.45, prize: 0 },
+      { rank: 6,  name: "BossBaby", wagered: 1660.12, prize: 0 },
+      { rank: 7,  name: "BossBaby", wagered: 1510.00, prize: 0 },
+      { rank: 8,  name: "BossBaby", wagered: 1433.47, prize: 0 },
+      { rank: 9,  name: "BossBaby", wagered: 1320.87, prize: 0 },
+      { rank: 10, name: "BossBaby", wagered: 1208.03, prize: 0 },
+      { rank: 11, name: "BossBaby", wagered: 1100.00, prize: 0 },
+      { rank: 12, name: "BossBaby", wagered: 1000.00, prize: 0 },
+      { rank: 13, name: "BossBaby", wagered:  900.00, prize: 0 },
+      { rank: 14, name: "BossBaby", wagered:  800.00, prize: 0 },
+      { rank: 15, name: "BossBaby", wagered:  700.00, prize: 0 },
     ]),
     []
   );
@@ -1198,8 +1076,8 @@ function Accordion({ question, answer, defaultOpen }) {
 }
 
 const faqItems = [
-  { q: "How do I climb the Leaderboards?", a: "Sign up with code BANKBROS and you will automatically be entered into the Leaderboards. Each $ wagered gets added to the Leaderboard." },
-  { q: "When are prizes paid?", a: "Payouts for Leaderboards occur within 72 hours after the leaderboard locks. Instant drops and weekly promos are credited as advertised." },
-  { q: "Is there an entry fee?", a: "No entry fees. Participation is free — just play on partnered sites via BankBros to track your stats." },
+  { q: "How do I climb the Leaderboards?", a: "Sign up with code BankBros and you will automatically be entered into the Leaderboards. Each $ wagered gets added to the Leaderboard." },
+  { q: "When are prizes paid?", a: "Payouts for Leaderboards occur within 72 hours after the leaderboard locks." },
+  { q: "Is there an entry fee?", a: "No entry fees. Participation is free, just play on partnered sites via BankBros to track your stats." },
   { q: "How do you prevent abuse?", a: "We flag suspicious wager patterns, collusion, and risk-free loops. Violations may lead to point removal or disqualification." },
 ];
