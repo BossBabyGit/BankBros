@@ -370,7 +370,7 @@ function Navbar() {
             </div>
             <div>
               <div className="text-lg font-semibold tracking-tight" style={{ color: BRAND_PRIMARY }}>
-                BankBros Rewards
+                BankBros
               </div>
             </div>
           </div>

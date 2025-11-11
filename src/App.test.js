@@ -4,7 +4,7 @@ import App from './App';
 // jsdom doesn't implement canvas; mock getContext to avoid errors
 HTMLCanvasElement.prototype.getContext = () => {};
 
-test('renders BankBros Rewards brand', () => {
+test('renders BankBros brand', () => {
   render(<App />);
-  expect(screen.getAllByText(/BankBros Rewards/i).length).toBeGreaterThan(0);
+  expect(screen.getAllByText(/BankBros/i).length).toBeGreaterThan(0);
 });
