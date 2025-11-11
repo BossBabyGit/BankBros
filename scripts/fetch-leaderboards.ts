@@ -11,16 +11,16 @@ const DEFAULT_TIMEOUT_MS = 15_000;
 const SCHEMA_VERSION = 1;
 
 const DEJEN_PRIZE_LADDER = [
-  { rank: 1, amount: 1100, currency: 'USD', label: '$1,100 cash' },
-  { rank: 2, amount: 750, currency: 'USD', label: '$750 cash' },
-  { rank: 3, amount: 500, currency: 'USD', label: '$500 cash' },
-  { rank: 4, amount: 275, currency: 'USD', label: '$275 cash' },
-  { rank: 5, amount: 150, currency: 'USD', label: '$150 cash' },
-  { rank: 6, amount: 100, currency: 'USD', label: '$100 cash' },
-  { rank: 7, amount: 75, currency: 'USD', label: '$75 cash' },
-  { rank: 8, amount: 50, currency: 'USD', label: '$50 cash' },
-  { rank: 9, amount: 30, currency: 'USD', label: '$30 cash' },
-  { rank: 10, amount: 20, currency: 'USD', label: '$20 cash' },
+  { rank: 1, amount: 105000, currency: 'USD', label: '$105,000 cash' },
+  { rank: 2, amount: 75000, currency: 'USD', label: '$75,000 cash' },
+  { rank: 3, amount: 50000, currency: 'USD', label: '$50,000 cash' },
+  { rank: 4, amount: 27500, currency: 'USD', label: '$27,500 cash' },
+  { rank: 5, amount: 15000, currency: 'USD', label: '$15,000 cash' },
+  { rank: 6, amount: 10000, currency: 'USD', label: '$10,000 cash' },
+  { rank: 7, amount: 7500, currency: 'USD', label: '$7,500 cash' },
+  { rank: 8, amount: 5000, currency: 'USD', label: '$5,000 cash' },
+  { rank: 9, amount: 3000, currency: 'USD', label: '$3,000 cash' },
+  { rank: 10, amount: 2000, currency: 'USD', label: '$2,000 cash' },
 ];
 
 const CSGOLD_PRIZE_LADDER = [

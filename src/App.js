@@ -100,32 +100,25 @@ function applyPrizeLadder(rows, prizeLadder) {
 }
 
 const DEJEN_PRIZE_LADDER = Object.freeze({
-  1: 1100,
-  2: 750,
-  3: 500,
-  4: 275,
-  5: 150,
-  6: 100,
-  7: 75,
-  8: 50,
-  9: 30,
-  10: 20,
+  1: 105000,
+  2: 75000,
+  3: 50000,
+  4: 27500,
+  5: 15000,
+  6: 10000,
+  7: 7500,
+  8: 5000,
+  9: 3000,
+  10: 2000,
 });
 
 const DEJEN_FALLBACK = Object.freeze(
   normalizeLeaderboardRows(
-    [
-      { rank: 1, name: "BossBaby", wagered: 3430.32 },
-      { rank: 2, name: "BossBaby", wagered: 2980.18 },
-      { rank: 3, name: "BossBaby", wagered: 2510.55 },
-      { rank: 4, name: "BossBaby", wagered: 2040.0 },
-      { rank: 5, name: "BossBaby", wagered: 1810.45 },
-      { rank: 6, name: "BossBaby", wagered: 1660.12 },
-      { rank: 7, name: "BossBaby", wagered: 1510.0 },
-      { rank: 8, name: "BossBaby", wagered: 1433.47 },
-      { rank: 9, name: "BossBaby", wagered: 1320.87 },
-      { rank: 10, name: "BossBaby", wagered: 1208.03 },
-    ],
+    Array.from({ length: 10 }, (_, index) => ({
+      rank: index + 1,
+      name: "—",
+      wagered: 0,
+    })),
     DEJEN_PRIZE_LADDER
   )
 );
@@ -165,6 +158,7 @@ const LEADERBOARD_CONFIGS = [
   {
     id: "dejen",
     name: "Dejen",
+    buttonLabel: "Dejen Leaderboard",
     logo: dejenLogo,
     topUrl: "/data/dejen-leaderboard.json",
     historyUrl: null,
@@ -178,6 +172,7 @@ const LEADERBOARD_CONFIGS = [
   {
     id: "csgold",
     name: "CsGold",
+    buttonLabel: "CsGold Leaderboard",
     logo: csgoldLogo,
     topUrl: "/data/csgold-leaderboard.json",
     historyUrl: null,
@@ -923,7 +918,7 @@ function LeaderboardsPage() {
                       type="button"
                       onClick={() => setActiveLeaderboard(cfg.id)}
                       aria-pressed={isActive}
-                      aria-label={`${cfg.name} leaderboard`}
+                      aria-label={cfg.buttonLabel ?? cfg.name}
                       className={`relative flex items-center gap-3 rounded-full border px-4 py-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black focus-visible:ring-white/80 ${
                         isActive
                           ? "bg-white/15 border-white/40 text-white shadow-[0_0_30px_rgba(249,115,22,0.45)]"
@@ -937,7 +932,7 @@ function LeaderboardsPage() {
                         aria-hidden="true"
                         className="h-9 w-9 rounded-full object-contain shadow-inner shadow-black/40"
                       />
-                      <span className="text-sm font-semibold tracking-wide uppercase">{cfg.name}</span>
+                      <span className="text-sm font-semibold tracking-wide uppercase">{cfg.buttonLabel ?? cfg.name}</span>
                     </motion.button>
                   );
                 })}
@@ -1180,7 +1175,7 @@ function formatMoney(n) {
 function LeaderboardPreview() {
   // prize ladder for the preview (top 5 only)
   const prizeByRank = useMemo(
-    () => ({ 1: 1100, 2: 750, 3: 500, 4: 275, 5: 150 }),
+    () => ({ 1: 105000, 2: 75000, 3: 50000, 4: 27500, 5: 15000 }),
     []
   );
 
