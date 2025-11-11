@@ -282,7 +282,7 @@ async function fetchDejenLeaderboard(raceId) {
 
 async function fetchCsGoldLeaderboard(apiKey) {
   const base = process.env.CSGOLD_BASE_URL ?? 'https://api.csgold.gg';
-  const leaderboardId = process.env.CSGOLD_LEADERBOARD_ID ?? 'bankbros';
+  const leaderboardId = process.env.CSGOLD_LEADERBOARD_ID ?? 'csgold';
   const candidatePaths = [
     `/api/leaderboards/${leaderboardId}`,
     `/api/leaderboard/${leaderboardId}`,
@@ -364,7 +364,9 @@ async function main() {
   const csGoldApiKey = process.env.CSGOLD_API_KEY;
 
   if (!dejenRaceId && !csGoldApiKey) {
-    throw new Error('Missing DEJEN_RACE_ID and CSGOLD_API_KEY – set at least one to update leaderboards.');
+    console.warn('Missing DEJEN_RACE_ID and CSGOLD_API_KEY – nothing to update.');
+    console.warn('Configure at least one credential to refresh leaderboard data.');
+    return;
   }
 
   await ensureDataDirectory();
@@ -383,14 +385,18 @@ async function main() {
   if (csGoldApiKey) {
     const csGold = await fetchCsGoldLeaderboard(csGoldApiKey);
     writes.push(writeJsonFile('csgold-leaderboard.json', csGold));
-    summary.csGold = csGold.rows.length;
+    summary.csgold = csGold.rows.length;
   } else {
     console.warn('Skipping CsGold leaderboard fetch – CSGOLD_API_KEY not configured.');
   }
 
   await Promise.all(writes);
 
-  console.log('Leaderboards updated:', summary);
+  if (writes.length > 0) {
+    console.log('Leaderboards updated:', summary);
+  } else {
+    console.log('No leaderboards were updated.');
+  }
 }
 
 main().catch((error) => {

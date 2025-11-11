@@ -24,8 +24,8 @@
   ],
   "metadata": {
     "source": "seed",
-    "leaderboardId": "bankbros",
-    "resolvedUrl": "https://api.csgold.gg/leaderboards/bankbros",
+    "leaderboardId": "csgold",
+    "resolvedUrl": "https://api.csgold.gg/leaderboards/csgold",
     "fetchedAt": "2025-11-07T01:00:01Z",
     "note": "Seed data bundled with the app. Run scripts/fetch-leaderboards.ts to refresh."
   }
