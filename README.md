@@ -27,6 +27,9 @@ the upstream data sources:
 
 - `DEJEN_RACE_ID`: The race identifier used when querying the Dejen leaderboard
   API.
+- `DEJEN_API_KEY` (optional but recommended): The credential provided by Dejen
+  for accessing leaderboard data. It is sent as both a bearer token and
+  `x-api-key` header so either authentication scheme is covered.
 - `CSGOLD_API_KEY`: The CsGold API token with permission to read leaderboard
   data.
 
@@ -37,7 +40,8 @@ environment if the upstream endpoints change.
 ### Running the script locally
 
 1. Copy `.env.example` to `.env` (create the file if it does not exist) and set
-   `DEJEN_RACE_ID` and `CSGOLD_API_KEY` with valid credentials.
+   `DEJEN_RACE_ID`, `DEJEN_API_KEY` (if required), and `CSGOLD_API_KEY` with
+   valid credentials.
 2. Install dependencies with `npm install` (requires Node.js 22 or later).
 3. Run `npm run fetch-leaderboards` to regenerate the JSON files in
    `public/data/`.

@@ -247,33 +247,70 @@ async function fetchDejenLeaderboard(raceId) {
     `/public/races/${raceId}`,
     `/api/races/${raceId}/leaderboard`,
     `/api/races/${raceId}`,
+    `/api/v1/races/${raceId}/leaderboard`,
+    `/api/v1/races/${raceId}`,
+    `/leaderboards/${raceId}`,
+    `/api/leaderboards/${raceId}`,
+    `/api/v1/leaderboards/${raceId}`,
   ];
 
-  const headers = { Accept: 'application/json' };
+  const queryVariants = [
+    undefined,
+    { 'page[size]': '100' },
+    { limit: '100' },
+    { per_page: '100' },
+    { include: 'leaderboardEntries' },
+    { include: 'leaderboardEntries', 'page[size]': '100' },
+    { include: 'leaderboardEntries', limit: '100' },
+    { include: 'leaderboardEntries', per_page: '100' },
+  ];
+
+  const authToken = process.env.DEJEN_API_KEY ?? process.env.DEJEN_BEARER ?? process.env.DEJEN_TOKEN;
+  const headers: Record<string, string> = {
+    Accept: 'application/json',
+    'User-Agent': 'BankBrosLeaderboard/1.0',
+  };
+
+  if (authToken) {
+    headers.Authorization = `Bearer ${authToken}`;
+    headers['x-api-key'] = authToken;
+  }
+
   let lastError;
+  const attempted = new Set<string>();
 
   for (const pathCandidate of candidatePaths) {
-    const url = new URL(pathCandidate, base);
-    try {
-      const payload = await fetchJson(url.toString(), { headers });
-      const entries = findLeaderboardEntries(payload);
-      if (!entries) throw new Error('Unable to locate leaderboard entries in response');
-      const { rows, prizes } = normalizeEntries(entries, DEJEN_PRIZE_LADDER);
-      return {
-        schemaVersion: SCHEMA_VERSION,
-        rows,
-        prizes,
-        metadata: {
-          source: 'dejen',
-          raceId,
-          resolvedUrl: url.toString(),
-          baseUrl: base,
-          fetchedAt: new Date().toISOString(),
-          rawCount: Array.isArray(entries) ? entries.length : 0,
-        },
-      };
-    } catch (error) {
-      lastError = error;
+    for (const params of queryVariants) {
+      const url = new URL(pathCandidate, base);
+      if (params) {
+        for (const [key, value] of Object.entries(params)) {
+          url.searchParams.set(key, value);
+        }
+      }
+      const serialized = url.toString();
+      if (attempted.has(serialized)) continue;
+      attempted.add(serialized);
+      try {
+        const payload = await fetchJson(serialized, { headers });
+        const entries = findLeaderboardEntries(payload);
+        if (!entries) throw new Error('Unable to locate leaderboard entries in response');
+        const { rows, prizes } = normalizeEntries(entries, DEJEN_PRIZE_LADDER);
+        return {
+          schemaVersion: SCHEMA_VERSION,
+          rows,
+          prizes,
+          metadata: {
+            source: 'dejen',
+            raceId,
+            resolvedUrl: serialized,
+            baseUrl: base,
+            fetchedAt: new Date().toISOString(),
+            rawCount: Array.isArray(entries) ? entries.length : 0,
+          },
+        };
+      } catch (error) {
+        lastError = error;
+      }
     }
   }
 
