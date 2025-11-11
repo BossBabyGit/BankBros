@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Sparkles, Trophy, ShieldCheck, MessageCircle, Play, ExternalLink, Timer, Users } from "lucide-react";
 import useLeaderboardCountdown from "./useLeaderboardCountdown";
-import bankbrosLogo from "./assets/leaderboard-bankbros.svg";
+import dejenLogo from "./assets/leaderboard-dejen.svg";
 import csgoldLogo from "./assets/leaderboard-csgold.svg";
 
 // —— Brand Tokens ——
@@ -99,7 +99,7 @@ function applyPrizeLadder(rows, prizeLadder) {
   return normalizeLeaderboardRows(rows, prizeLadder);
 }
 
-const BANKBROS_PRIZE_LADDER = Object.freeze({
+const DEJEN_PRIZE_LADDER = Object.freeze({
   1: 1100,
   2: 750,
   3: 500,
@@ -112,7 +112,7 @@ const BANKBROS_PRIZE_LADDER = Object.freeze({
   10: 20,
 });
 
-const BANKBROS_FALLBACK = Object.freeze(
+const DEJEN_FALLBACK = Object.freeze(
   normalizeLeaderboardRows(
     [
       { rank: 1, name: "BossBaby", wagered: 3430.32 },
@@ -126,7 +126,7 @@ const BANKBROS_FALLBACK = Object.freeze(
       { rank: 9, name: "BossBaby", wagered: 1320.87 },
       { rank: 10, name: "BossBaby", wagered: 1208.03 },
     ],
-    BANKBROS_PRIZE_LADDER
+    DEJEN_PRIZE_LADDER
   )
 );
 
@@ -163,16 +163,16 @@ const CSGOLD_FALLBACK = Object.freeze(
 
 const LEADERBOARD_CONFIGS = [
   {
-    id: "bankbros",
-    name: "BankBros",
-    logo: bankbrosLogo,
-    topUrl: "/data/bankbros-leaderboard.json",
+    id: "dejen",
+    name: "Dejen",
+    logo: dejenLogo,
+    topUrl: "/data/dejen-leaderboard.json",
     historyUrl: null,
-    fallback: BANKBROS_FALLBACK,
-    prizes: BANKBROS_PRIZE_LADDER,
+    fallback: DEJEN_FALLBACK,
+    prizes: DEJEN_PRIZE_LADDER,
     messages: {
-      empty: "No live BankBros data yet – showing sample data.",
-      error: "Couldn’t load BankBros data – showing sample data.",
+      empty: "No live Dejen data yet – showing sample data.",
+      error: "Couldn’t load Dejen data – showing sample data.",
     },
   },
   {
@@ -1187,7 +1187,7 @@ function LeaderboardPreview() {
   // fallback in case the API is unreachable
   const FALLBACK = useMemo(
     () =>
-      BANKBROS_FALLBACK.slice(0, 5).map((row) => ({
+      DEJEN_FALLBACK.slice(0, 5).map((row) => ({
         rank: row.rank,
         user: row.name,
         points: row.wagered,
@@ -1202,7 +1202,7 @@ function LeaderboardPreview() {
     let alive = true;
     (async () => {
       try {
-        const r = await fetch("/data/bankbros-leaderboard.json", {
+        const r = await fetch("/data/dejen-leaderboard.json", {
           headers: { Accept: "application/json" },
         });
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
