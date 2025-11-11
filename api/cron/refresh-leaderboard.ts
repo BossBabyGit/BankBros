@@ -1,4 +1,4 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+import type { VercelRequest, VercelResponse } from '../../lib/vercel-types';
 import { ensureSchema, upsertEntry } from '../../lib/db';
 
 // Fixed periods instead of calculated ones
