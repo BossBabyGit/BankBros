@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "rows": [
+    { "rank": 1, "username": "AuricAce", "wagered": 4210.12 },
+    { "rank": 2, "username": "GlintKing", "wagered": 3785.55 },
+    { "rank": 3, "username": "Goldrush", "wagered": 3320.4 },
+    { "rank": 4, "username": "Bullionaire", "wagered": 2888.22 },
+    { "rank": 5, "username": "MintedMax", "wagered": 2510.75 },
+    { "rank": 6, "username": "TokenTact", "wagered": 2304.65 },
+    { "rank": 7, "username": "ShimmerSol", "wagered": 2100.33 },
+    { "rank": 8, "username": "CacheQueen", "wagered": 1995.9 },
+    { "rank": 9, "username": "GildedGuru", "wagered": 1850.11 },
+    { "rank": 10, "username": "LuxeLink", "wagered": 1705.45 }
+  ],
+  "prizes": [
+    { "rank": 1, "amount": 500, "currency": "USD", "label": "$500 cash" },
+    { "rank": 2, "amount": 350, "currency": "USD", "label": "$350 cash" },
+    { "rank": 3, "amount": 200, "currency": "USD", "label": "$200 cash" },
+    { "rank": 4, "amount": 125, "currency": "USD", "label": "$125 cash" },
+    { "rank": 5, "amount": 100, "currency": "USD", "label": "$100 cash" },
+    { "rank": 6, "amount": 75, "currency": "USD", "label": "$75 cash" },
+    { "rank": 7, "amount": 50, "currency": "USD", "label": "$50 cash" },
+    { "rank": 8, "amount": 25, "currency": "USD", "label": "$25 cash" }
+  ],
+  "metadata": {
+    "source": "seed",
+    "leaderboardId": "bankbros",
+    "resolvedUrl": "https://api.csgold.gg/leaderboards/bankbros",
+    "fetchedAt": "2025-11-07T01:00:01Z",
+    "note": "Seed data bundled with the app. Run scripts/fetch-leaderboards.ts to refresh."
+  }
+}

@@ -32,92 +32,142 @@ const PODIUM_BRONZE = {
   glow: "rgba(205, 127, 50, 0.55)",
 };
 
+function coerceNumber(value, fallback = 0) {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string") {
+    const cleaned = value.replace(/[^0-9.,-]/g, "").replace(/,(?=\d{3}(\D|$))/g, "");
+    const parsed = Number.parseFloat(cleaned);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+  if (typeof value === "bigint") return Number(value);
+  return fallback;
+}
+
+function extractRowArray(payload) {
+  if (!payload) return [];
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload.rows)) return payload.rows;
+  if (Array.isArray(payload.items)) return payload.items;
+  if (Array.isArray(payload.data)) return payload.data;
+  if (Array.isArray(payload.leaderboard)) return payload.leaderboard;
+  if (Array.isArray(payload.entries)) return payload.entries;
+  return [];
+}
+
+function normalizeLeaderboardRows(payload, prizeLadder = {}) {
+  const rows = extractRowArray(payload);
+  const normalized = rows.map((row, index) => {
+    const rawRank = coerceNumber(row?.rank ?? row?.position ?? row?.place ?? row?.order ?? row?.index, Number.NaN);
+    const rank = Number.isFinite(rawRank) && rawRank > 0 ? rawRank : index + 1;
+    const name =
+      row?.name ??
+      row?.username ??
+      row?.user ??
+      row?.player ??
+      row?.displayName ??
+      row?.alias ??
+      `Player ${rank}`;
+    const wageredSource =
+      row?.wagered ??
+      row?.amount ??
+      row?.total ??
+      row?.points ??
+      row?.value ??
+      row?.volume ??
+      0;
+    const wagered = coerceNumber(wageredSource, 0);
+    const prizeSource =
+      (typeof row?.prize === "object" ? row?.prize?.amount ?? row?.prize?.value ?? row?.prize?.total : row?.prize) ??
+      row?.reward ??
+      row?.payout ??
+      row?.prizeAmount ??
+      0;
+    const basePrize = coerceNumber(prizeSource, 0);
+    const mappedPrize = prizeLadder?.[rank];
+    return {
+      rank,
+      name,
+      wagered,
+      prize: mappedPrize !== undefined ? mappedPrize : basePrize,
+    };
+  });
+  normalized.sort((a, b) => a.rank - b.rank);
+  return normalized;
+}
+
 function applyPrizeLadder(rows, prizeLadder) {
-  return (rows ?? []).map((row) => ({
-    ...row,
-    prize: prizeLadder?.[row.rank] ?? row.prize ?? 0,
-  }));
+  return normalizeLeaderboardRows(rows, prizeLadder);
 }
 
 const BANKBROS_PRIZE_LADDER = Object.freeze({
-  1: 175,
-  2: 125,
-  3: 100,
-  4: 80,
-  5: 65,
-  6: 55,
-  7: 0,
-  8: 0,
-  9: 0,
-  10: 0,
-  11: 0,
-  12: 0,
-  13: 0,
-  14: 0,
-  15: 0,
+  1: 1100,
+  2: 750,
+  3: 500,
+  4: 275,
+  5: 150,
+  6: 100,
+  7: 75,
+  8: 50,
+  9: 30,
+  10: 20,
 });
 
-const BANKBROS_FALLBACK = Object.freeze([
-  { rank: 1, name: "BossBaby", wagered: 3430.32, prize: 0 },
-  { rank: 2, name: "BossBaby", wagered: 2980.18, prize: 0 },
-  { rank: 3, name: "BossBaby", wagered: 2510.55, prize: 0 },
-  { rank: 4, name: "BossBaby", wagered: 2040.0, prize: 0 },
-  { rank: 5, name: "BossBaby", wagered: 1810.45, prize: 0 },
-  { rank: 6, name: "BossBaby", wagered: 1660.12, prize: 0 },
-  { rank: 7, name: "BossBaby", wagered: 1510.0, prize: 0 },
-  { rank: 8, name: "BossBaby", wagered: 1433.47, prize: 0 },
-  { rank: 9, name: "BossBaby", wagered: 1320.87, prize: 0 },
-  { rank: 10, name: "BossBaby", wagered: 1208.03, prize: 0 },
-  { rank: 11, name: "BossBaby", wagered: 1100.0, prize: 0 },
-  { rank: 12, name: "BossBaby", wagered: 1000.0, prize: 0 },
-  { rank: 13, name: "BossBaby", wagered: 900.0, prize: 0 },
-  { rank: 14, name: "BossBaby", wagered: 800.0, prize: 0 },
-  { rank: 15, name: "BossBaby", wagered: 700.0, prize: 0 },
-]);
+const BANKBROS_FALLBACK = Object.freeze(
+  normalizeLeaderboardRows(
+    [
+      { rank: 1, name: "BossBaby", wagered: 3430.32 },
+      { rank: 2, name: "BossBaby", wagered: 2980.18 },
+      { rank: 3, name: "BossBaby", wagered: 2510.55 },
+      { rank: 4, name: "BossBaby", wagered: 2040.0 },
+      { rank: 5, name: "BossBaby", wagered: 1810.45 },
+      { rank: 6, name: "BossBaby", wagered: 1660.12 },
+      { rank: 7, name: "BossBaby", wagered: 1510.0 },
+      { rank: 8, name: "BossBaby", wagered: 1433.47 },
+      { rank: 9, name: "BossBaby", wagered: 1320.87 },
+      { rank: 10, name: "BossBaby", wagered: 1208.03 },
+    ],
+    BANKBROS_PRIZE_LADDER
+  )
+);
 
 const CSGOLD_PRIZE_LADDER = Object.freeze({
-  1: 250,
-  2: 150,
-  3: 110,
-  4: 85,
-  5: 70,
-  6: 55,
-  7: 0,
-  8: 0,
+  1: 500,
+  2: 350,
+  3: 200,
+  4: 125,
+  5: 100,
+  6: 75,
+  7: 50,
+  8: 25,
   9: 0,
   10: 0,
-  11: 0,
-  12: 0,
-  13: 0,
-  14: 0,
-  15: 0,
 });
 
-const CSGOLD_FALLBACK = Object.freeze([
-  { rank: 1, name: "AuricAce", wagered: 4210.12, prize: 0 },
-  { rank: 2, name: "GlintKing", wagered: 3785.55, prize: 0 },
-  { rank: 3, name: "Goldrush", wagered: 3320.4, prize: 0 },
-  { rank: 4, name: "Bullionaire", wagered: 2888.22, prize: 0 },
-  { rank: 5, name: "MintedMax", wagered: 2510.75, prize: 0 },
-  { rank: 6, name: "TokenTact", wagered: 2304.65, prize: 0 },
-  { rank: 7, name: "ShimmerSol", wagered: 2100.33, prize: 0 },
-  { rank: 8, name: "CacheQueen", wagered: 1995.9, prize: 0 },
-  { rank: 9, name: "GildedGuru", wagered: 1850.11, prize: 0 },
-  { rank: 10, name: "LuxeLink", wagered: 1705.45, prize: 0 },
-  { rank: 11, name: "SpecStack", wagered: 1622.0, prize: 0 },
-  { rank: 12, name: "CacheCraze", wagered: 1540.5, prize: 0 },
-  { rank: 13, name: "VaultVox", wagered: 1460.18, prize: 0 },
-  { rank: 14, name: "MintMuse", wagered: 1384.92, prize: 0 },
-  { rank: 15, name: "AuroraAx", wagered: 1299.67, prize: 0 },
-]);
+const CSGOLD_FALLBACK = Object.freeze(
+  normalizeLeaderboardRows(
+    [
+      { rank: 1, name: "AuricAce", wagered: 4210.12 },
+      { rank: 2, name: "GlintKing", wagered: 3785.55 },
+      { rank: 3, name: "Goldrush", wagered: 3320.4 },
+      { rank: 4, name: "Bullionaire", wagered: 2888.22 },
+      { rank: 5, name: "MintedMax", wagered: 2510.75 },
+      { rank: 6, name: "TokenTact", wagered: 2304.65 },
+      { rank: 7, name: "ShimmerSol", wagered: 2100.33 },
+      { rank: 8, name: "CacheQueen", wagered: 1995.9 },
+      { rank: 9, name: "GildedGuru", wagered: 1850.11 },
+      { rank: 10, name: "LuxeLink", wagered: 1705.45 },
+    ],
+    CSGOLD_PRIZE_LADDER
+  )
+);
 
 const LEADERBOARD_CONFIGS = [
   {
     id: "bankbros",
     name: "BankBros",
     logo: bankbrosLogo,
-    topUrl: "https://bankbros.vercel.app/api/leaderboard/top",
-    historyUrl: "https://bankbros.vercel.app/api/leaderboard/previous",
+    topUrl: "/data/bankbros-leaderboard.json",
+    historyUrl: null,
     fallback: BANKBROS_FALLBACK,
     prizes: BANKBROS_PRIZE_LADDER,
     messages: {
@@ -129,8 +179,8 @@ const LEADERBOARD_CONFIGS = [
     id: "csgold",
     name: "CsGold",
     logo: csgoldLogo,
-    topUrl: "https://bankbros.vercel.app/api/leaderboard/top?board=csgold",
-    historyUrl: "https://bankbros.vercel.app/api/leaderboard/previous?board=csgold",
+    topUrl: "/data/csgold-leaderboard.json",
+    historyUrl: null,
     fallback: CSGOLD_FALLBACK,
     prizes: CSGOLD_PRIZE_LADDER,
     messages: {
@@ -670,7 +720,7 @@ function LeaderboardsPage() {
         error: "",
         historyRows: [],
         historyRange: { start: "", end: "" },
-        historyLoading: true,
+        historyLoading: Boolean(cfg.historyUrl),
       };
     });
     return initial;
@@ -731,7 +781,7 @@ function LeaderboardsPage() {
       updateLeaderboardSlice(cfg.id, {
         loading: true,
         error: "",
-        historyLoading: true,
+        historyLoading: Boolean(cfg.historyUrl),
       });
 
       (async () => {
@@ -739,12 +789,18 @@ function LeaderboardsPage() {
           const response = await fetch(cfg.topUrl, { headers: { Accept: "application/json" } });
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
           const payload = await response.json();
-          const items = (payload.items ?? []).map((item) => ({
-            rank: item.rank,
-            name: item.username,
-            wagered: Number(item.wagered || 0),
-          }));
-          const normalized = applyPrizeLadder(items, cfg.prizes);
+          const dynamicPrizeMap = Array.isArray(payload?.prizes)
+            ? Object.fromEntries(
+                payload.prizes
+                  .map((prize) => [
+                    coerceNumber(prize?.rank, Number.NaN),
+                    coerceNumber(prize?.amount ?? prize?.value ?? prize?.total ?? prize?.prize, Number.NaN),
+                  ])
+                  .filter(([rank, amount]) => Number.isFinite(rank) && rank > 0 && Number.isFinite(amount) && amount >= 0)
+              )
+            : undefined;
+          const prizeMap = dynamicPrizeMap ? { ...cfg.prizes, ...dynamicPrizeMap } : cfg.prizes;
+          const normalized = normalizeLeaderboardRows(payload, prizeMap);
           if (!alive) return;
           if (normalized.length) {
             updateLeaderboardSlice(cfg.id, { rows: normalized, loading: false, error: "" });
@@ -766,21 +822,25 @@ function LeaderboardsPage() {
         }
       })();
 
+      if (!cfg.historyUrl) {
+        updateLeaderboardSlice(cfg.id, {
+          historyRows: [],
+          historyRange: { start: "", end: "" },
+          historyLoading: false,
+        });
+        return;
+      }
+
       (async () => {
         try {
           const response = await fetch(cfg.historyUrl, { headers: { Accept: "application/json" } });
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
           const payload = await response.json();
-          const items = (payload.items ?? []).map((item) => ({
-            rank: item.rank,
-            name: item.username,
-            wagered: Number(item.wagered || 0),
-          }));
-          const normalized = applyPrizeLadder(items, cfg.prizes);
+          const normalized = normalizeLeaderboardRows(payload, cfg.prizes);
           if (!alive) return;
           updateLeaderboardSlice(cfg.id, {
             historyRows: normalized,
-            historyRange: { start: payload.period_start, end: payload.period_end },
+            historyRange: { start: payload.period_start ?? "", end: payload.period_end ?? "" },
             historyLoading: false,
           });
         } catch (error) {
@@ -822,7 +882,7 @@ function LeaderboardsPage() {
   const historyLoading = activeSlice?.historyLoading ?? false;
 
   const top3 = activeRows.slice(0, 3); // [1st, 2nd, 3rd]
-  const rest = activeRows.slice(3, 15); // 4..15
+  const rest = activeRows.slice(3, 10); // 4..10
   const { days, hours, minutes, seconds } = useLeaderboardCountdown();
 
   return (
@@ -948,7 +1008,7 @@ function LeaderboardsPage() {
               </div>
             </div>
 
-            {/* Ranks 4–15 (now includes Prize column to match actual design) */}
+            {/* Ranks 4–10 (now includes Prize column to match actual design) */}
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden">
               <div className="grid grid-cols-12 text-[11px] uppercase tracking-wider text-gray-400 px-3 py-2">
                 <div className="col-span-2">Rank</div>
@@ -1130,19 +1190,19 @@ function formatMoney(n) {
 function LeaderboardPreview() {
   // prize ladder for the preview (top 5 only)
   const prizeByRank = useMemo(
-    () => ({ 1: 175, 2: 125, 3: 100, 4: 80, 5: 65 }),
+    () => ({ 1: 1100, 2: 750, 3: 500, 4: 275, 5: 150 }),
     []
   );
 
   // fallback in case the API is unreachable
   const FALLBACK = useMemo(
-    () => [
-      { rank: 1, user: "BossBaby", points: 128430, prize: prizeByRank[1] },
-      { rank: 2, user: "BossBaby", points: 117210, prize: prizeByRank[2] },
-      { rank: 3, user: "BossBaby", points: 109980, prize: prizeByRank[3] },
-      { rank: 4, user: "BossBaby", points: 89340, prize: prizeByRank[4] },
-      { rank: 5, user: "BossBaby", points: 81120, prize: prizeByRank[5] },
-    ],
+    () =>
+      BANKBROS_FALLBACK.slice(0, 5).map((row) => ({
+        rank: row.rank,
+        user: row.name,
+        points: row.wagered,
+        prize: row.prize ?? prizeByRank[row.rank] ?? 0,
+      })),
     [prizeByRank]
   );
 
@@ -1152,21 +1212,31 @@ function LeaderboardPreview() {
     let alive = true;
     (async () => {
       try {
-        const r = await fetch("https://bankbros.vercel.app/api/leaderboard/top", {
+        const r = await fetch("/data/bankbros-leaderboard.json", {
           headers: { Accept: "application/json" },
         });
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         const j = await r.json();
-        const items = (j.items ?? [])
+        const dynamicPrizeMap = Array.isArray(j?.prizes)
+          ? Object.fromEntries(
+              j.prizes
+                .map((prize) => [
+                  coerceNumber(prize?.rank, Number.NaN),
+                  coerceNumber(prize?.amount ?? prize?.value ?? prize?.total ?? prize?.prize, Number.NaN),
+                ])
+                .filter(([rank, amount]) => Number.isFinite(rank) && rank > 0 && Number.isFinite(amount) && amount >= 0)
+            )
+          : undefined;
+        const normalized = normalizeLeaderboardRows(j, dynamicPrizeMap ? { ...prizeByRank, ...dynamicPrizeMap } : prizeByRank)
           .slice(0, 5)
-          .map((x) => ({
-            rank: x.rank,
-            user: x.username,
-            points: Number(x.wagered || 0),
-            prize: prizeByRank[x.rank] ?? 0,
+          .map((row) => ({
+            rank: row.rank,
+            user: row.name,
+            points: row.wagered,
+            prize: row.prize ?? prizeByRank[row.rank] ?? 0,
           }));
         if (!alive) return;
-        setRows(items.length ? items : FALLBACK);
+        setRows(normalized.length ? normalized : FALLBACK);
       } catch (e) {
         if (!alive) return;
         console.error(e);
