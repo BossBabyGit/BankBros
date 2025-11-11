@@ -10,7 +10,7 @@ const DATA_DIR = path.join(ROOT_DIR, 'public', 'data');
 const DEFAULT_TIMEOUT_MS = 15_000;
 const SCHEMA_VERSION = 1;
 
-const BANKBROS_PRIZE_LADDER = [
+const DEJEN_PRIZE_LADDER = [
   { rank: 1, amount: 1100, currency: 'USD', label: '$1,100 cash' },
   { rank: 2, amount: 750, currency: 'USD', label: '$750 cash' },
   { rank: 3, amount: 500, currency: 'USD', label: '$500 cash' },
@@ -258,7 +258,7 @@ async function fetchDejenLeaderboard(raceId) {
       const payload = await fetchJson(url.toString(), { headers });
       const entries = findLeaderboardEntries(payload);
       if (!entries) throw new Error('Unable to locate leaderboard entries in response');
-      const { rows, prizes } = normalizeEntries(entries, BANKBROS_PRIZE_LADDER);
+      const { rows, prizes } = normalizeEntries(entries, DEJEN_PRIZE_LADDER);
       return {
         schemaVersion: SCHEMA_VERSION,
         rows,
@@ -374,7 +374,7 @@ async function main() {
 
   if (dejenRaceId) {
     const dejen = await fetchDejenLeaderboard(dejenRaceId);
-    writes.push(writeJsonFile('bankbros-leaderboard.json', dejen));
+    writes.push(writeJsonFile('dejen-leaderboard.json', dejen));
     summary.dejen = dejen.rows.length;
   } else {
     console.warn('Skipping Dejen leaderboard fetch – DEJEN_RACE_ID not configured.');
