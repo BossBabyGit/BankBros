@@ -905,16 +905,6 @@ function LeaderboardsPage() {
                 <h1 className="text-3xl md:text-4xl font-extrabold text-white" style={{ textShadow: `0 0 45px ${BRAND_PRIMARY}55` }}>
                   Current Leaderboard
                 </h1>
-                <button
-                  type="button"
-                  onClick={() => setShowHistory(true)}
-                  aria-expanded={showHistory}
-                  aria-label={`View ${activeConfig?.name ?? 'current'} leaderboard history`}
-                  className="text-xs px-3 py-1 rounded-full border text-white/80 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black focus-visible:ring-white/80"
-                  style={{ borderColor: `${BRAND_PRIMARY}aa` }}
-                >
-                  History
-                </button>
               </div>
               {activeConfig && (
                 <span className="text-xs uppercase tracking-[0.4em] text-white/60">
