@@ -1,3 +1,47 @@
+# BankBros Leaderboard Automation
+
+This project contains a scheduled workflow that keeps the BankBros leaderboard
+data in `public/data/` synchronized with the latest results from Dejen and
+CsGold. The automation relies on the TypeScript script
+`scripts/fetch-leaderboards.ts`, which writes refreshed JSON snapshots for the
+frontend to consume.
+
+## Automated leaderboard refresh
+
+The GitHub Actions workflow defined in
+`.github/workflows/update-leaderboards.yml` runs every hour and can also be
+triggered manually through the **Run workflow** button in the Actions tab. Each
+execution performs the following steps:
+
+1. Installs dependencies with `npm ci`.
+2. Executes `node --experimental-strip-types scripts/fetch-leaderboards.ts` on
+   Node.js 22 to regenerate the leaderboard data using the built-in TypeScript
+   loader.
+3. Commits and pushes any updated files under `public/data/` back to the
+   repository using the automatically provided `GITHUB_TOKEN`.
+
+### Required secrets
+
+Add the following repository secrets to allow the workflow to authenticate with
+the upstream data sources:
+
+- `DEJEN_RACE_ID`: The race identifier used when querying the Dejen leaderboard
+  API.
+- `CSGOLD_API_KEY`: The CsGold API token with permission to read leaderboard
+  data.
+
+Optional overrides can be supplied by defining `DEJEN_BASE_URL`,
+`CSGOLD_BASE_URL`, or `CSGOLD_LEADERBOARD_ID` in the repository secrets or the
+environment if the upstream endpoints change.
+
+### Running the script locally
+
+1. Copy `.env.example` to `.env` (create the file if it does not exist) and set
+   `DEJEN_RACE_ID` and `CSGOLD_API_KEY` with valid credentials.
+2. Install dependencies with `npm install` (requires Node.js 22 or later).
+3. Run `npm run fetch-leaderboards` to regenerate the JSON files in
+   `public/data/`.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
