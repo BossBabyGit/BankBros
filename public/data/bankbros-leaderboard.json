@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "rows": [
+    { "rank": 1, "username": "BossBaby", "wagered": 3430.32 },
+    { "rank": 2, "username": "BossBaby", "wagered": 2980.18 },
+    { "rank": 3, "username": "BossBaby", "wagered": 2510.55 },
+    { "rank": 4, "username": "BossBaby", "wagered": 2040.0 },
+    { "rank": 5, "username": "BossBaby", "wagered": 1810.45 },
+    { "rank": 6, "username": "BossBaby", "wagered": 1660.12 },
+    { "rank": 7, "username": "BossBaby", "wagered": 1510.0 },
+    { "rank": 8, "username": "BossBaby", "wagered": 1433.47 },
+    { "rank": 9, "username": "BossBaby", "wagered": 1320.87 },
+    { "rank": 10, "username": "BossBaby", "wagered": 1208.03 }
+  ],
+  "prizes": [
+    { "rank": 1, "amount": 1100, "currency": "USD", "label": "$1,100 cash" },
+    { "rank": 2, "amount": 750, "currency": "USD", "label": "$750 cash" },
+    { "rank": 3, "amount": 500, "currency": "USD", "label": "$500 cash" },
+    { "rank": 4, "amount": 275, "currency": "USD", "label": "$275 cash" },
+    { "rank": 5, "amount": 150, "currency": "USD", "label": "$150 cash" },
+    { "rank": 6, "amount": 100, "currency": "USD", "label": "$100 cash" },
+    { "rank": 7, "amount": 75, "currency": "USD", "label": "$75 cash" },
+    { "rank": 8, "amount": 50, "currency": "USD", "label": "$50 cash" },
+    { "rank": 9, "amount": 30, "currency": "USD", "label": "$30 cash" },
+    { "rank": 10, "amount": 20, "currency": "USD", "label": "$20 cash" }
+  ],
+  "metadata": {
+    "source": "seed",
+    "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
+    "resolvedUrl": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
+    "fetchedAt": "2025-11-07T01:00:01Z",
+    "note": "Seed data bundled with the app. Run scripts/fetch-leaderboards.ts to refresh."
+  }
+}

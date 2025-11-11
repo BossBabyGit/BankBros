@@ -11,12 +11,16 @@ const DEFAULT_TIMEOUT_MS = 15_000;
 const SCHEMA_VERSION = 1;
 
 const BANKBROS_PRIZE_LADDER = [
-  { rank: 1, amount: 175, currency: 'USD', label: '$175 cash' },
-  { rank: 2, amount: 125, currency: 'USD', label: '$125 cash' },
-  { rank: 3, amount: 100, currency: 'USD', label: '$100 cash' },
-  { rank: 4, amount: 80, currency: 'USD', label: '$80 cash' },
-  { rank: 5, amount: 65, currency: 'USD', label: '$65 cash' },
-  { rank: 6, amount: 55, currency: 'USD', label: '$55 cash' },
+  { rank: 1, amount: 1100, currency: 'USD', label: '$1,100 cash' },
+  { rank: 2, amount: 750, currency: 'USD', label: '$750 cash' },
+  { rank: 3, amount: 500, currency: 'USD', label: '$500 cash' },
+  { rank: 4, amount: 275, currency: 'USD', label: '$275 cash' },
+  { rank: 5, amount: 150, currency: 'USD', label: '$150 cash' },
+  { rank: 6, amount: 100, currency: 'USD', label: '$100 cash' },
+  { rank: 7, amount: 75, currency: 'USD', label: '$75 cash' },
+  { rank: 8, amount: 50, currency: 'USD', label: '$50 cash' },
+  { rank: 9, amount: 30, currency: 'USD', label: '$30 cash' },
+  { rank: 10, amount: 20, currency: 'USD', label: '$20 cash' },
 ];
 
 const CSGOLD_PRIZE_LADDER = [
@@ -209,6 +213,9 @@ async function fetchJson(url, init = {}) {
 
 function findLeaderboardEntries(payload) {
   if (!payload) return undefined;
+  if (Array.isArray(payload.rows)) return payload.rows;
+  if (Array.isArray(payload.leaderboard)) return payload.leaderboard;
+  if (Array.isArray(payload.entries)) return payload.entries;
   if (Array.isArray(payload)) {
     if (payload.every((item) => item && typeof item === 'object')) {
       const hasRank = payload.some((item) => item && typeof item === 'object' &&
@@ -233,12 +240,13 @@ function findLeaderboardEntries(payload) {
 }
 
 async function fetchDejenLeaderboard(raceId) {
-  const base = process.env.DEJEN_BASE_URL ?? 'https://dejen.gg/api';
+  const base = process.env.DEJEN_BASE_URL ?? 'https://api.dejen.com';
   const candidatePaths = [
     `/races/${raceId}/leaderboard`,
     `/races/${raceId}`,
     `/public/races/${raceId}`,
     `/api/races/${raceId}/leaderboard`,
+    `/api/races/${raceId}`,
   ];
 
   const headers = { Accept: 'application/json' };
@@ -355,29 +363,34 @@ async function main() {
   const dejenRaceId = process.env.DEJEN_RACE_ID;
   const csGoldApiKey = process.env.CSGOLD_API_KEY;
 
-  if (!dejenRaceId) {
-    throw new Error('Missing required environment variable DEJEN_RACE_ID');
-  }
-  if (!csGoldApiKey) {
-    throw new Error('Missing required environment variable CSGOLD_API_KEY');
+  if (!dejenRaceId && !csGoldApiKey) {
+    throw new Error('Missing DEJEN_RACE_ID and CSGOLD_API_KEY – set at least one to update leaderboards.');
   }
 
   await ensureDataDirectory();
 
-  const [dejen, csGold] = await Promise.all([
-    fetchDejenLeaderboard(dejenRaceId),
-    fetchCsGoldLeaderboard(csGoldApiKey),
-  ]);
+  const writes = [];
+  const summary = {};
 
-  await Promise.all([
-    writeJsonFile('bankbros-leaderboard.json', dejen),
-    writeJsonFile('csgold-leaderboard.json', csGold),
-  ]);
+  if (dejenRaceId) {
+    const dejen = await fetchDejenLeaderboard(dejenRaceId);
+    writes.push(writeJsonFile('bankbros-leaderboard.json', dejen));
+    summary.dejen = dejen.rows.length;
+  } else {
+    console.warn('Skipping Dejen leaderboard fetch – DEJEN_RACE_ID not configured.');
+  }
 
-  console.log('Leaderboards updated:', {
-    dejen: dejen.rows.length,
-    csGold: csGold.rows.length,
-  });
+  if (csGoldApiKey) {
+    const csGold = await fetchCsGoldLeaderboard(csGoldApiKey);
+    writes.push(writeJsonFile('csgold-leaderboard.json', csGold));
+    summary.csGold = csGold.rows.length;
+  } else {
+    console.warn('Skipping CsGold leaderboard fetch – CSGOLD_API_KEY not configured.');
+  }
+
+  await Promise.all(writes);
+
+  console.log('Leaderboards updated:', summary);
 }
 
 main().catch((error) => {
