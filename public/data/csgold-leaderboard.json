@@ -13,14 +13,14 @@
     { "rank": 10, "username": "LuxeLink", "wagered": 1705.45 }
   ],
   "prizes": [
-    { "rank": 1, "amount": 500, "currency": "USD", "label": "$500 cash" },
-    { "rank": 2, "amount": 350, "currency": "USD", "label": "$350 cash" },
-    { "rank": 3, "amount": 200, "currency": "USD", "label": "$200 cash" },
-    { "rank": 4, "amount": 125, "currency": "USD", "label": "$125 cash" },
-    { "rank": 5, "amount": 100, "currency": "USD", "label": "$100 cash" },
-    { "rank": 6, "amount": 75, "currency": "USD", "label": "$75 cash" },
-    { "rank": 7, "amount": 50, "currency": "USD", "label": "$50 cash" },
-    { "rank": 8, "amount": 25, "currency": "USD", "label": "$25 cash" }
+    { "rank": 1, "amount": 500, "currency": "USD", "label": "$105 cash" },
+    { "rank": 2, "amount": 350, "currency": "USD", "label": "$65 cash" },
+    { "rank": 3, "amount": 200, "currency": "USD", "label": "$40 cash" },
+    { "rank": 4, "amount": 125, "currency": "USD", "label": "$25 cash" },
+    { "rank": 5, "amount": 100, "currency": "USD", "label": "$15 cash" },
+    { "rank": 6, "amount": 75, "currency": "USD", "label": "$0 cash" },
+    { "rank": 7, "amount": 50, "currency": "USD", "label": "$0 cash" },
+    { "rank": 8, "amount": 25, "currency": "USD", "label": "$0 cash" }
   ],
   "metadata": {
     "source": "seed",
