@@ -918,8 +918,8 @@ function LeaderboardsPage() {
   type="button"
   onClick={() => setActiveLeaderboard(cfg.id)}
   aria-pressed={isActive}
-  aria-label={cfg.buttonLabel ?? cfg.name}
-  title={cfg.buttonLabel ?? cfg.name}
+  aria-label={cfg.buttonLabel ?? cfg.name}  // keeps it accessible
+  title={cfg.buttonLabel ?? cfg.name}       // nice tooltip
   className={`relative flex items-center rounded-full border transition
     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
     focus-visible:ring-offset-black focus-visible:ring-white/80
@@ -927,7 +927,7 @@ function LeaderboardsPage() {
       ? "bg-white/15 border-white/40 text-white shadow-[0_0_30px_rgba(249,115,22,0.45)]"
       : "bg-white/[0.04] border-white/10 text-white/70 hover:text-white hover:border-white/30"
     }
-    ${SHOW_BUTTON_TEXT ? "gap-3 px-4 py-2" : "px-2 py-2"}
+    px-2 py-2
   `}
   whileTap={{ scale: 0.97 }}
 >
@@ -937,15 +937,10 @@ function LeaderboardsPage() {
     aria-hidden="true"
     className="h-9 w-9 rounded-full object-contain shadow-inner shadow-black/40"
   />
-
-  {SHOW_BUTTON_TEXT ? (
-    <span className="text-sm font-semibold tracking-wide uppercase">
-      {cfg.buttonLabel ?? cfg.name}
-    </span>
-  ) : (
-    <span className="sr-only">{cfg.buttonLabel ?? cfg.name}</span>
-  )}
+  {/* keep label for screen readers only */}
+  <span className="sr-only">{cfg.buttonLabel ?? cfg.name}</span>
 </motion.button>
+
 
                   );
                 })}
