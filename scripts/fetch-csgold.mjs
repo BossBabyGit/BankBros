@@ -13,7 +13,7 @@ function coerceNumber(v, fb = 0) {
   return fb;
 }
 
-// UTC month bounds → ms (as your PHP example does)
+// Get current month bounds in UTC milliseconds
 function monthBoundsUtcMs(d = new Date()) {
   const y = d.getUTCFullYear();
   const m = d.getUTCMonth();
@@ -30,6 +30,7 @@ async function fetchText(url, init) {
 }
 
 async function ensureDir(p) { await fs.mkdir(p, { recursive: true }); }
+
 async function writeJson(file, data) {
   await ensureDir(path.dirname(file));
   await fs.writeFile(file, JSON.stringify(data, null, 2));
@@ -42,14 +43,21 @@ export default async function fetchCsGold() {
 
   const { after, before } = monthBoundsUtcMs(new Date());
 
-  // EXACTLY like your working PHP: POST body with key/type/after/before (ms)
+  console.log(`📅 CsGold: Fetching data for period:`);
+  console.log(`   Start: ${new Date(after).toISOString()}`);
+  console.log(`   End:   ${new Date(before).toISOString()}`);
+
   const url = "https://api.csgold.gg/affiliate/leaderboard/referrals";
+  
+  // Match your working PHP script structure EXACTLY
   const body = JSON.stringify({
     key: apiKey,
     type: "WAGER",
-    after,
-    before,
+    before: before,
+    after: after,
   });
+
+  console.log(`📤 CsGold: Sending request with body:`, JSON.parse(body));
 
   const txt = await fetchText(url, {
     method: "POST",
@@ -58,7 +66,9 @@ export default async function fetchCsGold() {
   });
 
   let payload = null;
-  try { payload = JSON.parse(txt); } catch {
+  try { 
+    payload = JSON.parse(txt); 
+  } catch (err) {
     throw new Error(`Non-JSON CsGold response: ${txt?.slice?.(0,200)}`);
   }
 
@@ -66,11 +76,44 @@ export default async function fetchCsGold() {
     await writeJson("public/data/_debug/csgold-raw.json", payload);
   }
 
-  if (!payload?.success) {
-    throw new Error(`CsGold success=false: ${txt?.slice?.(0,200)}`);
+  console.log(`📥 CsGold: API response:`, {
+    success: payload?.success,
+    dataLength: Array.isArray(payload?.data) ? payload.data.length : 0
+  });
+
+  // Handle both direct array response AND success wrapper
+  let data = [];
+  
+  if (Array.isArray(payload)) {
+    // Direct array response (like your PHP example shows)
+    data = payload;
+    console.log(`📊 CsGold: Received direct array with ${data.length} entries`);
+  } else if (payload?.success && Array.isArray(payload?.data)) {
+    // Wrapped in success response
+    data = payload.data;
+    console.log(`📊 CsGold: Received wrapped response with ${data.length} entries`);
+  } else if (Array.isArray(payload?.data)) {
+    // Just wrapped in data
+    data = payload.data;
+    console.log(`📊 CsGold: Received data array with ${data.length} entries`);
+  } else if (!payload?.success) {
+    console.warn(`⚠️  CsGold: API returned success=false or missing success field`);
+    console.warn(`⚠️  Full response:`, payload);
+  } else {
+    console.warn(`⚠️  CsGold: Unexpected response structure. Keys: ${Object.keys(payload).join(', ')}`);
   }
 
-  const data = Array.isArray(payload?.data) ? payload.data : [];
+  // If no data, log warning but continue (will use empty array)
+  if (data.length === 0) {
+    console.warn(`⚠️  CsGold: No leaderboard data returned for this period`);
+    console.warn(`⚠️  This might be normal if:
+    - The current month just started
+    - No players have wagered yet
+    - The API key doesn't have data for this period
+    - The date range needs adjustment`);
+  }
+
+  // Sort by totalAmount descending and take top 10
   const top = data
     .slice()
     .sort((a, b) => coerceNumber(b?.totalAmount, 0) - coerceNumber(a?.totalAmount, 0))
@@ -82,9 +125,10 @@ export default async function fetchCsGold() {
     wagered: coerceNumber(e?.totalAmount, 0),
     prize: 0,
     avatar: e?.avatar ?? null,
+    isAnon: e?.isAnon ?? false,
   }));
 
-  await writeJson("public/data/csgold-leaderboard.json", {
+  const output = {
     schemaVersion: SCHEMA_VERSION,
     rows,
     prizes: [],
@@ -93,6 +137,15 @@ export default async function fetchCsGold() {
       fetchedAt: new Date().toISOString(),
       url,
       range: { after, before },
+      totalEntries: data.length,
     },
-  });
+  };
+
+  await writeJson("public/data/csgold-leaderboard.json", output);
+  
+  console.log(`✅ CsGold: Wrote ${rows.length} rows from ${data.length} total entries`);
+  
+  if (rows.length > 0) {
+    console.log(`   Top player: ${rows[0].username} with $${rows[0].wagered.toFixed(2)}`);
+  }
 }
