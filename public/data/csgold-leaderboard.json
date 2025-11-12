@@ -4,7 +4,11 @@
   "prizes": [],
   "metadata": {
     "source": "csgold",
-    "fetchedAt": "2025-11-12T21:23:32.612Z",
-    "url": "https://api.csgold.gg/affiliate/leaderboard/referrals"
+    "fetchedAt": "2025-11-12T21:29:00.003Z",
+    "url": "https://api.csgold.gg/affiliate/leaderboard/referrals",
+    "range": {
+      "after": 1761955200000,
+      "before": 1764547199999
+    }
   }
 }
