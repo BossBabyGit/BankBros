@@ -42,6 +42,7 @@ jobs:
         env:
           DEJEN_RACE_ID: ${{ secrets.DEJEN_RACE_ID }}
           CSGOLD_API_KEY: ${{ secrets.CSGOLD_API_KEY }}
+          DEBUG_FETCH: "1"   # optional: writes public/data/_debug/*.json
         run: node scripts/fetch-all.mjs
 
       - name: Commit & push if changed
