@@ -106,7 +106,7 @@
   ],
   "metadata": {
     "source": "csgold",
-    "fetchedAt": "2025-11-12T18:30:38.249Z",
-    "error": "HTTP 401 – https://api.csgold.gg/affiliate/leaderboard/referrals?start=2025-11-01&end=2025-11-30&from=2025-11-01&to=2025-11-30&date_from=2025-11-01&date_to=2025-11-30&startDate=2025-11-01&endDate=2025-11-30&from_ts=1761955200&to_ts=1764547199&period=month – {\"success\":false,\"error\":{\"message\":\"You are not authorized to perform this action.\",\"service\":\"GENERIC\",\"notify\":false}}"
+    "fetchedAt": "2025-11-12T18:37:31.139Z",
+    "error": "Error: HTTP 401 – https://api.csgold.gg/affiliate/leaderboard/referrals – {\"success\":false,\"error\":{\"message\":\"You are not authorized to perform this action.\",\"service\":\"GENERIC\",\"notify\":false}}"
   }
 }
