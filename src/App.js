@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Sparkles, Trophy, ShieldCheck, MessageCircle, Play, ExternalLink, Timer, Users } from "lucide-react";
 import useLeaderboardCountdown from "./useLeaderboardCountdown";
-import dejenLogo from "./assets/leaderboard-dejen.svg";
-import csgoldLogo from "./assets/leaderboard-csgold.svg";
+import dejenLogo from "./assets/dejen.svg";
+import csgoldLogo from "./assets/csgold.svg";
 
 // —— Brand Tokens ——
 const BRAND_PRIMARY = "#f97316"; // deep orange
