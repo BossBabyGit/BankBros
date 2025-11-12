@@ -139,7 +139,7 @@ const CSGOLD_PRIZE_LADDER = Object.freeze({
 const CSGOLD_FALLBACK = Object.freeze(
   normalizeLeaderboardRows(
     [
-      { rank: 1, name: "BossBaby", wagered: 4210.12 },
+      { rank: 1, name: "BossBab", wagered: 4210.12 },
       { rank: 2, name: "BossBaby", wagered: 3785.55 },
       { rank: 3, name: "BossBaby", wagered: 3320.4 },
       { rank: 4, name: "BossBaby", wagered: 2888.22 },
