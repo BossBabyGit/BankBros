@@ -781,7 +781,10 @@ function LeaderboardsPage() {
 
       (async () => {
         try {
-          const response = await fetch(cfg.topUrl, { headers: { Accept: "application/json" } });
+          const response = await fetch(`${cfg.topUrl}?t=${Date.now()}`, {
+            headers: { Accept: "application/json" },
+            cache: "no-store",
+          });
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
           const payload = await response.json();
           const dynamicPrizeMap = Array.isArray(payload?.prizes)
@@ -1184,7 +1187,7 @@ function formatMoney(n) {
 function LeaderboardPreview() {
   // prize ladder for the preview (top 5 only)
   const prizeByRank = useMemo(
-    () => ({ 1: 105000, 2: 75000, 3: 50000, 4: 27500, 5: 15000 }),
+    () => ({ 1: 1110, 2: 750, 3: 500, 4: 275, 5: 150, 6: 100, 7: 75, 8: 50, 9: 30, 10: 20, }),
     []
   );
 
@@ -1206,8 +1209,9 @@ function LeaderboardPreview() {
     let alive = true;
     (async () => {
       try {
-        const r = await fetch("/data/dejen-leaderboard.json", {
+        const r = await fetch(`/data/dejen-leaderboard.json?t=${Date.now()}`, {
           headers: { Accept: "application/json" },
+          cache: "no-store",
         });
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         const j = await r.json();
