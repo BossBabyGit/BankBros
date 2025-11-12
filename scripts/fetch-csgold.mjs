@@ -1,35 +1,20 @@
-// scripts/fetch-csgold.mjs
 import fs from "fs/promises";
 import path from "path";
 
 const OUT = "public/data/csgold-leaderboard.json";
 const API_KEY = process.env.CSGOLD_API_KEY;
-const BASE = process.env.CSGOLD_BASE_URL?.trim() || "https://api.csgold.gg";
-const ENDPOINT = process.env.CSGOLD_ENDPOINT?.trim() || "/affiliate/leaderboard/referrals";
+const BASE = "https://api.csgold.gg";
+const ENDPOINT = "/affiliate/leaderboard/referrals";
 
-// If the API requires a date range, we’ll include it. If not, the server will ignore.
-function monthRangeUTC(d = new Date()) {
+function monthRangeMsUTC(d = new Date()) {
   const y = d.getUTCFullYear();
   const m = d.getUTCMonth();
-  const start = new Date(Date.UTC(y, m, 1, 0, 0, 0));
-  const end = new Date(Date.UTC(y, m + 1, 0, 23, 59, 59));
-  // A bunch of common param keys (server can accept any subset)
-  return {
-    start: start.toISOString().slice(0, 10),
-    end: end.toISOString().slice(0, 10),
-    from: start.toISOString().slice(0, 10),
-    to: end.toISOString().slice(0, 10),
-    date_from: start.toISOString().slice(0, 10),
-    date_to: end.toISOString().slice(0, 10),
-    startDate: start.toISOString().slice(0, 10),
-    endDate: end.toISOString().slice(0, 10),
-    from_ts: Math.floor(start.getTime() / 1000),
-    to_ts: Math.floor(end.getTime() / 1000),
-    period: "month"
-  };
+  const start = Date.UTC(y, m, 1, 0, 0, 0);                 // ms
+  const end   = Date.UTC(y, m + 1, 1, 0, 0, 0) - 1;         // ms
+  return { after: start, before: end };
 }
 
-function coerceNumber(v, f = 0) {
+function coerceNum(v, f = 0) {
   if (typeof v === "number" && Number.isFinite(v)) return v;
   if (typeof v === "string") {
     const n = Number(v.replace(/[^0-9.\-]/g, ""));
@@ -40,52 +25,55 @@ function coerceNumber(v, f = 0) {
 
 async function fetchJson(url, init = {}) {
   const res = await fetch(url, init);
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    throw new Error(`HTTP ${res.status} – ${url}${body ? ` – ${body.slice(0,200)}` : ""}`);
-  }
-  return res.json();
+  const text = await res.text();
+  if (!res.ok) throw new Error(`HTTP ${res.status} – ${url} – ${text.slice(0,300)}`);
+  try { return JSON.parse(text); } catch { throw new Error(`Bad JSON from ${url}: ${text.slice(0,300)}`); }
 }
 
 function normalizeRows(payload) {
-  const list = Array.isArray(payload) ? payload
-    : Array.isArray(payload?.leaderboard) ? payload.leaderboard
-    : Array.isArray(payload?.rows) ? payload.rows
-    : [];
-
+  // API returns: { success: true, data: [ { username, totalAmount, avatar, ... } ] }
+  const list = Array.isArray(payload?.data) ? payload.data : Array.isArray(payload) ? payload : [];
   return list.map((entry, i) => {
-    const rank = coerceNumber(entry?.rank ?? i + 1, i + 1);
-    const username = entry?.username ?? entry?.user ?? entry?.name ?? `Player ${rank}`;
-    const wagered = coerceNumber(entry?.totalAmount ?? entry?.wagered ?? entry?.amount ?? 0, 0);
+    const rank = i + 1;
+    const username = entry?.username ?? `Player ${rank}`;
+    const wagered = coerceNum(entry?.totalAmount ?? entry?.wagered ?? entry?.amount ?? 0, 0);
     return { rank, username, wagered };
-  }).sort((a, b) => a.rank - b.rank);
+  });
 }
 
-export default async function fetchCsGold() {
+export default async function run() {
   if (!API_KEY) throw new Error("CSGOLD_API_KEY missing");
 
-  const url = new URL(ENDPOINT, BASE);
+  const { after, before } = monthRangeMsUTC(); // ms like your PHP example
+  const url = new URL(ENDPOINT, BASE).toString();
 
-  // Attach month params (harmless if API ignores)
-  const q = monthRangeUTC();
-  Object.entries(q).forEach(([k, v]) => url.searchParams.set(k, String(v)));
+  const body = JSON.stringify({
+    key: API_KEY,
+    type: "WAGER",
+    before,  // timestamps in ms
+    after
+  });
 
-  const headers = {
-    Accept: "application/json",
-    "x-api-key": API_KEY,     // <- EXACTLY like your curl
-  };
+  const payload = await fetchJson(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body
+  });
 
-  const payload = await fetchJson(url.toString(), { headers });
+  if (payload?.success !== true) {
+    throw new Error(`API returned unsuccessful response: ${JSON.stringify(payload).slice(0,300)}`);
+  }
+
   const rows = normalizeRows(payload);
 
   const out = {
     schemaVersion: 1,
-    rows,                    // <- username + wagered + rank
-    prizes: [],              // we only store raw rows here; UI applies ladder
+    rows,                // <- username + wagered + rank
+    prizes: [],          // ladder handled in UI
     metadata: {
       source: "csgold",
       fetchedAt: new Date().toISOString(),
-      url: url.toString()
+      url
     }
   };
 
@@ -94,10 +82,6 @@ export default async function fetchCsGold() {
   console.log("✅ Wrote", path.resolve(OUT));
 }
 
-// Allow running standalone
 if (import.meta.url === `file://${process.argv[1]}`) {
-  fetchCsGold().catch((e) => {
-    console.error("CsGold error:", e.message);
-    process.exit(1);
-  });
+  run().catch(e => { console.error("CsGold error:", e.message); process.exit(1); });
 }
