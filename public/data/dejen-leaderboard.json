@@ -1,11 +1,103 @@
 {
   "schemaVersion": 1,
-  "rows": [],
-  "prizes": [],
+  "rows": [
+    {
+      "rank": 1,
+      "username": "boobs",
+      "wagered": 0
+    },
+    {
+      "rank": 2,
+      "username": "freedomgambler",
+      "wagered": 0
+    },
+    {
+      "rank": 3,
+      "username": "muta11",
+      "wagered": 0
+    },
+    {
+      "rank": 4,
+      "username": "hoodlum",
+      "wagered": 0
+    },
+    {
+      "rank": 5,
+      "username": "mrmustache",
+      "wagered": 0
+    },
+    {
+      "rank": 6,
+      "username": "larryjones8526",
+      "wagered": 0
+    },
+    {
+      "rank": 7,
+      "username": "gas",
+      "wagered": 0
+    },
+    {
+      "rank": 8,
+      "username": "mclovin69",
+      "wagered": 0
+    },
+    {
+      "rank": 9,
+      "username": "daveyplays1",
+      "wagered": 0
+    },
+    {
+      "rank": 10,
+      "username": "venky",
+      "wagered": 0
+    }
+  ],
+  "prizes": [
+    {
+      "rank": 1,
+      "amount": 105000
+    },
+    {
+      "rank": 2,
+      "amount": 75000
+    },
+    {
+      "rank": 3,
+      "amount": 50000
+    },
+    {
+      "rank": 4,
+      "amount": 27500
+    },
+    {
+      "rank": 5,
+      "amount": 15000
+    },
+    {
+      "rank": 6,
+      "amount": 10000
+    },
+    {
+      "rank": 7,
+      "amount": 7500
+    },
+    {
+      "rank": 8,
+      "amount": 5000
+    },
+    {
+      "rank": 9,
+      "amount": 3000
+    },
+    {
+      "rank": 10,
+      "amount": 2000
+    }
+  ],
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-11-12T20:22:05.480Z",
+    "fetchedAt": "2025-11-12T20:28:02.205Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard"
   }
 }

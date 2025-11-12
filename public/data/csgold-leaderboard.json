@@ -1,52 +1,10 @@
 {
   "schemaVersion": 1,
   "rows": [],
-  "prizes": [
-    {
-      "rank": 1,
-      "amount": 105
-    },
-    {
-      "rank": 2,
-      "amount": 65
-    },
-    {
-      "rank": 3,
-      "amount": 40
-    },
-    {
-      "rank": 4,
-      "amount": 25
-    },
-    {
-      "rank": 5,
-      "amount": 15
-    },
-    {
-      "rank": 6,
-      "amount": 0
-    },
-    {
-      "rank": 7,
-      "amount": 0
-    },
-    {
-      "rank": 8,
-      "amount": 0
-    },
-    {
-      "rank": 9,
-      "amount": 0
-    },
-    {
-      "rank": 10,
-      "amount": 0
-    }
-  ],
+  "prizes": [],
   "metadata": {
     "source": "csgold",
-    "fetchedAt": "2025-11-12T20:12:25.971Z",
-    "url": "https://api.csgold.gg/affiliate/leaderboard/referrals?start=2025-11-01&end=2025-11-30&from=2025-11-01&to=2025-11-30&date_from=2025-11-01&date_to=2025-11-30&startDate=2025-11-01&endDate=2025-11-30&from_ts=1761955200&to_ts=1764547199&period=month",
-    "error": "HTTP 401 – https://api.csgold.gg/affiliate/leaderboard/referrals?start=2025-11-01&end=2025-11-30&from=2025-11-01&to=2025-11-30&date_from=2025-11-01&date_to=2025-11-30&startDate=2025-11-01&endDate=2025-11-30&from_ts=1761955200&to_ts=1764547199&period=month – {\"success\":false,\"error\":{\"message\":\"You are not authorized to perform this action.\",\"service\":\"GENERIC\",\"notify\":false}}"
+    "fetchedAt": "2025-11-12T20:28:02.648Z",
+    "url": "https://api.csgold.gg/affiliate/leaderboard/referrals"
   }
 }
