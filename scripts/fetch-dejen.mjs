@@ -29,6 +29,7 @@ function extractUsername(entry, fb = "Player") {
 function extractWagered(entry) {
   // integers representing cents/lowest unit we divide by 100
   const centLike =
+    entry?.wager_total ??
     entry?.wagered_cents ??
     entry?.wageredCents ??
     entry?.total_wagered_cents ??
