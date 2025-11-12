@@ -1,13 +1,26 @@
 // scripts/fetch-all.mjs
-import { spawn } from "node:child_process";
+import fetchDejen from "./fetch-dejen.mjs";
+import fetchCsGold from "./fetch-csgold.mjs";
 
-function run(nodeFile) {
-  return new Promise((resolve, reject) => {
-    const p = spawn(process.execPath, [nodeFile], { stdio: "inherit" });
-    p.on("close", (code) => (code === 0 ? resolve() : reject(new Error(`${nodeFile} exited ${code}`))));
-  });
+let ok = false;
+
+try {
+  await fetchDejen();
+  ok = true;
+} catch (e) {
+  console.error("Dejen failed:", e.message);
 }
 
-await run(new URL("./fetch-dejen.mjs", import.meta.url).pathname);
-await run(new URL("./fetch-csgold.mjs", import.meta.url).pathname);
-console.log("✅ Leaderboards updated successfully");
+try {
+  await fetchCsGold();
+  ok = true;
+} catch (e) {
+  console.error("CsGold failed:", e.message);
+}
+
+if (!ok) {
+  console.error("❌ Both fetches failed");
+  process.exit(1);
+} else {
+  console.log("✅ Leaderboards updated successfully");
+}
