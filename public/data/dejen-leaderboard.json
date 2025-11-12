@@ -1,6 +1,67 @@
 {
   "schemaVersion": 1,
-  "rows": [],
+  "rows": [
+    {
+      "rank": 1,
+      "username": "Player 1",
+      "wagered": 105000,
+      "prize": 1050
+    },
+    {
+      "rank": 2,
+      "username": "Player 2",
+      "wagered": 75000,
+      "prize": 750
+    },
+    {
+      "rank": 3,
+      "username": "Player 3",
+      "wagered": 50000,
+      "prize": 500
+    },
+    {
+      "rank": 4,
+      "username": "Player 4",
+      "wagered": 27500,
+      "prize": 275
+    },
+    {
+      "rank": 5,
+      "username": "Player 5",
+      "wagered": 15000,
+      "prize": 150
+    },
+    {
+      "rank": 6,
+      "username": "Player 6",
+      "wagered": 10000,
+      "prize": 100
+    },
+    {
+      "rank": 7,
+      "username": "Player 7",
+      "wagered": 7500,
+      "prize": 75
+    },
+    {
+      "rank": 8,
+      "username": "Player 8",
+      "wagered": 5000,
+      "prize": 50
+    },
+    {
+      "rank": 9,
+      "username": "Player 9",
+      "wagered": 3000,
+      "prize": 30
+    },
+    {
+      "rank": 10,
+      "username": "Player 10",
+      "wagered": 2000,
+      "prize": 20
+    }
+  ],
   "prizes": [
     {
       "rank": 1,
@@ -46,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-11-12T18:23:13.008Z",
+    "fetchedAt": "2025-11-12T18:30:37.661Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b"
   }
 }
