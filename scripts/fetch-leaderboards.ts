@@ -1,15 +1,15 @@
+// scripts/fetch-leaderboards.mjs
 /**
  * Fetches Dejen + CsGold leaderboard data and writes to /public/data/*.json
- * - Dejen: race id required
- * - CsGold: fully configurable auth headers; graceful fallback on 401
- * Node 18+; compatible with GitHub Actions. Use:
- *   node --experimental-strip-types scripts/fetch-leaderboards.ts
+ * Pure ESM JS (no TS). Node 18+.
  */
 
 import fs from "fs/promises";
 import path from "path";
 import process from "process";
 import dotenv from "dotenv";
+
+dotenv.config();
 
 // ==============================
 // Constants
@@ -47,13 +47,18 @@ const CSGOLD_EMPTY_ROWS = Array.from({ length: 10 }, (_, i) => ({
   rank: i + 1,
   username: "—",
   wagered: 0,
-  prize: CSGOLD_PRIZE_LADDER.find(p => p.rank === i + 1)?.amount ?? 0,
+  prize: CSGOLD_PRIZE_LADDER.find((p) => p.rank === i + 1)?.amount ?? 0,
 }));
 
 // ==============================
 // Helpers
 // ==============================
-function coerceNumber(value: any, fallback = 0): number {
+function getEnv(key, fallback) {
+  const v = process.env[key];
+  return v && v.trim().length ? v.trim() : fallback;
+}
+
+function coerceNumber(value, fallback = 0) {
   if (typeof value === "number" && Number.isFinite(value)) return value;
   if (typeof value === "string") {
     const parsed = Number(value.replace(/[^0-9.\-]/g, ""));
@@ -62,7 +67,7 @@ function coerceNumber(value: any, fallback = 0): number {
   return fallback;
 }
 
-function extractUsername(entry: any, fallback = "Player"): string {
+function extractUsername(entry, fallback = "Player") {
   return (
     entry?.username ??
     entry?.user ??
@@ -73,7 +78,7 @@ function extractUsername(entry: any, fallback = "Player"): string {
   );
 }
 
-function extractWagered(entry: any): number {
+function extractWagered(entry) {
   const src =
     entry?.wagered ??
     entry?.totalAmount ??
@@ -84,7 +89,7 @@ function extractWagered(entry: any): number {
   return coerceNumber(src, 0);
 }
 
-function pickPrize(entry: any, rank: number, ladder: any[]): any {
+function pickPrize(entry, rank, ladder) {
   const fromEntry =
     typeof entry?.prize === "object"
       ? entry?.prize?.amount ?? entry?.prize?.value ?? entry?.prize?.total
@@ -96,8 +101,8 @@ function pickPrize(entry: any, rank: number, ladder: any[]): any {
   return mapped ? { rank, amount: mapped.amount } : undefined;
 }
 
-function normalizeEntries(entries: any[], ladder: any[]) {
-  const prizeByRank = new Map<number, any>();
+function normalizeEntries(entries, ladder) {
+  const prizeByRank = new Map();
   const rows = entries.map((entry, index) => {
     const rawRank =
       entry?.rank ??
@@ -124,7 +129,7 @@ function normalizeEntries(entries: any[], ladder: any[]) {
   return { rows, prizes };
 }
 
-async function fetchJson(url: string, init: RequestInit = {}) {
+async function fetchJson(url, init = {}) {
   const res = await fetch(url, init);
   if (!res.ok) {
     const body = await res.text().catch(() => "");
@@ -139,7 +144,7 @@ async function ensureDataDirectory() {
   return dir;
 }
 
-async function writeJsonFile(filename: string, data: any) {
+async function writeJsonFile(filename, data) {
   const dir = await ensureDataDirectory();
   const file = path.join(dir, filename);
   await fs.writeFile(file, JSON.stringify(data, null, 2));
@@ -149,9 +154,9 @@ async function writeJsonFile(filename: string, data: any) {
 // ==============================
 // Fetchers
 // ==============================
-async function fetchDejenLeaderboard(raceId: string) {
-  const base = process.env.DEJEN_BASE_URL ?? "https://api.dejen.com";
-  const url = `${base.replace(/\/+$/,"")}/races/${raceId}`;
+async function fetchDejenLeaderboard(raceId) {
+  const base = getEnv("DEJEN_BASE_URL", "https://api.dejen.com").replace(/\/+$/, "");
+  const url = `${base}/races/${raceId}`;
   const payload = await fetchJson(url);
   const { rows, prizes } = normalizeEntries(payload?.leaderboard ?? [], DEJEN_PRIZE_LADDER);
   return {
@@ -168,47 +173,40 @@ async function fetchDejenLeaderboard(raceId: string) {
 }
 
 /**
- * CsGold often differs by environment:
- *  - Some need only `x-api-key: <key>`
- *  - Some need `Authorization: Bearer <token>`
- *  - Some use a different endpoint
- * Make it fully configurable via env:
- *   CSGOLD_BASE_URL        (default https://api.csgold.gg)
- *   CSGOLD_ENDPOINT        (default /affiliate/leaderboard/referrals)
- *   CSGOLD_API_KEY         (your secret)
- *   CSGOLD_AUTH_HEADER     (default x-api-key)
- *   CSGOLD_AUTH_SCHEME     (default raw; can be 'Bearer' to emit Authorization: Bearer <key>)
- *   CSGOLD_EXTRA_HEADERS   (optional JSON string of extra headers)
+ * CsGold env config (empty strings fall back safely):
+ *   CSGOLD_BASE_URL      default https://api.csgold.gg
+ *   CSGOLD_ENDPOINT      default /affiliate/leaderboard/referrals
+ *   CSGOLD_API_KEY       required
+ *   CSGOLD_AUTH_HEADER   default x-api-key
+ *   CSGOLD_AUTH_SCHEME   default raw ("bearer" -> Authorization: Bearer <key>)
+ *   CSGOLD_EXTRA_HEADERS optional JSON map
  */
 async function fetchCsGoldLeaderboard() {
-  const base = process.env.CSGOLD_BASE_URL ?? "https://api.csgold.gg";
-  const endpointPath = process.env.CSGOLD_ENDPOINT ?? "/affiliate/leaderboard/referrals";
+  const base = getEnv("CSGOLD_BASE_URL", "https://api.csgold.gg");
+  const endpointPath = getEnv("CSGOLD_ENDPOINT", "/affiliate/leaderboard/referrals");
   const endpoint = new URL(endpointPath, base);
 
-  const apiKey = process.env.CSGOLD_API_KEY ?? "";
-  const authHeader = (process.env.CSGOLD_AUTH_HEADER ?? "x-api-key").toLowerCase();
-  const authScheme = (process.env.CSGOLD_AUTH_SCHEME ?? "raw").toLowerCase();
+  const apiKey = getEnv("CSGOLD_API_KEY", "");
+  const authHeader = getEnv("CSGOLD_AUTH_HEADER", "x-api-key").toLowerCase();
+  const authScheme = getEnv("CSGOLD_AUTH_SCHEME", "raw").toLowerCase();
 
-  const headers: Record<string, string> = { Accept: "application/json" };
+  if (!apiKey) throw new Error("Missing CSGOLD_API_KEY");
 
-  if (!apiKey) {
-    throw new Error("Missing CSGOLD_API_KEY");
-  }
+  const headers = { Accept: "application/json" };
 
   if (authHeader === "authorization" && authScheme === "bearer") {
     headers["Authorization"] = `Bearer ${apiKey}`;
   } else if (authHeader === "authorization" && authScheme === "token") {
     headers["Authorization"] = `Token ${apiKey}`;
   } else {
-    // default: x-api-key: <key>
-    headers[authHeader] = apiKey;
+    headers[authHeader] = apiKey; // default x-api-key
   }
 
-  // Optional extra headers
-  if (process.env.CSGOLD_EXTRA_HEADERS) {
+  const extra = getEnv("CSGOLD_EXTRA_HEADERS", "");
+  if (extra) {
     try {
-      const extra = JSON.parse(process.env.CSGOLD_EXTRA_HEADERS);
-      for (const [k, v] of Object.entries(extra)) headers[k] = String(v);
+      const parsed = JSON.parse(extra);
+      for (const [k, v] of Object.entries(parsed)) headers[k] = String(v);
     } catch {
       console.warn("⚠️ CSGOLD_EXTRA_HEADERS is not valid JSON – ignored");
     }
@@ -216,7 +214,6 @@ async function fetchCsGoldLeaderboard() {
 
   const payload = await fetchJson(endpoint.toString(), { headers });
 
-  // Accept either array or object with list property
   const list = Array.isArray(payload)
     ? payload
     : Array.isArray(payload?.leaderboard)
@@ -243,19 +240,15 @@ async function fetchCsGoldLeaderboard() {
 // Main
 // ==============================
 async function main() {
-  dotenv.config();
+  const writes = [];
 
-  const writes: Promise<any>[] = [];
-
-  // Dejen (failures here should still let CsGold try)
-  const dejenRaceId = process.env.DEJEN_RACE_ID;
+  const dejenRaceId = getEnv("DEJEN_RACE_ID", "");
   if (dejenRaceId) {
     try {
       const dejen = await fetchDejenLeaderboard(dejenRaceId);
       writes.push(writeJsonFile("dejen-leaderboard.json", dejen));
     } catch (err) {
       console.error("⚠️ Dejen fetch failed:", err);
-      // Optional: write an all-fallback file instead of skipping
       const { rows, prizes } = normalizeEntries([], DEJEN_PRIZE_LADDER);
       writes.push(
         writeJsonFile("dejen-leaderboard.json", {
@@ -274,12 +267,11 @@ async function main() {
     console.warn("ℹ️ DEJEN_RACE_ID not set – skipping Dejen");
   }
 
-  // CsGold — NEVER fail the whole run. Write a fallback on error.
-  if (process.env.CSGOLD_API_KEY) {
+  if (getEnv("CSGOLD_API_KEY", "")) {
     try {
       const cs = await fetchCsGoldLeaderboard();
       writes.push(writeJsonFile("csgold-leaderboard.json", cs));
-    } catch (err: any) {
+    } catch (err) {
       console.error("⚠️ CsGold fetch failed; writing fallback:", err?.message ?? err);
       writes.push(
         writeJsonFile("csgold-leaderboard.json", {
@@ -308,7 +300,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  // This catch is now mostly for unexpected write failures.
   console.error("❌ Fatal error:", err);
   process.exit(1);
 });
