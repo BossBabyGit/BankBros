@@ -1,67 +1,6 @@
 {
   "schemaVersion": 1,
-  "rows": [
-    {
-      "rank": 1,
-      "username": "—",
-      "wagered": 0,
-      "prize": 105
-    },
-    {
-      "rank": 2,
-      "username": "—",
-      "wagered": 0,
-      "prize": 65
-    },
-    {
-      "rank": 3,
-      "username": "—",
-      "wagered": 0,
-      "prize": 40
-    },
-    {
-      "rank": 4,
-      "username": "—",
-      "wagered": 0,
-      "prize": 25
-    },
-    {
-      "rank": 5,
-      "username": "—",
-      "wagered": 0,
-      "prize": 15
-    },
-    {
-      "rank": 6,
-      "username": "—",
-      "wagered": 0,
-      "prize": 0
-    },
-    {
-      "rank": 7,
-      "username": "—",
-      "wagered": 0,
-      "prize": 0
-    },
-    {
-      "rank": 8,
-      "username": "—",
-      "wagered": 0,
-      "prize": 0
-    },
-    {
-      "rank": 9,
-      "username": "—",
-      "wagered": 0,
-      "prize": 0
-    },
-    {
-      "rank": 10,
-      "username": "—",
-      "wagered": 0,
-      "prize": 0
-    }
-  ],
+  "rows": [],
   "prizes": [
     {
       "rank": 1,
@@ -106,7 +45,8 @@
   ],
   "metadata": {
     "source": "csgold",
-    "fetchedAt": "2025-11-12T18:37:31.139Z",
-    "error": "Error: HTTP 401 – https://api.csgold.gg/affiliate/leaderboard/referrals – {\"success\":false,\"error\":{\"message\":\"You are not authorized to perform this action.\",\"service\":\"GENERIC\",\"notify\":false}}"
+    "fetchedAt": "2025-11-12T20:12:25.971Z",
+    "url": "https://api.csgold.gg/affiliate/leaderboard/referrals?start=2025-11-01&end=2025-11-30&from=2025-11-01&to=2025-11-30&date_from=2025-11-01&date_to=2025-11-30&startDate=2025-11-01&endDate=2025-11-30&from_ts=1761955200&to_ts=1764547199&period=month",
+    "error": "HTTP 401 – https://api.csgold.gg/affiliate/leaderboard/referrals?start=2025-11-01&end=2025-11-30&from=2025-11-01&to=2025-11-30&date_from=2025-11-01&date_to=2025-11-30&startDate=2025-11-01&endDate=2025-11-30&from_ts=1761955200&to_ts=1764547199&period=month – {\"success\":false,\"error\":{\"message\":\"You are not authorized to perform this action.\",\"service\":\"GENERIC\",\"notify\":false}}"
   }
 }
