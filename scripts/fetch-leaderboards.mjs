@@ -1,23 +1,51 @@
+// scripts/fetch-leaderboards.mjs
 import fs from "fs/promises";
 import path from "path";
 import process from "process";
+import dotenv from "dotenv";
 
-// -------------------- helpers --------------------
+dotenv.config();
+
+// ---------- constants ----------
 const SCHEMA_VERSION = 1;
 
-const DEJEN_PRIZE_LADDER = [
-  { rank: 1, amount: 1050 }, { rank: 2, amount: 750 }, { rank: 3, amount: 500 },
-  { rank: 4, amount: 275 },  { rank: 5, amount: 150 }, { rank: 6, amount: 100 },
-  { rank: 7, amount: 75 },   { rank: 8, amount: 50 },  { rank: 9, amount: 30 },
+const DEJEN_PRIZES_DEFAULT = [
+  { rank: 1, amount: 1050 },
+  { rank: 2, amount: 750 },
+  { rank: 3, amount: 500 },
+  { rank: 4, amount: 275 },
+  { rank: 5, amount: 150 },
+  { rank: 6, amount: 100 },
+  { rank: 7, amount: 75 },
+  { rank: 8, amount: 50 },
+  { rank: 9, amount: 30 },
   { rank: 10, amount: 20 },
 ];
 
-const CSGOLD_PRIZE_LADDER = [
-  { rank: 1, amount: 105 }, { rank: 2, amount: 65 }, { rank: 3, amount: 40 },
-  { rank: 4, amount: 25 },  { rank: 5, amount: 15 }, { rank: 6, amount: 0 },
-  { rank: 7, amount: 0 },   { rank: 8, amount: 0 },  { rank: 9, amount: 0 },
+const CSGOLD_PRIZES = [
+  { rank: 1, amount: 105 },
+  { rank: 2, amount: 65 },
+  { rank: 3, amount: 40 },
+  { rank: 4, amount: 25 },
+  { rank: 5, amount: 15 },
+  { rank: 6, amount: 0 },
+  { rank: 7, amount: 0 },
+  { rank: 8, amount: 0 },
+  { rank: 9, amount: 0 },
   { rank: 10, amount: 0 },
 ];
+
+// ---------- utils ----------
+const DATA_DIR = path.resolve("public/data");
+async function ensureDir() {
+  await fs.mkdir(DATA_DIR, { recursive: true });
+}
+async function writeJson(file, data) {
+  await ensureDir();
+  const p = path.join(DATA_DIR, file);
+  await fs.writeFile(p, JSON.stringify(data, null, 2));
+  console.log("✅ Wrote", p);
+}
 
 function coerceNumber(v, fb = 0) {
   if (typeof v === "number" && Number.isFinite(v)) return v;
@@ -25,78 +53,63 @@ function coerceNumber(v, fb = 0) {
     const n = Number(v.replace(/[^0-9.\-]/g, ""));
     return Number.isFinite(n) ? n : fb;
   }
-  if (typeof v === "bigint") return Number(v);
   return fb;
 }
 
-function firstArrayDeep(obj, maxDepth = 6) {
-  const seen = new Set();
-  function walk(x, d) {
-    if (!x || d > maxDepth) return null;
-    if (Array.isArray(x)) return x;
-    if (typeof x !== "object") return null;
-    if (seen.has(x)) return null;
-    seen.add(x);
-
-    // try common keys first
-    for (const k of ["leaderboard", "rows", "entries", "data", "items", "list", "result", "top"]) {
-      if (k in x) {
-        const arr = walk(x[k], d + 1);
-        if (arr) return arr;
-      }
-    }
-    // scan all props
-    for (const k of Object.keys(x)) {
-      const arr = walk(x[k], d + 1);
-      if (arr) return arr;
-    }
-    return null;
-  }
-  return walk(obj, 0) || [];
+function extractArray(payload) {
+  if (!payload) return [];
+  if (Array.isArray(payload)) return payload;
+  const keys = ["leaderboard", "rows", "items", "data", "entries", "list", "users"];
+  for (const k of keys) if (Array.isArray(payload?.[k])) return payload[k];
+  return [];
 }
 
-function mapRows(list, ladder, usernameKey = "username", wagerKey = "wagered") {
-  const prizeByRank = new Map();
-  const rows = list.map((entry, idx) => {
-    const rawRank = entry?.rank ?? entry?.position ?? entry?.place ?? idx + 1;
-    const rank = coerceNumber(rawRank, idx + 1);
+function normalizeRows(list, prizeLadder = []) {
+  const prizeByRank = new Map(prizeLadder.map(p => [p.rank, p.amount]));
 
-    // Username
+  const rows = extractArray(list).map((row, idx) => {
+    const rawRank = row?.rank ?? row?.position ?? row?.place ?? row?.order ?? row?.index;
+    const rank = Number.isFinite(rawRank) ? Number(rawRank) : idx + 1;
+
     const username =
-      entry?.[usernameKey] ??
-      entry?.username ??
-      entry?.user ??
-      entry?.name ??
-      entry?.player ??
-      entry?.displayName ??
+      row?.username ??
+      row?.user ??
+      row?.name ??
+      row?.player ??
+      row?.displayName ??
       `Player ${rank}`;
 
-    // Wagered
-    const wagered =
-      coerceNumber(entry?.[wagerKey], NaN) ??
+    // common wager fields
+    const wagerSrc =
+      row?.wagered ??
+      row?.totalAmount ??
+      row?.amount ??
+      row?.value ??
+      row?.volume ??
+      row?.points ??
+      row?.total ??
       0;
-    const bestWagered = Number.isFinite(wagered)
-      ? wagered
-      : coerceNumber(entry?.totalAmount ?? entry?.amount ?? entry?.value ?? entry?.total ?? entry?.points ?? entry?.volume, 0);
 
-    // Prize
-    const fromEntry = typeof entry?.prize === "object"
-      ? entry?.prize?.amount ?? entry?.prize?.value ?? entry?.prize?.total
-      : entry?.prize;
-    const prizeAmount = fromEntry != null ? coerceNumber(fromEntry, 0)
-      : (ladder.find(p => p.rank === rank)?.amount ?? 0);
+    const wagered = coerceNumber(wagerSrc, 0);
 
-    if (!prizeByRank.has(rank)) prizeByRank.set(rank, { rank, amount: prizeAmount });
+    // prize (prefer explicit, else ladder)
+    const prizeFromRow =
+      typeof row?.prize === "object"
+        ? row?.prize?.amount ?? row?.prize?.value ?? row?.prize?.total
+        : row?.prize;
+    const prize = coerceNumber(prizeFromRow, prizeByRank.get(rank) ?? 0);
 
-    return { rank, username: String(username), wagered: bestWagered, prize: prizeAmount };
+    return { rank, username, wagered, prize };
   });
 
   rows.sort((a, b) => a.rank - b.rank);
-
-  const prizes = ladder.map(p => ({
-    rank: p.rank,
-    amount: prizeByRank.get(p.rank)?.amount ?? p.amount,
-  }));
+  // ensure prize array straight from ladder (or from data if provided)
+  const prizes = prizeLadder.length
+    ? prizeLadder
+    : Array.from({ length: 10 }, (_, i) => ({
+        rank: i + 1,
+        amount: rows.find(r => r.rank === i + 1)?.prize ?? 0,
+      }));
 
   return { rows, prizes };
 }
@@ -105,158 +118,197 @@ async function fetchJson(url, init = {}) {
   const res = await fetch(url, init);
   const text = await res.text();
   if (!res.ok) {
-    throw new Error(`HTTP ${res.status} – ${url} – ${text.slice(0, 200)}`);
+    throw new Error(`HTTP ${res.status} – ${url} – ${text.slice(0, 400)}`);
   }
-  try { return JSON.parse(text); } catch {
-    throw new Error(`Invalid JSON from ${url}: ${text.slice(0, 120)}`);
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error(`Invalid JSON from ${url}: ${text.slice(0, 200)}`);
   }
 }
 
-async function ensureDir() {
-  const dir = path.resolve("public/data");
-  await fs.mkdir(dir, { recursive: true });
-  return dir;
-}
-async function writeJson(filename, data) {
-  const dir = await ensureDir();
-  const file = path.join(dir, filename);
-  await fs.writeFile(file, JSON.stringify(data, null, 2));
-  console.log("✅ Wrote", file);
-}
+// ---------- Dejen ----------
+async function fetchDejenAll(raceId) {
+  const base = (process.env.DEJEN_BASE_URL || "https://api.dejen.com").replace(/\/+$/,"");
+  const metaUrl = `${base}/races/${raceId}`;
+  const candidates = [
+    `${base}/races/${raceId}/leaderboard`,
+    `${base}/races/${raceId}/standings`,
+    // last resort: some APIs include it inline
+    metaUrl
+  ];
 
-// -------------------- Dejen --------------------
-// Tries the race URL first; if no rows found, tries /races/:id/leaderboard
-async function fetchDejen(raceId) {
-  const base = "https://api.dejen.com";
-  const url = `${base}/races/${raceId}`;
-  const payload = await fetchJson(url);
+  // 1) get meta (for prizes window & to write raw)
+  const meta = await fetchJson(metaUrl).catch(e => {
+    console.warn("Dejen meta fetch failed:", e.message);
+    return null;
+  });
+  if (meta) await writeJson("dejen-raw.json", meta);
 
-  let list = firstArrayDeep(payload);
-  if (!list.length) {
-    // try sibling endpoint that commonly exposes the actual leaderboard rows
-    const alt = `${base}/races/${raceId}/leaderboard`;
+  // prizes: prefer meta.prizes if present
+  const ladder = Array.isArray(meta?.prizes) && meta.prizes.length ? meta.prizes : DEJEN_PRIZES_DEFAULT;
+
+  // 2) try endpoints for actual rows
+  for (const url of candidates) {
     try {
-      const lb = await fetchJson(alt);
-      list = firstArrayDeep(lb);
-      if (!list.length && Array.isArray(lb)) list = lb;
-      var metaUrl = alt; // eslint-disable-line no-var
+      const payload = await fetchJson(url);
+      await writeJson("dejen-leaderboard-raw.json", { url, payload }); // debug
+      const arr = extractArray(payload);
+      if (arr.length) {
+        const { rows, prizes } = normalizeRows(arr, ladder);
+        return {
+          schemaVersion: SCHEMA_VERSION,
+          rows,
+          prizes,
+          metadata: {
+            source: "dejen",
+            raceId,
+            fetchedAt: new Date().toISOString(),
+            url,
+            period: { start: meta?.start_time ?? null, end: meta?.end_time ?? null },
+          },
+        };
+      }
     } catch (e) {
-      // ignore; we’ll proceed with empty rows
-      metaUrl = url; // eslint-disable-line no-var
+      // try next
+      console.warn("Dejen endpoint failed:", e.message);
     }
   }
-  const { rows, prizes } = mapRows(list, DEJEN_PRIZE_LADDER, "username", "wagered");
+
+  // 3) if we get here, we didn’t find rows; still write meta-based prizes
+  const { rows, prizes } = normalizeRows([], ladder);
   return {
     schemaVersion: SCHEMA_VERSION,
-    rows,
-    prizes: payload?.prizes ?? prizes,
+    rows, // empty -> your UI will show “no live data yet”
+    prizes,
     metadata: {
       source: "dejen",
       raceId,
       fetchedAt: new Date().toISOString(),
-      url: metaUrl || url,
+      error: "No leaderboard array found on any known endpoint",
+      tried: candidates,
+      period: { start: meta?.start_time ?? null, end: meta?.end_time ?? null },
     },
   };
 }
 
-// -------------------- CsGold --------------------
-// EXACT match to your sample: array of { username, totalAmount, ... }
-function currentMonthRangeUTC() {
-  const now = new Date();
+// ---------- CsGold ----------
+function monthRangeUTC(now = new Date()) {
+  // Europe/Vienna timezone is UTC+1/+2, but CsGold likely wants UTC dates.
   const y = now.getUTCFullYear();
-  const m = now.getUTCMonth();
-  const start = new Date(Date.UTC(y, m, 1, 0, 0, 0, 0));
-  const end = new Date(Date.UTC(y, m + 1, 0, 23, 59, 59, 999));
-  const d = (dt) => dt.toISOString().slice(0, 10);
-  return { startISOd: d(start), endISOd: d(end) };
+  const m = now.getUTCMonth(); // 0-based
+  const start = new Date(Date.UTC(y, m, 1, 0, 0, 0));
+  const end = new Date(Date.UTC(y, m + 1, 0, 23, 59, 59));
+  const toISO = (d) => d.toISOString().slice(0, 10); // YYYY-MM-DD
+  return {
+    startISO: toISO(start),
+    endISO: toISO(end),
+    startUnix: Math.floor(start.getTime() / 1000),
+    endUnix: Math.floor(end.getTime() / 1000),
+  };
 }
 
 async function fetchCsGold() {
-  const base = "https://api.csgold.gg";
-  const endpoint = new URL("/affiliate/leaderboard/referrals", base);
+  const base = (process.env.CSGOLD_BASE_URL || "https://api.csgold.gg").replace(/\/+$/,"");
+  const endpointPath = process.env.CSGOLD_ENDPOINT || "/affiliate/leaderboard/referrals";
+  const url = new URL(endpointPath, base);
 
-  if (process.env.CSGOLD_USE_MONTH === "true") {
-    const r = currentMonthRangeUTC();
-    // Add *only* two conventional params; avoid spammy noise
-    endpoint.searchParams.set("from", r.startISOd);
-    endpoint.searchParams.set("to", r.endISOd);
-  }
+  const { startISO, endISO, startUnix, endUnix } = monthRangeUTC();
 
-  const key = process.env.CSGOLD_API_KEY;
+  // include a bunch of commonly used param names — the server will ignore unknown ones
+  const params = {
+    start: startISO,
+    end: endISO,
+    from: startISO,
+    to: endISO,
+    date_from: startISO,
+    date_to: endISO,
+    startDate: startISO,
+    endDate: endISO,
+    from_ts: String(startUnix),
+    to_ts: String(endUnix),
+    period: "month",
+  };
+  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+
+  const key = process.env.CSGOLD_API_KEY || "";
   if (!key) throw new Error("Missing CSGOLD_API_KEY");
 
-  // CsGold per your sample: x-api-key ONLY. No bearer.
-  const headers = {
-    Accept: "application/json",
-    "x-api-key": key,
-  };
+  // Most affiliates use x-api-key. If your key actually needs Authorization, set the envs accordingly.
+  const authHeader = (process.env.CSGOLD_AUTH_HEADER || "x-api-key").toLowerCase();
+  const authScheme = (process.env.CSGOLD_AUTH_SCHEME || "raw").toLowerCase();
 
-  const payload = await fetchJson(endpoint.toString(), { headers });
+  const headers = { Accept: "application/json" };
+  if (authHeader === "authorization") {
+    headers["Authorization"] =
+      authScheme === "bearer" ? `Bearer ${key}` :
+      authScheme === "token" ? `Token ${key}` :
+      key;
+  } else {
+    headers[authHeader] = key; // default: x-api-key: <key>
+  }
 
-  // If the API returns an array (your sample), use it directly.
-  const list = Array.isArray(payload) ? payload : firstArrayDeep(payload);
-  const { rows, prizes } = mapRows(list, CSGOLD_PRIZE_LADDER, "username", "totalAmount");
+  if (process.env.CSGOLD_EXTRA_HEADERS) {
+    try {
+      const extra = JSON.parse(process.env.CSGOLD_EXTRA_HEADERS);
+      for (const [k, v] of Object.entries(extra)) headers[k] = String(v);
+    } catch {
+      console.warn("CSGOLD_EXTRA_HEADERS is not valid JSON; ignoring");
+    }
+  }
 
-  return {
-    schemaVersion: SCHEMA_VERSION,
-    rows,
-    prizes,
-    metadata: {
-      source: "csgold",
-      fetchedAt: new Date().toISOString(),
-      url: endpoint.toString(),
-    },
-  };
+  try {
+    const payload = await fetchJson(url.toString(), { headers });
+    await writeJson("csgold-raw.json", { url: url.toString(), payload }); // debug
+
+    // payload is expected to be an array of { username, totalAmount, ... }
+    const { rows, prizes } = normalizeRows(payload, CSGOLD_PRIZES);
+    return {
+      schemaVersion: SCHEMA_VERSION,
+      rows,
+      prizes,
+      metadata: {
+        source: "csgold",
+        fetchedAt: new Date().toISOString(),
+        url: url.toString(),
+      },
+    };
+  } catch (e) {
+    // 401 or any other error — write a file with the error and zero rows (no fake names)
+    await writeJson("csgold-raw.json", { url: url.toString(), error: String(e.message || e) });
+    return {
+      schemaVersion: SCHEMA_VERSION,
+      rows: [], // no sample usernames
+      prizes: CSGOLD_PRIZES,
+      metadata: {
+        source: "csgold",
+        fetchedAt: new Date().toISOString(),
+        url: url.toString(),
+        error: String(e.message || e),
+      },
+    };
+  }
 }
 
-// -------------------- main --------------------
+// ---------- main ----------
 async function main() {
   const writes = [];
 
-  const raceId = process.env.DEJEN_RACE_ID;
-  if (raceId) {
-    try {
-      const dejen = await fetchDejen(raceId);
-      writes.push(writeJson("dejen-leaderboard.json", dejen));
-    } catch (e) {
-      console.error("Dejen error:", e.message || e);
-      // still write meta + prizes so UI doesn't break
-      writes.push(writeJson("dejen-leaderboard.json", {
-        schemaVersion: SCHEMA_VERSION,
-        rows: [],
-        prizes: DEJEN_PRIZE_LADDER,
-        metadata: { source: "dejen", raceId, fetchedAt: new Date().toISOString(), error: String(e) },
-      }));
-    }
+  // Dejen
+  const dejenId = process.env.DEJEN_RACE_ID;
+  if (dejenId) {
+    const dejen = await fetchDejenAll(dejenId);
+    writes.push(writeJson("dejen-leaderboard.json", dejen));
   } else {
-    console.warn("DEJEN_RACE_ID not set – skipping Dejen");
+    console.warn("DEJEN_RACE_ID not set — skipping Dejen");
   }
 
+  // CsGold
   if (process.env.CSGOLD_API_KEY) {
-    try {
-      const cs = await fetchCsGold();
-      writes.push(writeJson("csgold-leaderboard.json", cs));
-    } catch (e) {
-      console.error("CsGold error:", e.message || e);
-      // write nothing fake besides empty rows (so UI shows zeros, not random names)
-      const emptyRows = Array.from({ length: 10 }, (_, i) => ({
-        rank: i + 1, username: "—", wagered: 0,
-        prize: CSGOLD_PRIZE_LADDER.find(p => p.rank === i + 1)?.amount ?? 0,
-      }));
-      writes.push(writeJson("csgold-leaderboard.json", {
-        schemaVersion: SCHEMA_VERSION,
-        rows: emptyRows,
-        prizes: CSGOLD_PRIZE_LADDER,
-        metadata: { source: "csgold", fetchedAt: new Date().toISOString(), error: String(e) },
-      }));
-    }
+    const cs = await fetchCsGold();
+    writes.push(writeJson("csgold-leaderboard.json", cs));
   } else {
-    console.warn("CSGOLD_API_KEY not set – skipping CsGold");
-  }
-
-  if (!writes.length) {
-    console.warn("No credentials provided; nothing fetched.");
-    return;
+    console.warn("CSGOLD_API_KEY not set — skipping CsGold");
   }
 
   await Promise.all(writes);
@@ -264,6 +316,6 @@ async function main() {
 }
 
 main().catch((e) => {
-  console.error("Fatal:", e);
+  console.error("❌ Fatal error:", e);
   process.exit(1);
 });
