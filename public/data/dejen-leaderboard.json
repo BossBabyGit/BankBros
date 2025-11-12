@@ -4,61 +4,61 @@
     {
       "rank": 1,
       "username": "boobs",
-      "wagered": 0,
+      "wagered": 35918.84,
       "prize": 105000
     },
     {
       "rank": 2,
       "username": "freedomgambler",
-      "wagered": 0,
+      "wagered": 6240.08,
       "prize": 75000
     },
     {
       "rank": 3,
       "username": "muta11",
-      "wagered": 0,
+      "wagered": 2410.03,
       "prize": 50000
     },
     {
       "rank": 4,
       "username": "hoodlum",
-      "wagered": 0,
+      "wagered": 1590.91,
       "prize": 27500
     },
     {
       "rank": 5,
       "username": "mrmustache",
-      "wagered": 0,
+      "wagered": 568.87,
       "prize": 15000
     },
     {
       "rank": 6,
       "username": "larryjones8526",
-      "wagered": 0,
+      "wagered": 132.41,
       "prize": 10000
     },
     {
       "rank": 7,
       "username": "gas",
-      "wagered": 0,
+      "wagered": 71.55,
       "prize": 7500
     },
     {
       "rank": 8,
       "username": "mclovin69",
-      "wagered": 0,
+      "wagered": 62.75,
       "prize": 5000
     },
     {
       "rank": 9,
       "username": "daveyplays1",
-      "wagered": 0,
+      "wagered": 53.58,
       "prize": 3000
     },
     {
       "rank": 10,
       "username": "venky",
-      "wagered": 0,
+      "wagered": 33.88,
       "prize": 2000
     }
   ],
@@ -107,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-11-12T21:46:28.517Z",
+    "fetchedAt": "2025-11-12T21:49:47.168Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
