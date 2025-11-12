@@ -4,6 +4,17 @@ import process from "process";
 
 const SCHEMA_VERSION = 1;
 
+// ========================================
+// 🔧 MANUAL DATE CONFIGURATION
+// ========================================
+// Set your date range here (format: YYYY-MM-DD)
+const MANUAL_START_DATE = "2025-10-01";  // ← Change this
+const MANUAL_END_DATE = "2025-11-01";    // ← Change this
+
+// Set to true to use manual dates, false to use current month
+const USE_MANUAL_DATES = true;  // ← Change to false to use current month
+// ========================================
+
 function coerceNumber(v, fb = 0) {
   if (typeof v === "number" && Number.isFinite(v)) return v;
   if (typeof v === "string") {
@@ -13,13 +24,32 @@ function coerceNumber(v, fb = 0) {
   return fb;
 }
 
-// Get current month bounds in UTC milliseconds
+// Get month bounds in UTC milliseconds
 function monthBoundsUtcMs(d = new Date()) {
   const y = d.getUTCFullYear();
   const m = d.getUTCMonth();
   const startMs = Date.UTC(y, m, 1, 0, 0, 0);
   const endMs   = Date.UTC(y, m + 1, 1, 0, 0, 0) - 1;
   return { after: startMs, before: endMs };
+}
+
+// Get date range (manual or automatic)
+function getDateRange() {
+  if (USE_MANUAL_DATES) {
+    const after = new Date(MANUAL_START_DATE).getTime();
+    const before = new Date(MANUAL_END_DATE).getTime() - 1;
+    
+    if (!isNaN(after) && !isNaN(before)) {
+      console.log(`📅 CsGold: Using MANUAL date range`);
+      return { after, before };
+    } else {
+      console.warn(`⚠️  CsGold: Invalid manual dates, falling back to current month`);
+    }
+  }
+  
+  // Default: use current month
+  console.log(`📅 CsGold: Using current month (automatic)`);
+  return monthBoundsUtcMs(new Date());
 }
 
 async function fetchText(url, init) {
@@ -41,7 +71,7 @@ export default async function fetchCsGold() {
   const apiKey = process.env.CSGOLD_API_KEY;
   if (!apiKey) throw new Error("CSGOLD_API_KEY is not set");
 
-  const { after, before } = monthBoundsUtcMs(new Date());
+  const { after, before } = getDateRange();
 
   console.log(`📅 CsGold: Fetching data for period:`);
   console.log(`   Start: ${new Date(after).toISOString()}`);
@@ -49,15 +79,12 @@ export default async function fetchCsGold() {
 
   const url = "https://api.csgold.gg/affiliate/leaderboard/referrals";
   
-  // Match your working PHP script structure EXACTLY
   const body = JSON.stringify({
     key: apiKey,
     type: "WAGER",
     before: before,
     after: after,
   });
-
-  console.log(`📤 CsGold: Sending request with body:`, JSON.parse(body));
 
   const txt = await fetchText(url, {
     method: "POST",
@@ -85,32 +112,24 @@ export default async function fetchCsGold() {
   let data = [];
   
   if (Array.isArray(payload)) {
-    // Direct array response (like your PHP example shows)
     data = payload;
     console.log(`📊 CsGold: Received direct array with ${data.length} entries`);
   } else if (payload?.success && Array.isArray(payload?.data)) {
-    // Wrapped in success response
     data = payload.data;
     console.log(`📊 CsGold: Received wrapped response with ${data.length} entries`);
   } else if (Array.isArray(payload?.data)) {
-    // Just wrapped in data
     data = payload.data;
     console.log(`📊 CsGold: Received data array with ${data.length} entries`);
   } else if (!payload?.success) {
     console.warn(`⚠️  CsGold: API returned success=false or missing success field`);
-    console.warn(`⚠️  Full response:`, payload);
   } else {
     console.warn(`⚠️  CsGold: Unexpected response structure. Keys: ${Object.keys(payload).join(', ')}`);
   }
 
-  // If no data, log warning but continue (will use empty array)
+  // If no data, log warning but continue
   if (data.length === 0) {
     console.warn(`⚠️  CsGold: No leaderboard data returned for this period`);
-    console.warn(`⚠️  This might be normal if:
-    - The current month just started
-    - No players have wagered yet
-    - The API key doesn't have data for this period
-    - The date range needs adjustment`);
+    console.warn(`⚠️  💡 TIP: Edit the MANUAL_START_DATE and MANUAL_END_DATE at the top of this file`);
   }
 
   // Sort by totalAmount descending and take top 10
@@ -136,7 +155,14 @@ export default async function fetchCsGold() {
       source: "csgold",
       fetchedAt: new Date().toISOString(),
       url,
-      range: { after, before },
+      range: { 
+        after, 
+        before,
+        humanReadable: {
+          start: new Date(after).toISOString().split('T')[0],
+          end: new Date(before).toISOString().split('T')[0]
+        }
+      },
       totalEntries: data.length,
     },
   };
@@ -146,6 +172,6 @@ export default async function fetchCsGold() {
   console.log(`✅ CsGold: Wrote ${rows.length} rows from ${data.length} total entries`);
   
   if (rows.length > 0) {
-    console.log(`   Top player: ${rows[0].username} with $${rows[0].wagered.toFixed(2)}`);
+    console.log(`   🏆 Top player: ${rows[0].username} with $${rows[0].wagered.toFixed(2)}`);
   }
 }
