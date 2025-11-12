@@ -4,14 +4,14 @@
   "prizes": [],
   "metadata": {
     "source": "csgold",
-    "fetchedAt": "2025-11-12T22:25:05.472Z",
+    "fetchedAt": "2025-11-12T22:29:02.712Z",
     "url": "https://api.csgold.gg/affiliate/leaderboard/referrals",
     "range": {
       "after": 1759276800000,
-      "before": 1764547199999,
+      "before": 1761955199999,
       "humanReadable": {
         "start": "2025-10-01",
-        "end": "2025-11-30"
+        "end": "2025-10-31"
       }
     },
     "totalEntries": 0
