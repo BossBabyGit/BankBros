@@ -139,16 +139,16 @@ const CSGOLD_PRIZE_LADDER = Object.freeze({
 const CSGOLD_FALLBACK = Object.freeze(
   normalizeLeaderboardRows(
     [
-      { rank: 1, name: "AuricAce", wagered: 4210.12 },
-      { rank: 2, name: "GlintKing", wagered: 3785.55 },
-      { rank: 3, name: "Goldrush", wagered: 3320.4 },
-      { rank: 4, name: "Bullionaire", wagered: 2888.22 },
-      { rank: 5, name: "MintedMax", wagered: 2510.75 },
-      { rank: 6, name: "TokenTact", wagered: 2304.65 },
-      { rank: 7, name: "ShimmerSol", wagered: 2100.33 },
-      { rank: 8, name: "CacheQueen", wagered: 1995.9 },
-      { rank: 9, name: "GildedGuru", wagered: 1850.11 },
-      { rank: 10, name: "LuxeLink", wagered: 1705.45 },
+      { rank: 1, name: "BossBaby", wagered: 4210.12 },
+      { rank: 2, name: "BossBaby", wagered: 3785.55 },
+      { rank: 3, name: "BossBaby", wagered: 3320.4 },
+      { rank: 4, name: "BossBaby", wagered: 2888.22 },
+      { rank: 5, name: "BossBaby", wagered: 2510.75 },
+      { rank: 6, name: "BossBaby", wagered: 2304.65 },
+      { rank: 7, name: "BossBaby", wagered: 2100.33 },
+      { rank: 8, name: "BossBaby", wagered: 1995.9 },
+      { rank: 9, name: "BossBaby", wagered: 1850.11 },
+      { rank: 10, name: "BossBaby", wagered: 1705.45 },
     ],
     CSGOLD_PRIZE_LADDER
   )
