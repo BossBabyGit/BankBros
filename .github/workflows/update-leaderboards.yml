@@ -42,9 +42,6 @@ jobs:
         env:
           DEJEN_RACE_ID: ${{ secrets.DEJEN_RACE_ID }}
           CSGOLD_API_KEY: ${{ secrets.CSGOLD_API_KEY }}
-          # Optional overrides if CsGold needs them:
-          # CSGOLD_BASE_URL: ${{ secrets.CSGOLD_BASE_URL }}
-          # CSGOLD_ENDPOINT: ${{ secrets.CSGOLD_ENDPOINT }}
         run: node scripts/fetch-all.mjs
 
       - name: Commit & push if changed
