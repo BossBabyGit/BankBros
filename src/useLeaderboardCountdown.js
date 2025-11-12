@@ -8,8 +8,9 @@ export default function useLeaderboardCountdown() {
     return () => clearInterval(id);
   }, []);
 
-  // 🎯 Fixed target date: 9th October 2025 (month is 0-based)
-  const targetMs = Date.UTC(2025, 30, 11, 0, 0, 0); 
+  // ✅ 30 November 2025, 00:00 UTC
+  const targetMs = Date.UTC(2025, 10, 30, 0, 0, 0); 
+  //                year, monthIndex (0=Jan → 10=Nov), day, hour, min, sec
 
   const diff = Math.max(0, targetMs - now);
 
