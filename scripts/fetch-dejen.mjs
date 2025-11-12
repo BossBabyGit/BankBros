@@ -25,9 +25,9 @@ function extractUsername(entry, fb = "Player") {
   );
 }
 
-// Try a bunch of common keys Dejen might use for volume.
+// Extract wagered amount - Dejen uses wager_total in CENTS
 function extractWagered(entry) {
-  // integers representing cents/lowest unit we divide by 100
+  // DEJEN USES CENTS - wager_total field
   const centLike =
     entry?.wager_total ??
     entry?.wagered_cents ??
@@ -37,7 +37,7 @@ function extractWagered(entry) {
 
   if (centLike != null) {
     const n = coerceNumber(centLike, 0);
-    return Math.round(n) / 100;
+    return Math.round(n) / 100;  // Convert cents to dollars
   }
 
   // numbers already in dollars
@@ -84,8 +84,7 @@ export default async function fetchDejen() {
   const metaUrl = `${base}/races/${raceId}`;
   const meta = await fetchJson(metaUrl);
 
-  // Leaderboard rows - THIS IS THE KEY FIX
-  // The leaderboard endpoint returns the actual player data
+  // Leaderboard rows
   const lbUrl = `${base}/races/${raceId}/leaderboard`;
   const lbResponse = await fetchJson(lbUrl);
 
@@ -118,17 +117,27 @@ export default async function fetchDejen() {
     }))
     .sort((a, b) => a.rank - b.rank);
 
+  // PRIZES ARE IN CENTS - DIVIDE BY 100
   const prizes = Array.isArray(meta?.prizes)
     ? meta.prizes
-        .map(p => ({ rank: coerceNumber(p?.rank, NaN), amount: coerceNumber(p?.amount, 0) }))
+        .map(p => ({ 
+          rank: coerceNumber(p?.rank, NaN), 
+          amount: coerceNumber(p?.amount, 0) / 100  // ← CONVERT CENTS TO DOLLARS
+        }))
         .filter(p => Number.isFinite(p.rank) && p.rank > 0)
         .sort((a, b) => a.rank - b.rank)
     : [];
 
+  console.log(`💰 Dejen: Processed ${prizes.length} prize tiers (converted from cents to dollars)`);
+
   // attach prize by rank
   if (prizes.length && rows.length) {
     const byRank = new Map(prizes.map(p => [p.rank, p.amount]));
-    for (const r of rows) if (byRank.has(r.rank)) r.prize = byRank.get(r.rank);
+    for (const r of rows) {
+      if (byRank.has(r.rank)) {
+        r.prize = byRank.get(r.rank);
+      }
+    }
   }
 
   const output = {
