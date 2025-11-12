@@ -998,7 +998,7 @@ function LeaderboardsPage() {
                 ))}
               </div>
               <div className="mt-3 text-center text-gray-400 text-sm">
-                Resets every 14 days at 00:00 UTC
+                Resets at 00:00 UTC
               </div>
             </div>
 
