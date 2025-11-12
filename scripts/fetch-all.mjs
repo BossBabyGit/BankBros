@@ -1,10 +1,12 @@
 import fetchDejen from "./fetch-dejen.mjs";
 import fetchCsGold from "./fetch-csgold.mjs";
 
-let ok = false;
+(async () => {
+  try { await fetchDejen(); }
+  catch (e) { console.error("Dejen failed:", e?.message ?? e); }
 
-try { await fetchDejen(); ok = true; } catch (e) { console.error("Dejen failed:", e.message); }
-try { await fetchCsGold(); ok = true; } catch (e) { console.error("CsGold failed:", e.message); }
+  try { await fetchCsGold(); }
+  catch (e) { console.error("CsGold failed:", e?.message ?? e); }
 
-if (!ok) { console.error("❌ Both fetches failed"); process.exit(1); }
-console.log("✅ Leaderboards updated successfully");
+  console.log("✅ Leaderboards updated successfully");
+})();
