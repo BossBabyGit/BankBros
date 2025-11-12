@@ -9,7 +9,7 @@ const SCHEMA_VERSION = 1;
 // ========================================
 // Set your date range here (format: YYYY-MM-DD)
 const MANUAL_START_DATE = "2025-10-01";  // ← Change this
-const MANUAL_END_DATE = "2025-12-01";    // ← Change this
+const MANUAL_END_DATE = "2025-11-01";    // ← Change this
 
 // Set to true to use manual dates, false to use current month
 const USE_MANUAL_DATES = true;  // ← Change to false to use current month
@@ -96,11 +96,23 @@ export default async function fetchCsGold() {
   try { 
     payload = JSON.parse(txt); 
   } catch (err) {
+    console.error(`❌ Failed to parse JSON response`);
+    console.error(`Raw response (first 500 chars):`, txt.slice(0, 500));
     throw new Error(`Non-JSON CsGold response: ${txt?.slice?.(0,200)}`);
   }
 
+  // Log the raw response structure
+  console.log(`📦 Raw API response structure:`, JSON.stringify(payload, null, 2));
+
   if (process.env.DEBUG_FETCH) {
-    await writeJson("public/data/_debug/csgold-raw.json", payload);
+    try {
+      await writeJson("public/data/_debug/csgold-raw.json", payload);
+      console.log(`✅ Debug file written to: public/data/_debug/csgold-raw.json`);
+    } catch (err) {
+      console.error(`❌ Failed to write debug file:`, err.message);
+    }
+  } else {
+    console.log(`ℹ️  DEBUG_FETCH not set - skipping debug file`);
   }
 
   console.log(`📥 CsGold: API response:`, {
