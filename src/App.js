@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Sparkles, Trophy, ShieldCheck, MessageCircle, Play, ExternalLink, Timer, Users } from "lucide-react";
 import useLeaderboardCountdown from "./useLeaderboardCountdown";
-import dejenLogo from "./assets/dejen.svg";
+import dejenLogo from "./assets/dejen.webp";
 import csgoldLogo from "./assets/csgold.svg";
 
 // —— Brand Tokens ——
