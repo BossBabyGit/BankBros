@@ -100,16 +100,16 @@ function applyPrizeLadder(rows, prizeLadder) {
 }
 
 const DEJEN_PRIZE_LADDER = Object.freeze({
-  1: 105000,
-  2: 75000,
-  3: 50000,
-  4: 27500,
-  5: 15000,
-  6: 10000,
-  7: 7500,
-  8: 5000,
-  9: 3000,
-  10: 2000,
+  1: 1050,
+  2: 750,
+  3: 500,
+  4: 275,
+  5: 150,
+  6: 100,
+  7: 75,
+  8: 50,
+  9: 30,
+  10: 20,
 });
 
 const DEJEN_FALLBACK = Object.freeze(
@@ -124,14 +124,14 @@ const DEJEN_FALLBACK = Object.freeze(
 );
 
 const CSGOLD_PRIZE_LADDER = Object.freeze({
-  1: 500,
-  2: 350,
-  3: 200,
-  4: 125,
-  5: 100,
-  6: 75,
-  7: 50,
-  8: 25,
+  1: 105,
+  2: 65,
+  3: 40,
+  4: 25,
+  5: 15,
+  6: 0,
+  7: 0,
+  8: 0,
   9: 0,
   10: 0,
 });
@@ -918,8 +918,8 @@ function LeaderboardsPage() {
   type="button"
   onClick={() => setActiveLeaderboard(cfg.id)}
   aria-pressed={isActive}
-  aria-label={cfg.buttonLabel ?? cfg.name}  // keeps it accessible
-  title={cfg.buttonLabel ?? cfg.name}       // nice tooltip
+  aria-label={cfg.buttonLabel ?? cfg.name}
+  title={cfg.buttonLabel ?? cfg.name}
   className={`relative flex items-center rounded-full border transition
     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
     focus-visible:ring-offset-black focus-visible:ring-white/80
@@ -927,7 +927,7 @@ function LeaderboardsPage() {
       ? "bg-white/15 border-white/40 text-white shadow-[0_0_30px_rgba(249,115,22,0.45)]"
       : "bg-white/[0.04] border-white/10 text-white/70 hover:text-white hover:border-white/30"
     }
-    px-2 py-2
+    px-3 py-3  /* was px-2 py-2 */
   `}
   whileTap={{ scale: 0.97 }}
 >
@@ -935,11 +935,12 @@ function LeaderboardsPage() {
     src={cfg.logo}
     alt=""
     aria-hidden="true"
-    className="h-9 w-9 rounded-full object-contain shadow-inner shadow-black/40"
+    className="h-12 w-12 sm:h-14 sm:w-14 rounded-full object-contain shadow-inner shadow-black/40" 
+    /* was h-9 w-9 */
   />
-  {/* keep label for screen readers only */}
   <span className="sr-only">{cfg.buttonLabel ?? cfg.name}</span>
 </motion.button>
+
 
 
                   );
