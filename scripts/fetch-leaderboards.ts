@@ -1,442 +1,215 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import process from 'node:process';
-import { fileURLToPath } from 'node:url';
+/**
+ * Fetches Dejen + CsGold leaderboard data and writes it to /public/data/*.json
+ * Compatible with GitHub Actions or local manual runs (Node 18+).
+ */
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const ROOT_DIR = path.resolve(__dirname, '..');
-const DATA_DIR = path.join(ROOT_DIR, 'public', 'data');
-const DEFAULT_TIMEOUT_MS = 15_000;
+import fs from "fs/promises";
+import path from "path";
+import process from "process";
+import dotenv from "dotenv";
+
+// ==============================
+// Constants
+// ==============================
 const SCHEMA_VERSION = 1;
+const DEFAULT_TIMEOUT_MS = 15000;
 
 const DEJEN_PRIZE_LADDER = [
-  { rank: 1, amount: 105000, currency: 'USD', label: '$105,000 cash' },
-  { rank: 2, amount: 75000, currency: 'USD', label: '$75,000 cash' },
-  { rank: 3, amount: 50000, currency: 'USD', label: '$50,000 cash' },
-  { rank: 4, amount: 27500, currency: 'USD', label: '$27,500 cash' },
-  { rank: 5, amount: 15000, currency: 'USD', label: '$15,000 cash' },
-  { rank: 6, amount: 10000, currency: 'USD', label: '$10,000 cash' },
-  { rank: 7, amount: 7500, currency: 'USD', label: '$7,500 cash' },
-  { rank: 8, amount: 5000, currency: 'USD', label: '$5,000 cash' },
-  { rank: 9, amount: 3000, currency: 'USD', label: '$3,000 cash' },
-  { rank: 10, amount: 2000, currency: 'USD', label: '$2,000 cash' },
+  { rank: 1, amount: 1050 },
+  { rank: 2, amount: 750 },
+  { rank: 3, amount: 500 },
+  { rank: 4, amount: 275 },
+  { rank: 5, amount: 150 },
+  { rank: 6, amount: 100 },
+  { rank: 7, amount: 75 },
+  { rank: 8, amount: 50 },
+  { rank: 9, amount: 30 },
+  { rank: 10, amount: 20 },
 ];
 
 const CSGOLD_PRIZE_LADDER = [
-  { rank: 1, amount: 500, currency: 'USD', label: '$500 cash' },
-  { rank: 2, amount: 350, currency: 'USD', label: '$350 cash' },
-  { rank: 3, amount: 200, currency: 'USD', label: '$200 cash' },
-  { rank: 4, amount: 125, currency: 'USD', label: '$125 cash' },
-  { rank: 5, amount: 100, currency: 'USD', label: '$100 cash' },
-  { rank: 6, amount: 75, currency: 'USD', label: '$75 cash' },
-  { rank: 7, amount: 50, currency: 'USD', label: '$50 cash' },
-  { rank: 8, amount: 25, currency: 'USD', label: '$25 cash' },
+  { rank: 1, amount: 105 },
+  { rank: 2, amount: 65 },
+  { rank: 3, amount: 40 },
+  { rank: 4, amount: 25 },
+  { rank: 5, amount: 15 },
+  { rank: 6, amount: 0 },
+  { rank: 7, amount: 0 },
+  { rank: 8, amount: 0 },
+  { rank: 9, amount: 0 },
+  { rank: 10, amount: 0 },
 ];
 
-function coerceNumber(value, fallback = 0) {
-  if (typeof value === 'number' && Number.isFinite(value)) return value;
-  if (typeof value === 'string') {
-    const cleaned = value.replace(/[^0-9.,-]/g, '').replace(/,(?=\d{3}(\D|$))/g, '');
-    const parsed = Number.parseFloat(cleaned);
+// ==============================
+// Helpers
+// ==============================
+
+function coerceNumber(value: any, fallback = 0): number {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string") {
+    const parsed = Number(value.replace(/[^0-9.\-]/g, ""));
     return Number.isFinite(parsed) ? parsed : fallback;
   }
-  if (typeof value === 'bigint') {
-    return Number(value);
-  }
   return fallback;
 }
 
-function coerceString(value) {
-  if (typeof value === 'string') return value.trim();
-  if (typeof value === 'number' || typeof value === 'bigint') return String(value);
-  return '';
+function extractUsername(entry: any, fallback = "Player"): string {
+  return (
+    entry?.username ??
+    entry?.user ??
+    entry?.name ??
+    entry?.player ??
+    entry?.displayName ??
+    fallback
+  );
 }
 
-function getNestedString(entry, keys) {
-  for (const key of keys) {
-    if (!entry || typeof entry !== 'object') break;
-    const val = entry[key];
-    if (typeof val === 'string' && val.trim()) return val.trim();
-    if (val && typeof val === 'object') {
-      const nested = getNestedString(val, keys);
-      if (nested) return nested;
-    }
-  }
-  return '';
+function extractWagered(entry: any): number {
+  const src =
+    entry?.wagered ??
+    entry?.totalAmount ??
+    entry?.amount ??
+    entry?.value ??
+    entry?.total ??
+    0;
+  return coerceNumber(src, 0);
 }
 
-function extractUsername(entry, fallback) {
-  const directKeys = [
-    'username', 'userName', 'user_name', 'name', 'displayName',
-    'player', 'playerName', 'nickname', 'alias', 'handle', 'user',
-  ];
-  for (const key of directKeys) {
-    const value = entry?.[key];
-    if (typeof value === 'string' && value.trim()) return value.trim();
-    if (value && typeof value === 'object') {
-      const nested = getNestedString(value, directKeys);
-      if (nested) return nested;
-    }
-  }
-  const nestedParents = ['user', 'player', 'account', 'profile'];
-  for (const parent of nestedParents) {
-    const obj = entry?.[parent];
-    if (obj && typeof obj === 'object') {
-      const nested = extractUsername(obj, '');
-      if (nested) return nested;
-    }
-  }
-  return fallback;
+function pickPrize(entry: any, rank: number, ladder: any[]): any {
+  const fromEntry =
+    typeof entry?.prize === "object"
+      ? entry?.prize?.amount ?? entry?.prize?.value ?? entry?.prize?.total
+      : entry?.prize;
+  if (fromEntry) return { rank, amount: coerceNumber(fromEntry, 0) };
+  const mapped = ladder.find((p) => p.rank === rank);
+  return mapped ? { rank, amount: mapped.amount } : undefined;
 }
 
-function extractWagered(entry) {
-  const numericKeys = [
-    'wagered', 'wager', 'amount', 'totalAmount', 'totalWagered',
-    'volume', 'value', 'score', 'points', 'total', 'net',
-  ];
-  for (const key of numericKeys) {
-    const value = entry?.[key];
-    if (value === undefined) continue;
-    const parsed = coerceNumber(value, Number.NaN);
-    if (Number.isFinite(parsed)) return parsed;
-  }
-  const numericParents = ['stats', 'totals'];
-  for (const parent of numericParents) {
-    const obj = entry?.[parent];
-    if (obj && typeof obj === 'object') {
-      const nested = extractWagered(obj);
-      if (Number.isFinite(nested)) return nested;
-    }
-  }
-  return 0;
-}
-
-function parsePrizeFromValue(value, rank, fallback) {
-  if (value === null || value === undefined) return fallback;
-  if (typeof value === 'number' && Number.isFinite(value)) {
-    return { rank, amount: value, currency: fallback?.currency ?? 'USD', label: fallback?.label };
-  }
-  if (typeof value === 'string') {
-    const amount = coerceNumber(value, Number.NaN);
-    if (Number.isFinite(amount)) {
-      const currencyMatch = value.match(/[A-Z]{3}|\$/);
-      const currency = currencyMatch ? currencyMatch[0].replace('$', 'USD') : fallback?.currency ?? 'USD';
-      return { rank, amount, currency, label: fallback?.label ?? value.trim() };
-    }
-  }
-  if (typeof value === 'object') {
-    const amountCandidate = value.amount ?? value.value ?? value.total;
-    const currencyCandidate = value.currency ?? value.iso ?? value.symbol;
-    const labelCandidate = value.label ?? value.display ?? value.description;
-    const parsedAmount = coerceNumber(amountCandidate, Number.NaN);
-    const currency = currencyCandidate ? coerceString(currencyCandidate) : fallback?.currency ?? 'USD';
-    const label = coerceString(labelCandidate) || fallback?.label;
-    if (Number.isFinite(parsedAmount)) {
-      return { rank, amount: parsedAmount, currency: currency || 'USD', label };
-    }
-  }
-  return fallback;
-}
-
-function pickPrize(entry, rank, ladder) {
-  const directKeys = ['prize', 'reward', 'payout', 'bonus', 'prizes', 'rewardAmount'];
-  for (const key of directKeys) {
-    const value = entry?.[key];
-    if (value === undefined) continue;
-    const fallback = ladder.find((p) => p.rank === rank);
-    const parsed = parsePrizeFromValue(value, rank, fallback);
-    if (parsed) return parsed;
-  }
-  const nestedParents = ['prize', 'reward', 'rewards', 'payout'];
-  for (const parent of nestedParents) {
-    const obj = entry?.[parent];
-    if (obj && typeof obj === 'object') {
-      const fallback = ladder.find((p) => p.rank === rank);
-      const parsed = parsePrizeFromValue(obj, rank, fallback);
-      if (parsed) return parsed;
-    }
-  }
-  return ladder.find((p) => p.rank === rank);
-}
-
-function normalizeEntries(entries, ladder) {
-  const prizeByRank = new Map();
+function normalizeEntries(entries: any[], ladder: any[]) {
+  const prizeByRank = new Map<number, any>();
   const rows = entries.map((entry, index) => {
-    const rawRank = entry?.rank ?? entry?.position ?? entry?.place ?? entry?.order ?? entry?.index;
-    const candidateRank = coerceNumber(rawRank, Number.NaN);
-    const rank = Number.isFinite(candidateRank) ? candidateRank : index + 1;
-    const username = extractUsername(entry, `Player ${rank}`) || `Player ${rank}`;
+    const rawRank =
+      entry?.rank ??
+      entry?.position ??
+      entry?.place ??
+      entry?.order ??
+      entry?.index;
+    const rank = Number.isFinite(rawRank) ? Number(rawRank) : index + 1;
+    const username = extractUsername(entry, `Player ${rank}`);
     const wagered = extractWagered(entry);
     const prize = pickPrize(entry, rank, ladder);
     if (prize && !prizeByRank.has(rank)) prizeByRank.set(rank, prize);
-    return prize ? { rank, username, wagered, prize } : { rank, username, wagered };
+    return { rank, username, wagered, prize: prize?.amount ?? 0 };
   });
 
   rows.sort((a, b) => a.rank - b.rank);
-
-  const prizes = Array.from(prizeByRank.values());
-  for (const fallback of ladder) {
-    if (!prizes.some((p) => p.rank === fallback.rank) && fallback.amount > 0) {
-      prizes.push(fallback);
-    }
-  }
-  prizes.sort((a, b) => a.rank - b.rank);
-
+  const prizes = ladder.map((p) => ({
+    rank: p.rank,
+    amount: prizeByRank.get(p.rank)?.amount ?? p.amount,
+  }));
   return { rows, prizes };
 }
 
-async function fetchWithTimeout(url, init = {}, timeoutMs = DEFAULT_TIMEOUT_MS) {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const response = await fetch(url, { ...init, signal: controller.signal });
-    return response;
-  } finally {
-    clearTimeout(id);
-  }
-}
-
-async function fetchJson(url, init = {}) {
-  const response = await fetchWithTimeout(url, init);
-  if (!response.ok) {
-    const text = await response.text().catch(() => '');
-    throw new Error(`Request failed (${response.status} ${response.statusText}) for ${url}: ${text}`);
-  }
-  const text = await response.text();
-  try {
-    return JSON.parse(text);
-  } catch (error) {
-    throw new Error(`Failed to parse JSON from ${url}: ${error.message}`);
-  }
-}
-
-function findLeaderboardEntries(payload) {
-  if (!payload) return undefined;
-  if (Array.isArray(payload.rows)) return payload.rows;
-  if (Array.isArray(payload.leaderboard)) return payload.leaderboard;
-  if (Array.isArray(payload.entries)) return payload.entries;
-  if (Array.isArray(payload)) {
-    if (payload.every((item) => item && typeof item === 'object')) {
-      const hasRank = payload.some((item) => item && typeof item === 'object' &&
-        ('rank' in item || 'position' in item || 'place' in item || 'order' in item || 'index' in item));
-      const hasUser = payload.some((item) => item && typeof item === 'object' &&
-        ('username' in item || 'userName' in item || 'user' in item || 'player' in item || 'name' in item));
-      if (hasRank || hasUser) return payload;
-    }
-    for (const item of payload) {
-      const nested = findLeaderboardEntries(item);
-      if (nested) return nested;
-    }
-    return undefined;
-  }
-  if (typeof payload === 'object') {
-    for (const value of Object.values(payload)) {
-      const nested = findLeaderboardEntries(value);
-      if (nested) return nested;
-    }
-  }
-  return undefined;
-}
-
-async function fetchDejenLeaderboard(raceId) {
-  const base = process.env.DEJEN_BASE_URL ?? 'https://api.dejen.com';
-  const candidatePaths = [
-    `/races/${raceId}/leaderboard`,
-    `/races/${raceId}`,
-    `/public/races/${raceId}`,
-    `/api/races/${raceId}/leaderboard`,
-    `/api/races/${raceId}`,
-    `/api/v1/races/${raceId}/leaderboard`,
-    `/api/v1/races/${raceId}`,
-    `/leaderboards/${raceId}`,
-    `/api/leaderboards/${raceId}`,
-    `/api/v1/leaderboards/${raceId}`,
-  ];
-
-  const queryVariants = [
-    undefined,
-    { 'page[size]': '100' },
-    { limit: '100' },
-    { per_page: '100' },
-    { include: 'leaderboardEntries' },
-    { include: 'leaderboardEntries', 'page[size]': '100' },
-    { include: 'leaderboardEntries', limit: '100' },
-    { include: 'leaderboardEntries', per_page: '100' },
-  ];
-
-  const authToken = process.env.DEJEN_API_KEY ?? process.env.DEJEN_BEARER ?? process.env.DEJEN_TOKEN;
-  const headers: Record<string, string> = {
-    Accept: 'application/json',
-    'User-Agent': 'BankBrosLeaderboard/1.0',
-  };
-
-  if (authToken) {
-    headers.Authorization = `Bearer ${authToken}`;
-    headers['x-api-key'] = authToken;
-  }
-
-  let lastError;
-  const attempted = new Set<string>();
-
-  for (const pathCandidate of candidatePaths) {
-    for (const params of queryVariants) {
-      const url = new URL(pathCandidate, base);
-      if (params) {
-        for (const [key, value] of Object.entries(params)) {
-          url.searchParams.set(key, value);
-        }
-      }
-      const serialized = url.toString();
-      if (attempted.has(serialized)) continue;
-      attempted.add(serialized);
-      try {
-        const payload = await fetchJson(serialized, { headers });
-        const entries = findLeaderboardEntries(payload);
-        if (!entries) throw new Error('Unable to locate leaderboard entries in response');
-        const { rows, prizes } = normalizeEntries(entries, DEJEN_PRIZE_LADDER);
-        return {
-          schemaVersion: SCHEMA_VERSION,
-          rows,
-          prizes,
-          metadata: {
-            source: 'dejen',
-            raceId,
-            resolvedUrl: serialized,
-            baseUrl: base,
-            fetchedAt: new Date().toISOString(),
-            rawCount: Array.isArray(entries) ? entries.length : 0,
-          },
-        };
-      } catch (error) {
-        lastError = error;
-      }
-    }
-  }
-
-  throw new Error(`Failed to fetch Dejen leaderboard for race "${raceId}": ${lastError?.message ?? 'unknown error'}`);
-}
-
-async function fetchCsGoldLeaderboard(apiKey) {
-  const base = process.env.CSGOLD_BASE_URL ?? 'https://api.csgold.gg';
-  const leaderboardId = process.env.CSGOLD_LEADERBOARD_ID ?? 'csgold';
-  const candidatePaths = [
-    `/api/leaderboards/${leaderboardId}`,
-    `/api/leaderboard/${leaderboardId}`,
-    `/v1/leaderboards/${leaderboardId}`,
-    `/leaderboards/${leaderboardId}`,
-  ];
-
-  const headers = {
-    Accept: 'application/json',
-    Authorization: `Bearer ${apiKey}`,
-    'x-api-key': apiKey,
-  };
-
-  let lastError;
-
-  for (const pathCandidate of candidatePaths) {
-    const url = new URL(pathCandidate, base);
-    try {
-      const payload = await fetchJson(url.toString(), { headers });
-      const entries = findLeaderboardEntries(payload);
-      if (!entries) throw new Error('Unable to locate leaderboard entries in response');
-      const { rows, prizes } = normalizeEntries(entries, CSGOLD_PRIZE_LADDER);
-      return {
-        schemaVersion: SCHEMA_VERSION,
-        rows,
-        prizes,
-        metadata: {
-          source: 'csgold',
-          leaderboardId,
-          resolvedUrl: url.toString(),
-          baseUrl: base,
-          fetchedAt: new Date().toISOString(),
-          rawCount: Array.isArray(entries) ? entries.length : 0,
-        },
-      };
-    } catch (error) {
-      lastError = error;
-    }
-  }
-
-  throw new Error(`Failed to fetch CsGold leaderboard for "${leaderboardId}": ${lastError?.message ?? 'unknown error'}`);
+async function fetchJson(url: string, init: any = {}) {
+  const res = await fetch(url, init);
+  if (!res.ok) throw new Error(`HTTP ${res.status} – ${url}`);
+  return res.json();
 }
 
 async function ensureDataDirectory() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
+  const dir = path.resolve("public/data");
+  await fs.mkdir(dir, { recursive: true });
+  return dir;
 }
 
-async function writeJsonFile(filename, payload) {
-  const destination = path.join(DATA_DIR, filename);
-  const json = `${JSON.stringify(payload, null, 2)}\n`;
-  await fs.writeFile(destination, json, 'utf8');
+async function writeJsonFile(filename: string, data: any) {
+  const dir = await ensureDataDirectory();
+  const file = path.join(dir, filename);
+  await fs.writeFile(file, JSON.stringify(data, null, 2));
+  console.log("✅ Wrote", file);
 }
 
-async function loadEnvFile() {
-  const envPath = path.join(ROOT_DIR, '.env');
-  try {
-    const content = await fs.readFile(envPath, 'utf8');
-    for (const line of content.split(/\r?\n/)) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith('#')) continue;
-      const equalsIndex = trimmed.indexOf('=');
-      if (equalsIndex === -1) continue;
-      const key = trimmed.slice(0, equalsIndex).trim();
-      const value = trimmed.slice(equalsIndex + 1).trim();
-      if (!(key in process.env)) {
-        process.env[key] = value;
-      }
-    }
-  } catch (error) {
-    if (error?.code !== 'ENOENT') {
-      console.warn(`Failed to load .env file: ${error.message}`);
-    }
-  }
+// ==============================
+// Fetchers
+// ==============================
+
+async function fetchDejenLeaderboard(raceId: string) {
+  const base = "https://api.dejen.com";
+  const url = `${base}/races/${raceId}`;
+  const payload = await fetchJson(url);
+  const { rows, prizes } = normalizeEntries(payload?.leaderboard ?? [], DEJEN_PRIZE_LADDER);
+  return {
+    schemaVersion: SCHEMA_VERSION,
+    rows,
+    prizes,
+    metadata: {
+      source: "dejen",
+      raceId,
+      fetchedAt: new Date().toISOString(),
+      url,
+    },
+  };
 }
+
+// ✅ Fixed version — uses correct CsGold endpoint + API key
+async function fetchCsGoldLeaderboard(apiKey: string) {
+  const base = process.env.CSGOLD_BASE_URL ?? "https://api.csgold.gg";
+  const endpoint = new URL("/affiliate/leaderboard/referrals", base);
+
+  const headers = {
+    Accept: "application/json",
+    Authorization: `Bearer ${apiKey}`,
+    "x-api-key": apiKey,
+  };
+
+  const payload = await fetchJson(endpoint.toString(), { headers });
+  if (!Array.isArray(payload))
+    throw new Error("Unexpected CsGold response – expected array");
+
+  const { rows, prizes } = normalizeEntries(payload, CSGOLD_PRIZE_LADDER);
+  return {
+    schemaVersion: SCHEMA_VERSION,
+    rows,
+    prizes,
+    metadata: {
+      source: "csgold",
+      fetchedAt: new Date().toISOString(),
+      url: endpoint.toString(),
+    },
+  };
+}
+
+// ==============================
+// Main
+// ==============================
 
 async function main() {
-  await loadEnvFile();
+  dotenv.config();
+
   const dejenRaceId = process.env.DEJEN_RACE_ID;
   const csGoldApiKey = process.env.CSGOLD_API_KEY;
-
-  if (!dejenRaceId && !csGoldApiKey) {
-    console.warn('Missing DEJEN_RACE_ID and CSGOLD_API_KEY – nothing to update.');
-    console.warn('Configure at least one credential to refresh leaderboard data.');
-    return;
-  }
-
-  await ensureDataDirectory();
-
-  const writes = [];
-  const summary = {};
+  const writes: Promise<any>[] = [];
 
   if (dejenRaceId) {
     const dejen = await fetchDejenLeaderboard(dejenRaceId);
-    writes.push(writeJsonFile('dejen-leaderboard.json', dejen));
-    summary.dejen = dejen.rows.length;
-  } else {
-    console.warn('Skipping Dejen leaderboard fetch – DEJEN_RACE_ID not configured.');
+    writes.push(writeJsonFile("dejen-leaderboard.json", dejen));
   }
 
   if (csGoldApiKey) {
-    const csGold = await fetchCsGoldLeaderboard(csGoldApiKey);
-    writes.push(writeJsonFile('csgold-leaderboard.json', csGold));
-    summary.csgold = csGold.rows.length;
-  } else {
-    console.warn('Skipping CsGold leaderboard fetch – CSGOLD_API_KEY not configured.');
+    const cs = await fetchCsGoldLeaderboard(csGoldApiKey);
+    writes.push(writeJsonFile("csgold-leaderboard.json", cs));
+  }
+
+  if (!writes.length) {
+    console.warn("⚠️ No credentials configured — nothing fetched.");
+    return;
   }
 
   await Promise.all(writes);
-
-  if (writes.length > 0) {
-    console.log('Leaderboards updated:', summary);
-  } else {
-    console.log('No leaderboards were updated.');
-  }
+  console.log("✅ Leaderboards updated successfully");
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
+main().catch((err) => {
+  console.error("❌ Error:", err);
+  process.exit(1);
 });
