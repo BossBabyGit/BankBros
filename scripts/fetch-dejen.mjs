@@ -16,6 +16,7 @@ function coerceNumber(v, fb = 0) {
 function extractUsername(entry, fb = "Player") {
   return (
     entry?.username ??
+    entry?.user?.username ??
     entry?.user ??
     entry?.name ??
     entry?.player ??
@@ -82,20 +83,32 @@ export default async function fetchDejen() {
   const metaUrl = `${base}/races/${raceId}`;
   const meta = await fetchJson(metaUrl);
 
-  // Leaderboard rows
+  // Leaderboard rows - THIS IS THE KEY FIX
+  // The leaderboard endpoint returns the actual player data
   const lbUrl = `${base}/races/${raceId}/leaderboard`;
-  const lb = await fetchJson(lbUrl);
+  const lbResponse = await fetchJson(lbUrl);
 
   if (process.env.DEBUG_FETCH) {
     await writeJson("public/data/_debug/dejen-meta.json", meta);
-    await writeJson("public/data/_debug/dejen-lb.json", lb);
+    await writeJson("public/data/_debug/dejen-lb.json", lbResponse);
   }
 
-  // Dejen returns the list directly or under .leaderboard
-  const src = Array.isArray(lb) ? lb :
-              (Array.isArray(lb?.leaderboard) ? lb.leaderboard : []);
+  // Handle different possible response structures
+  let leaderboardData = [];
+  
+  if (Array.isArray(lbResponse)) {
+    leaderboardData = lbResponse;
+  } else if (Array.isArray(lbResponse?.leaderboard)) {
+    leaderboardData = lbResponse.leaderboard;
+  } else if (Array.isArray(lbResponse?.data)) {
+    leaderboardData = lbResponse.data;
+  } else if (lbResponse?.entries && Array.isArray(lbResponse.entries)) {
+    leaderboardData = lbResponse.entries;
+  }
 
-  const rows = src
+  console.log(`📊 Dejen: Found ${leaderboardData.length} leaderboard entries`);
+
+  const rows = leaderboardData
     .map((e, i) => ({
       rank: Number.isFinite(+e?.rank) && +e.rank > 0 ? +e.rank : i + 1,
       username: extractUsername(e, `Player ${i + 1}`),
@@ -117,7 +130,7 @@ export default async function fetchDejen() {
     for (const r of rows) if (byRank.has(r.rank)) r.prize = byRank.get(r.rank);
   }
 
-  await writeJson("public/data/dejen-leaderboard.json", {
+  const output = {
     schemaVersion: SCHEMA_VERSION,
     rows,
     prizes,
@@ -126,6 +139,16 @@ export default async function fetchDejen() {
       raceId,
       fetchedAt: new Date().toISOString(),
       url: lbUrl,
+      raceInfo: {
+        displayName: meta?.display_name,
+        status: meta?.status,
+        startTime: meta?.start_time,
+        endTime: meta?.end_time,
+      }
     },
-  });
+  };
+
+  await writeJson("public/data/dejen-leaderboard.json", output);
+  
+  console.log(`✅ Dejen: Wrote ${rows.length} rows with ${prizes.length} prizes`);
 }
