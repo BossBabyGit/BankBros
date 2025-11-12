@@ -8,8 +8,8 @@ const SCHEMA_VERSION = 1;
 // 🔧 MANUAL DATE CONFIGURATION
 // ========================================
 // Set your date range here (format: YYYY-MM-DD)
-const MANUAL_START_DATE = "2025-10-01";  // ← Change this
-const MANUAL_END_DATE = "2025-11-01";    // ← Change this
+const MANUAL_START_DATE = "2025-11-01";  // ← Change this
+const MANUAL_END_DATE = "2025-12-01";    // ← Change this
 
 // Set to true to use manual dates, false to use current month
 const USE_MANUAL_DATES = true;  // ← Change to false to use current month
