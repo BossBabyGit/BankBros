@@ -5,109 +5,109 @@
       "rank": 1,
       "username": "boobs",
       "wagered": 35918.84,
-      "prize": 105000
+      "prize": 1050
     },
     {
       "rank": 2,
       "username": "freedomgambler",
       "wagered": 6240.08,
-      "prize": 75000
+      "prize": 750
     },
     {
       "rank": 3,
       "username": "muta11",
       "wagered": 2410.03,
-      "prize": 50000
+      "prize": 500
     },
     {
       "rank": 4,
       "username": "hoodlum",
       "wagered": 1590.91,
-      "prize": 27500
+      "prize": 275
     },
     {
       "rank": 5,
       "username": "mrmustache",
       "wagered": 568.87,
-      "prize": 15000
+      "prize": 150
     },
     {
       "rank": 6,
       "username": "larryjones8526",
       "wagered": 132.41,
-      "prize": 10000
+      "prize": 100
     },
     {
       "rank": 7,
       "username": "gas",
       "wagered": 71.55,
-      "prize": 7500
+      "prize": 75
     },
     {
       "rank": 8,
       "username": "mclovin69",
       "wagered": 62.75,
-      "prize": 5000
+      "prize": 50
     },
     {
       "rank": 9,
       "username": "daveyplays1",
       "wagered": 53.58,
-      "prize": 3000
+      "prize": 30
     },
     {
       "rank": 10,
       "username": "venky",
       "wagered": 33.88,
-      "prize": 2000
+      "prize": 20
     }
   ],
   "prizes": [
     {
       "rank": 1,
-      "amount": 105000
+      "amount": 1050
     },
     {
       "rank": 2,
-      "amount": 75000
+      "amount": 750
     },
     {
       "rank": 3,
-      "amount": 50000
+      "amount": 500
     },
     {
       "rank": 4,
-      "amount": 27500
+      "amount": 275
     },
     {
       "rank": 5,
-      "amount": 15000
+      "amount": 150
     },
     {
       "rank": 6,
-      "amount": 10000
+      "amount": 100
     },
     {
       "rank": 7,
-      "amount": 7500
+      "amount": 75
     },
     {
       "rank": 8,
-      "amount": 5000
+      "amount": 50
     },
     {
       "rank": 9,
-      "amount": 3000
+      "amount": 30
     },
     {
       "rank": 10,
-      "amount": 2000
+      "amount": 20
     }
   ],
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-11-12T21:49:47.168Z",
+    "fetchedAt": "2025-11-12T21:53:24.348Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
