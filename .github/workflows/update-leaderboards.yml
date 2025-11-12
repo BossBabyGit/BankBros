@@ -1,3 +1,4 @@
+# .github/workflows/update-leaderboards.yml
 name: Update Leaderboards
 
 on:
@@ -19,10 +20,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # make sure we have the full history and the token wired for pushing
           fetch-depth: 0
           persist-credentials: true
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Prepare clean tree (rebase first)
+        run: |
+          git config --global core.autocrlf false
+          git config --global pull.rebase true
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -30,25 +36,22 @@ jobs:
           node-version: 20
 
       - name: Install deps
-        run: npm ci --omit=optional || npm i
+        run: npm ci --omit=optional
 
       - name: Fetch leaderboards
         env:
           DEJEN_RACE_ID: ${{ secrets.DEJEN_RACE_ID }}
           CSGOLD_API_KEY: ${{ secrets.CSGOLD_API_KEY }}
-          # Optional CsGold overrides only if needed:
-          # CSGOLD_AUTH_HEADER: authorization
-          # CSGOLD_AUTH_SCHEME: bearer
-          # CSGOLD_ENDPOINT: /affiliate/leaderboard/referrals
-        run: node scripts/fetch-leaderboards.mjs
+          # Optional overrides if CsGold needs them:
+          # CSGOLD_BASE_URL: ${{ secrets.CSGOLD_BASE_URL }}
+          # CSGOLD_ENDPOINT: ${{ secrets.CSGOLD_ENDPOINT }}
+        run: node scripts/fetch-all.mjs
 
       - name: Commit & push if changed
         run: |
           if [ -n "$(git status --porcelain -- public/data)" ]; then
             git config user.name  "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            # avoid non-fast-forward failures when multiple runs overlap
-            git pull --rebase origin "${GITHUB_REF_NAME}"
             git add public/data
             git commit -m "chore: update leaderboards"
             git push origin "${GITHUB_REF_NAME}"
