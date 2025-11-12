@@ -6,31 +6,37 @@ on:
     - cron: "*/30 * * * *"
 
 permissions:
-  contents: write   # <-- important
+  contents: write
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          persist-credentials: true   # keep GITHUB_TOKEN for push
-      - uses: actions/setup-node@v4
+          persist-credentials: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: 20            # Node 20 is fine
+          node-version: 20
+
       - name: Install deps
         run: npm ci --omit=optional || npm i
+
       - name: Fetch leaderboards
         env:
           DEJEN_RACE_ID: ${{ secrets.DEJEN_RACE_ID }}
-          # Only set these if you actually need to override!
+          CSGOLD_API_KEY: ${{ secrets.CSGOLD_API_KEY }}
+          # Only set the overrides below IF you truly need them.
           # CSGOLD_BASE_URL: ${{ secrets.CSGOLD_BASE_URL }}
           # CSGOLD_ENDPOINT: ${{ secrets.CSGOLD_ENDPOINT }}
-          CSGOLD_API_KEY: ${{ secrets.CSGOLD_API_KEY }}
           # CSGOLD_AUTH_HEADER: ${{ secrets.CSGOLD_AUTH_HEADER }}
           # CSGOLD_AUTH_SCHEME: ${{ secrets.CSGOLD_AUTH_SCHEME }}
           # CSGOLD_EXTRA_HEADERS: ${{ secrets.CSGOLD_EXTRA_HEADERS }}
         run: node scripts/fetch-leaderboards.mjs
+
       - name: Commit & push if changed
         run: |
           if [ -n "$(git status --porcelain -- public/data)" ]; then
