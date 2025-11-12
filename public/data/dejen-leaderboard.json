@@ -40,7 +40,7 @@
     {
       "rank": 7,
       "username": "gas",
-      "wagered": 71.55,
+      "wagered": 73.09,
       "prize": 75
     },
     {
@@ -107,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-11-12T21:53:24.348Z",
+    "fetchedAt": "2025-11-12T22:20:13.169Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
