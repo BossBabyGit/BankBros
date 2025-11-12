@@ -1,88 +1,131 @@
 import fs from "fs/promises";
 import path from "path";
+import process from "process";
 
-const OUT = "public/data/dejen-leaderboard.json";
-const RACE_ID = process.env.DEJEN_RACE_ID;
-const BASE = "https://api.dejen.com";
+const SCHEMA_VERSION = 1;
 
-function coerceNum(v, f = 0) {
+function coerceNumber(v, fb = 0) {
   if (typeof v === "number" && Number.isFinite(v)) return v;
   if (typeof v === "string") {
     const n = Number(v.replace(/[^0-9.\-]/g, ""));
-    return Number.isFinite(n) ? n : f;
+    return Number.isFinite(n) ? n : fb;
   }
-  return f;
+  return fb;
 }
 
-async function fetchJson(url, init = {}) {
+function extractUsername(entry, fb = "Player") {
+  return (
+    entry?.username ??
+    entry?.user ??
+    entry?.name ??
+    entry?.player ??
+    entry?.displayName ??
+    fb
+  );
+}
+
+// Try a bunch of common keys Dejen might use for volume.
+function extractWagered(entry) {
+  // integers representing cents/lowest unit we divide by 100
+  const centLike =
+    entry?.wagered_cents ??
+    entry?.wageredCents ??
+    entry?.total_wagered_cents ??
+    entry?.totalWageredCents;
+
+  if (centLike != null) {
+    const n = coerceNumber(centLike, 0);
+    return Math.round(n) / 100;
+  }
+
+  // numbers already in dollars
+  const direct =
+    entry?.wagered ??
+    entry?.total_wagered ??
+    entry?.totalWagered ??
+    entry?.totalAmount ??
+    entry?.amount ??
+    entry?.value ??
+    entry?.total ??
+    entry?.points ??
+    entry?.volume;
+
+  return coerceNumber(direct, 0);
+}
+
+async function fetchJson(url, init) {
   const res = await fetch(url, init);
-  const text = await res.text();
-  if (!res.ok) throw new Error(`HTTP ${res.status} – ${url} – ${text.slice(0,300)}`);
-  try { return JSON.parse(text); } catch { throw new Error(`Bad JSON from ${url}: ${text.slice(0,300)}`); }
+  const txt = await res.text();
+  let json = null;
+  try { json = JSON.parse(txt); } catch {}
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status} – ${url} – ${txt?.slice?.(0,200)}`);
+  }
+  return json ?? {};
 }
 
-function pickList(payload) {
-  if (Array.isArray(payload)) return payload;
-  if (Array.isArray(payload?.leaderboard)) return payload.leaderboard;
-  if (Array.isArray(payload?.rows)) return payload.rows;
-  if (Array.isArray(payload?.entries)) return payload.entries;
-  if (Array.isArray(payload?.data)) return payload.data;
-  return [];
+async function ensureDir(p) { await fs.mkdir(p, { recursive: true }); }
+
+async function writeJson(file, data) {
+  await ensureDir(path.dirname(file));
+  await fs.writeFile(file, JSON.stringify(data, null, 2));
+  console.log("✅ Wrote", file);
 }
 
-function normalizeRows(payload) {
-  const list = pickList(payload);
-  return list.map((entry, i) => {
-    const rank = coerceNum(entry?.rank ?? entry?.position ?? i + 1, i + 1);
-    const username = entry?.username ?? entry?.user ?? entry?.name ?? entry?.player ?? `Player ${rank}`;
-    const wagered = coerceNum(entry?.wagered ?? entry?.totalAmount ?? entry?.amount ?? entry?.value ?? entry?.points ?? 0, 0);
-    return { rank, username, wagered };
-  }).sort((a, b) => a.rank - b.rank);
-}
+export default async function fetchDejen() {
+  const raceId = process.env.DEJEN_RACE_ID;
+  if (!raceId) throw new Error("DEJEN_RACE_ID is not set");
 
-export default async function run() {
-  if (!RACE_ID) throw new Error("DEJEN_RACE_ID missing");
+  const base = "https://api.dejen.com";
 
-  // 1) get leaderboard entries
-  const lbUrl = `${BASE}/races/${RACE_ID}/leaderboard`;
-  let lbPayload = await fetchJson(lbUrl).catch(() => null);
+  // Metadata (prizes etc.)
+  const metaUrl = `${base}/races/${raceId}`;
+  const meta = await fetchJson(metaUrl);
 
-  // If the provider exposes entries directly at /races/:id (rare), also try that as a fallback
-  if (!lbPayload) {
-    const raceUrl = `${BASE}/races/${RACE_ID}`;
-    lbPayload = await fetchJson(raceUrl).catch(() => ({}));
+  // Leaderboard rows
+  const lbUrl = `${base}/races/${raceId}/leaderboard`;
+  const lb = await fetchJson(lbUrl);
+
+  if (process.env.DEBUG_FETCH) {
+    await writeJson("public/data/_debug/dejen-meta.json", meta);
+    await writeJson("public/data/_debug/dejen-lb.json", lb);
   }
 
-  const rows = normalizeRows(lbPayload);
+  // Dejen returns the list directly or under .leaderboard
+  const src = Array.isArray(lb) ? lb :
+              (Array.isArray(lb?.leaderboard) ? lb.leaderboard : []);
 
-  // 2) grab prizes from the race object (if available)
-  let prizes = [];
-  try {
-    const race = await fetchJson(`${BASE}/races/${RACE_ID}`);
-    if (Array.isArray(race?.prizes)) {
-      prizes = race.prizes
-        .map(p => ({ rank: coerceNum(p?.rank), amount: coerceNum(p?.amount) }))
-        .filter(p => Number.isFinite(p.rank) && Number.isFinite(p.amount));
-    }
-  } catch { /* ignore */ }
+  const rows = src
+    .map((e, i) => ({
+      rank: Number.isFinite(+e?.rank) && +e.rank > 0 ? +e.rank : i + 1,
+      username: extractUsername(e, `Player ${i + 1}`),
+      wagered: extractWagered(e),
+      prize: 0,
+    }))
+    .sort((a, b) => a.rank - b.rank);
 
-  const out = {
-    schemaVersion: 1,
-    rows,          // <- username + wagered + rank
+  const prizes = Array.isArray(meta?.prizes)
+    ? meta.prizes
+        .map(p => ({ rank: coerceNumber(p?.rank, NaN), amount: coerceNumber(p?.amount, 0) }))
+        .filter(p => Number.isFinite(p.rank) && p.rank > 0)
+        .sort((a, b) => a.rank - b.rank)
+    : [];
+
+  // attach prize by rank
+  if (prizes.length && rows.length) {
+    const byRank = new Map(prizes.map(p => [p.rank, p.amount]));
+    for (const r of rows) if (byRank.has(r.rank)) r.prize = byRank.get(r.rank);
+  }
+
+  await writeJson("public/data/dejen-leaderboard.json", {
+    schemaVersion: SCHEMA_VERSION,
+    rows,
     prizes,
     metadata: {
       source: "dejen",
-      raceId: RACE_ID,
+      raceId,
       fetchedAt: new Date().toISOString(),
-      url: lbUrl
-    }
-  };
-
-  await fs.mkdir(path.dirname(OUT), { recursive: true });
-  await fs.writeFile(OUT, JSON.stringify(out, null, 2));
-  console.log("✅ Wrote", path.resolve(OUT));
-}
-
-if (import.meta.url === `file://${process.argv[1]}`) {
-  run().catch(e => { console.error("Dejen error:", e.message); process.exit(1); });
+      url: lbUrl,
+    },
+  });
 }
