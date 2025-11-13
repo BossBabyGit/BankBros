@@ -4,7 +4,7 @@
     {
       "rank": 1,
       "username": "boobs",
-      "wagered": 54871.42,
+      "wagered": 54896.99,
       "prize": 1050
     },
     {
@@ -107,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-11-13T19:39:14.217Z",
+    "fetchedAt": "2025-11-13T20:28:17.833Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
