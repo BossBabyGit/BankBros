@@ -9,14 +9,14 @@
     },
     {
       "rank": 2,
-      "username": "freedomgambler",
-      "wagered": 6240.08,
+      "username": "mrmustache",
+      "wagered": 7144.56,
       "prize": 750
     },
     {
       "rank": 3,
-      "username": "mrmustache",
-      "wagered": 3824.56,
+      "username": "freedomgambler",
+      "wagered": 6240.08,
       "prize": 500
     },
     {
@@ -107,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-11-14T03:18:35.705Z",
+    "fetchedAt": "2025-11-14T03:57:33.853Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
