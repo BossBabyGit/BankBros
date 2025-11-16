@@ -16,7 +16,7 @@
     {
       "rank": 3,
       "username": "freedomgambler",
-      "wagered": 6240.08,
+      "wagered": 6349.25,
       "prize": 500
     },
     {
@@ -107,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-11-15T23:40:17.904Z",
+    "fetchedAt": "2025-11-16T02:03:43.202Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
