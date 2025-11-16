@@ -39,26 +39,26 @@
     },
     {
       "rank": 7,
-      "username": "gas",
-      "wagered": 73.09,
+      "username": "bgmi1774",
+      "wagered": 101.7,
       "prize": 75
     },
     {
       "rank": 8,
-      "username": "mclovin69",
-      "wagered": 62.75,
+      "username": "gas",
+      "wagered": 73.09,
       "prize": 50
     },
     {
       "rank": 9,
-      "username": "daveyplays1",
-      "wagered": 53.58,
+      "username": "mclovin69",
+      "wagered": 62.75,
       "prize": 30
     },
     {
       "rank": 10,
-      "username": "venky",
-      "wagered": 33.88,
+      "username": "daveyplays1",
+      "wagered": 53.58,
       "prize": 20
     }
   ],
@@ -107,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-11-16T04:30:31.156Z",
+    "fetchedAt": "2025-11-16T05:23:38.926Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
