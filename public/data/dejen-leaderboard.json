@@ -40,7 +40,7 @@
     {
       "rank": 7,
       "username": "bgmi1774",
-      "wagered": 101.7,
+      "wagered": 130.59,
       "prize": 75
     },
     {
@@ -107,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-11-16T05:23:38.926Z",
+    "fetchedAt": "2025-11-16T05:42:48.223Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
