@@ -709,6 +709,12 @@ function HomePage() {
 function LeaderboardsPage() {
   const leaderboardConfigs = LEADERBOARD_CONFIGS;
   const [activeLeaderboard, setActiveLeaderboard] = React.useState(leaderboardConfigs[0]?.id ?? "");
+  
+  // Determine countdown target based on active leaderboard - MUST be before other state
+  const activeConfigForCountdown = leaderboardConfigs.find((cfg) => cfg.id === activeLeaderboard) ?? leaderboardConfigs[0];
+  const countdownTarget = activeConfigForCountdown?.id === 'dejen' ? DEJEN_END_ISO : CSGOLD_END_ISO;
+  const countdown = useLeaderboardCountdown(countdownTarget);  // <-- THE COUNTDOWN IS HERE
+  
   const [leaderboardState, setLeaderboardState] = React.useState(() => {
     const initial = {};
     leaderboardConfigs.forEach((cfg) => {
@@ -884,7 +890,6 @@ function LeaderboardsPage() {
 
   const top3 = activeRows.slice(0, 3); // [1st, 2nd, 3rd]
   const rest = activeRows.slice(3, 10); // 4..10
-  const { days, hours, minutes, seconds } = useLeaderboardCountdown();
 
   return (
     <section className="relative z-20 py-16 px-6">
