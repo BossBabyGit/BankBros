@@ -990,86 +990,69 @@ function LeaderboardsPage() {
                 />
               )}
             </div>
-{/* Dejen Countdown */}
-<div className="mb-8">
-  {(() => {
-    const { days, hours, minutes, seconds } = useLeaderboardCountdown(DEJEN_END_ISO);
-    return (
-      <>
-        <div className="flex items-center justify-center gap-4">
-          <TimeTile label="Days" value={days} />
-          <TimeTile label="Hours" value={hours} />
-          <TimeTile label="Minutes" value={minutes} />
-          <TimeTile label="Seconds" value={seconds} />
-        </div>
-        <div className="mt-3 text-center text-gray-400 text-sm">
-          Dejen ends Dec 8 @ 8 PM EST
-        </div>
-      </>
-    );
-  })()}
-</div>
-
-{/* CsGold Countdown */}
-<div className="mb-8">
-  {(() => {
-    const { days, hours, minutes, seconds } = useLeaderboardCountdown(CSGOLD_END_ISO);
-    return (
-      <>
-        <div className="flex items-center justify-center gap-4">
-          <TimeTile label="Days" value={days} />
-          <TimeTile label="Hours" value={hours} />
-          <TimeTile label="Minutes" value={minutes} />
-          <TimeTile label="Seconds" value={seconds} />
-        </div>
-        <div className="mt-3 text-center text-gray-400 text-sm">
-          CsGold ends Nov 19 @ 8 PM EST
-        </div>
-      </>
-    );
-  })()}
-</div>
-
-
-            {/* Ranks 4–10 (now includes Prize column to match actual design) */}
-            <div className="rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden">
-              <div className="grid grid-cols-12 text-[11px] uppercase tracking-wider text-gray-400 px-3 py-2">
-                <div className="col-span-2">Rank</div>
-                <div className="col-span-5">Player</div>
-                <div className="col-span-3">Wagered</div>
-                <div className="col-span-2 text-right">Prize</div>
-              </div>
-              <div className="divide-y divide-white/5">
-                {rest.map((r) => (
-                  <div key={r.rank} className="grid grid-cols-12 items-center px-3 py-3 hover:bg-white/[0.02]">
-                    <div className="col-span-2 font-black text-white">#{r.rank}</div>
-                    <div className="col-span-5">{maskName(r.name)}</div>
-                    <div className="col-span-3 text-gray-300">{formatMoney(r.wagered)}</div>
-                    <div className="col-span-2 text-right font-semibold" style={{ color: BRAND_PRIMARY }}>
-                      {formatMoney(r.prize)}
-                    </div>
+            {/* Active Leaderboard Countdown */}
+                        {(() => {
+                          const endTime = activeConfig?.id === 'dejen' ? DEJEN_END_ISO : CSGOLD_END_ISO;
+                          const { days, hours, minutes, seconds } = useLeaderboardCountdown(endTime);
+                          const endLabel = activeConfig?.id === 'dejen' 
+                            ? 'Dejen ends Dec 8 @ 8 PM EST' 
+                            : 'CsGold ends Nov 19 @ 8 PM EST';
+                          
+                          return (
+                            <div className="mb-8">
+                              <div className="flex items-center justify-center gap-4">
+                                <TimeTile label="Days" value={days} />
+                                <TimeTile label="Hours" value={hours} />
+                                <TimeTile label="Minutes" value={minutes} />
+                                <TimeTile label="Seconds" value={seconds} />
+                              </div>
+                              <div className="mt-3 text-center text-gray-400 text-sm">
+                                {endLabel}
+                              </div>
+                            </div>
+                          );
+                        })()}
+            
+            
+                        {/* Ranks 4–10 (now includes Prize column to match actual design) */}
+                        <div className="rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden">
+                          <div className="grid grid-cols-12 text-[11px] uppercase tracking-wider text-gray-400 px-3 py-2">
+                            <div className="col-span-2">Rank</div>
+                            <div className="col-span-5">Player</div>
+                            <div className="col-span-3">Wagered</div>
+                            <div className="col-span-2 text-right">Prize</div>
+                          </div>
+                          <div className="divide-y divide-white/5">
+                            {rest.map((r) => (
+                              <div key={r.rank} className="grid grid-cols-12 items-center px-3 py-3 hover:bg-white/[0.02]">
+                                <div className="col-span-2 font-black text-white">#{r.rank}</div>
+                                <div className="col-span-5">{maskName(r.name)}</div>
+                                <div className="col-span-3 text-gray-300">{formatMoney(r.wagered)}</div>
+                                <div className="col-span-2 text-right font-semibold" style={{ color: BRAND_PRIMARY }}>
+                                  {formatMoney(r.prize)}
+                                </div>
+                              </div>
+                            ))}
+                            {rest.length === 0 && (
+                              <div className="px-3 py-6 text-sm text-gray-400">No more players yet.</div>
+                            )}
+                          </div>
+                        </div>
+            
+                        {showHistory && (
+                          <HistoryModal
+                            rows={historyRows}
+                            range={historyRange}
+                            loading={historyLoading}
+                            onClose={() => setShowHistory(false)}
+                          />
+                        )}
+                      </>
+                    )}
                   </div>
-                ))}
-                {rest.length === 0 && (
-                  <div className="px-3 py-6 text-sm text-gray-400">No more players yet.</div>
-                )}
-              </div>
-            </div>
-
-            {showHistory && (
-              <HistoryModal
-                rows={historyRows}
-                range={historyRange}
-                loading={historyLoading}
-                onClose={() => setShowHistory(false)}
-              />
-            )}
-          </>
-        )}
-      </div>
-    </section>
-  );
-}
+                </section>
+              );
+            }
 
 
 
