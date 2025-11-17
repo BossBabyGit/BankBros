@@ -10,6 +10,9 @@ const BRAND_PRIMARY = "#f97316"; // deep orange
 const BRAND_SECONDARY = "#92400e"; // rich brown accent
 const BRAND_GLOW = "rgba(250,204,21,0.65)";
 const BRAND_GRADIENT = `linear-gradient(135deg, ${BRAND_PRIMARY}, ${BRAND_SECONDARY})`;
+const DEJEN_END_ISO = "2025-12-08T20:00:00-05:00";   // Dec 8, 2025 20:00 EST (UTC-5)
+const CSGOLD_END_ISO = "2025-11-19T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
+
 
 const PODIUM_GOLD = {
   accent: "#ffd166",
@@ -987,23 +990,46 @@ function LeaderboardsPage() {
                 />
               )}
             </div>
+{/* Dejen Countdown */}
+<div className="mb-8">
+  {(() => {
+    const { days, hours, minutes, seconds } = useLeaderboardCountdown(DEJEN_END_ISO);
+    return (
+      <>
+        <div className="flex items-center justify-center gap-4">
+          <TimeTile label="Days" value={days} />
+          <TimeTile label="Hours" value={hours} />
+          <TimeTile label="Minutes" value={minutes} />
+          <TimeTile label="Seconds" value={seconds} />
+        </div>
+        <div className="mt-3 text-center text-gray-400 text-sm">
+          Dejen ends Dec 8 @ 8 PM EST
+        </div>
+      </>
+    );
+  })()}
+</div>
 
-            {/* Countdown UNDERNEATH the podiums (boxy, consistent) */}
-            <div className="mb-8">
-              <div className="flex items-center justify-center gap-4">
-                {[
-                  { label: "Days", value: days },
-                  { label: "Hours", value: hours },
-                  { label: "Minutes", value: minutes },
-                  { label: "Seconds", value: seconds },
-                ].map((b) => (
-                  <TimeTile key={b.label} label={b.label} value={b.value} />
-                ))}
-              </div>
-              <div className="mt-3 text-center text-gray-400 text-sm">
-                Resets at 00:00 UTC
-              </div>
-            </div>
+{/* CsGold Countdown */}
+<div className="mb-8">
+  {(() => {
+    const { days, hours, minutes, seconds } = useLeaderboardCountdown(CSGOLD_END_ISO);
+    return (
+      <>
+        <div className="flex items-center justify-center gap-4">
+          <TimeTile label="Days" value={days} />
+          <TimeTile label="Hours" value={hours} />
+          <TimeTile label="Minutes" value={minutes} />
+          <TimeTile label="Seconds" value={seconds} />
+        </div>
+        <div className="mt-3 text-center text-gray-400 text-sm">
+          CsGold ends Nov 19 @ 8 PM EST
+        </div>
+      </>
+    );
+  })()}
+</div>
+
 
             {/* Ranks 4–10 (now includes Prize column to match actual design) */}
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden">
