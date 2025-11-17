@@ -990,28 +990,28 @@ function LeaderboardsPage() {
                 />
               )}
             </div>
-            {/* Active Leaderboard Countdown */}
-                        {(() => {
-                          const endTime = activeConfig?.id === 'dejen' ? DEJEN_END_ISO : CSGOLD_END_ISO;
-                          const { days, hours, minutes, seconds } = useLeaderboardCountdown(endTime);
-                          const endLabel = activeConfig?.id === 'dejen' 
-                            ? 'Dejen ends Dec 8 @ 8 PM EST' 
-                            : 'CsGold ends Nov 19 @ 8 PM EST';
-                          
-                          return (
-                            <div className="mb-8">
-                              <div className="flex items-center justify-center gap-4">
-                                <TimeTile label="Days" value={days} />
-                                <TimeTile label="Hours" value={hours} />
-                                <TimeTile label="Minutes" value={minutes} />
-                                <TimeTile label="Seconds" value={seconds} />
-                              </div>
-                              <div className="mt-3 text-center text-gray-400 text-sm">
-                                {endLabel}
-                              </div>
-                            </div>
-                          );
-                        })()}
+{/* Active Leaderboard Countdown */}
+            {(() => {
+              const endTime = activeConfig?.id === 'dejen' ? DEJEN_END_ISO : CSGOLD_END_ISO;
+              const { days, hours, minutes, seconds } = useLeaderboardCountdown(endTime);
+              const endLabel = activeConfig?.id === 'dejen' 
+                ? 'Dejen ends Dec 8 @ 8 PM EST' 
+                : 'CsGold ends Nov 19 @ 8 PM EST';
+              
+              return (
+                <div className="mb-8">
+                  <div className="flex items-center justify-center gap-4">
+                    <TimeTile label="Days" value={days} />
+                    <TimeTile label="Hours" value={hours} />
+                    <TimeTile label="Minutes" value={minutes} />
+                    <TimeTile label="Seconds" value={seconds} />
+                  </div>
+                  <div className="mt-3 text-center text-gray-400 text-sm">
+                    {endLabel}
+                  </div>
+                </div>
+              );
+            })()}
             
             
                         {/* Ranks 4–10 (now includes Prize column to match actual design) */}
