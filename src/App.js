@@ -1005,8 +1005,8 @@ function LeaderboardsPage() {
               </div>
               <div className="mt-3 text-center text-gray-400 text-sm">
                 {activeConfig?.id === 'dejen' 
-                  ? 'Dejen ends Dec 8 @ 8 PM EST'
-                  : 'CsGold ends Nov 19 @ 8 PM EST'}
+                  ? 'Dejen ends Dec 6 @ 8 PM EST'
+                  : 'CsGold ends Dec 6 @ 8 PM EST'}
               </div>
             </div>
             
