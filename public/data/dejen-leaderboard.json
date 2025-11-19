@@ -21,38 +21,38 @@
     },
     {
       "rank": 4,
-      "username": "muta11",
-      "wagered": 3076.78,
+      "username": "gas",
+      "wagered": 4122.39,
       "prize": 275
     },
     {
       "rank": 5,
-      "username": "hoodlum",
-      "wagered": 1590.91,
+      "username": "muta11",
+      "wagered": 3076.78,
       "prize": 150
     },
     {
       "rank": 6,
-      "username": "bgmi1774",
-      "wagered": 763.48,
+      "username": "hoodlum",
+      "wagered": 1590.91,
       "prize": 100
     },
     {
       "rank": 7,
-      "username": "larryjones8526",
-      "wagered": 133.44,
+      "username": "bgmi1774",
+      "wagered": 763.48,
       "prize": 75
     },
     {
       "rank": 8,
-      "username": "itzdarksterop",
-      "wagered": 119,
+      "username": "larryjones8526",
+      "wagered": 133.44,
       "prize": 50
     },
     {
       "rank": 9,
-      "username": "gas",
-      "wagered": 73.09,
+      "username": "itzdarksterop",
+      "wagered": 119,
       "prize": 30
     },
     {
@@ -107,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-11-18T23:38:55.542Z",
+    "fetchedAt": "2025-11-19T01:56:48.525Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
