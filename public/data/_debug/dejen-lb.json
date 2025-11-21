@@ -51,24 +51,24 @@
     },
     {
       "rank": 8,
+      "user_id": "6408b458-e041-708d-a10f-585fb681e166",
+      "public_id": "117577694098625282",
+      "username": "legacyplayz",
+      "wager_total": 36580
+    },
+    {
+      "rank": 9,
       "user_id": "042834a8-a001-70a2-6789-471ccb449384",
       "public_id": "111926337526173900",
       "username": "larryjones8526",
       "wager_total": 13344
     },
     {
-      "rank": 9,
+      "rank": 10,
       "user_id": "d4384478-5011-70d8-bb04-938f2e6c9076",
       "public_id": "113331348499993433",
       "username": "itzdarksterop",
       "wager_total": 11900
-    },
-    {
-      "rank": 10,
-      "user_id": "74b894d8-5081-702f-8318-3ec049ce2bf9",
-      "public_id": "112225144256205195",
-      "username": "mclovin69",
-      "wager_total": 6275
     }
   ]
 }
