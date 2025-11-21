@@ -46,7 +46,7 @@
     {
       "rank": 8,
       "username": "legacyplayz",
-      "wagered": 579,
+      "wagered": 677.4,
       "prize": 50
     },
     {
@@ -107,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-11-21T14:24:25.916Z",
+    "fetchedAt": "2025-11-21T14:44:28.134Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
