@@ -39,14 +39,14 @@
     },
     {
       "rank": 7,
-      "username": "bgmi1774",
-      "wagered": 763.48,
+      "username": "legacyplayz",
+      "wagered": 781.2,
       "prize": 75
     },
     {
       "rank": 8,
-      "username": "legacyplayz",
-      "wagered": 734.4,
+      "username": "bgmi1774",
+      "wagered": 763.48,
       "prize": 50
     },
     {
@@ -107,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-11-21T15:22:29.978Z",
+    "fetchedAt": "2025-11-21T15:39:29.816Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
