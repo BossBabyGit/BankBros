@@ -16,7 +16,7 @@
     {
       "rank": 3,
       "username": "muta11",
-      "wagered": 7567.07,
+      "wagered": 7582.67,
       "prize": 500
     },
     {
@@ -107,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-11-22T16:47:02.894Z",
+    "fetchedAt": "2025-11-22T17:19:46.727Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
