@@ -4,6 +4,7 @@ import { ChevronDown, Sparkles, Trophy, ShieldCheck, MessageCircle, Play, Extern
 import useLeaderboardCountdown from "./useLeaderboardCountdown";
 import dejenLogo from "./assets/dejen.webp";
 import csgoldLogo from "./assets/csgold.svg";
+import csgowinLogo from "./assets/csgowin.svg"; // or whatever format your logo is
 
 // —— Brand Tokens ——
 const BRAND_PRIMARY = "#f97316"; // deep orange
@@ -12,6 +13,7 @@ const BRAND_GLOW = "rgba(250,204,21,0.65)";
 const BRAND_GRADIENT = `linear-gradient(135deg, ${BRAND_PRIMARY}, ${BRAND_SECONDARY})`;
 const DEJEN_END_ISO = "2025-12-06T20:00:00-05:00";   // Dec 8, 2025 20:00 EST (UTC-5)
 const CSGOLD_END_ISO = "2025-12-06T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
+const CSGOWIN_END_ISO = "2025-12-06T20:00:00-05:00";
 
 
 const PODIUM_GOLD = {
@@ -157,6 +159,37 @@ const CSGOLD_FALLBACK = Object.freeze(
   )
 );
 
+const CSGOWIN_PRIZE_LADDER = Object.freeze({
+  1: 105,
+  2: 65,
+  3: 40,
+  4: 25,
+  5: 15,
+  6: 0,
+  7: 0,
+  8: 0,
+  9: 0,
+  10: 0,
+});
+
+const CSGOWIN_FALLBACK = Object.freeze(
+  normalizeLeaderboardRows(
+    [
+      { rank: 1, name: "No User", wagered: 0.00 },
+      { rank: 2, name: "No User", wagered: 0.00 },
+      { rank: 3, name: "No User", wagered: 0.00 },
+      { rank: 4, name: "No User", wagered: 0.00 },
+      { rank: 5, name: "No User", wagered: 0.00 },
+      { rank: 6, name: "No User", wagered: 0.00 },
+      { rank: 7, name: "No User", wagered: 0.00 },
+      { rank: 8, name: "No User", wagered: 0.00 },
+      { rank: 9, name: "No User", wagered: 0.00 },
+      { rank: 10, name: "No User", wagered: 0.00 },
+    ],
+    CSGOWIN_PRIZE_LADDER
+  )
+);
+
 const LEADERBOARD_CONFIGS = [
   {
     id: "dejen",
@@ -184,6 +217,20 @@ const LEADERBOARD_CONFIGS = [
     messages: {
       empty: "No live CsGold data yet – showing sample data.",
       error: "Couldn’t load CsGold data – showing sample data.",
+    },
+  },
+   {
+    id: "csgowin",
+    name: "CsGoWin",
+    buttonLabel: "CsGoWin Leaderboard",
+    logo: csgowinLogo,
+    topUrl: "/data/csgowin-leaderboard.json",
+    historyUrl: null,
+    fallback: CSGOWIN_FALLBACK,
+    prizes: CSGOWIN_PRIZE_LADDER,
+    messages: {
+      empty: "No live CsGoWin data yet – showing sample data.",
+      error: "Couldn't load CsGoWin data – showing sample data.",
     },
   },
 ];
@@ -712,7 +759,10 @@ function LeaderboardsPage() {
   
   // Determine countdown target based on active leaderboard - MUST be before other state
   const activeConfigForCountdown = leaderboardConfigs.find((cfg) => cfg.id === activeLeaderboard) ?? leaderboardConfigs[0];
-  const countdownTarget = activeConfigForCountdown?.id === 'dejen' ? DEJEN_END_ISO : CSGOLD_END_ISO;
+  const countdownTarget = 
+  activeConfigForCountdown?.id === 'dejen' ? DEJEN_END_ISO :
+  activeConfigForCountdown?.id === 'csgowin' ? CSGOWIN_END_ISO :
+  CSGOLD_END_ISO;
   const countdown = useLeaderboardCountdown(countdownTarget);  // <-- THE COUNTDOWN IS HERE
   
   const [leaderboardState, setLeaderboardState] = React.useState(() => {
