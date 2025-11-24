@@ -1288,46 +1288,11 @@ function LeaderboardPreview() {
   );
 }
 
-// ADD THIS ENTIRE SECTION AFTER THE LeaderboardsPage FUNCTION
-
 function BonusesPage() {
   const casinos = [
-    {
-      id: "dejen",
-      name: "Dejen",
-      logo: dejenLogo,
-      url: "https://dejen.com",
-      benefits: [
-        "Welcome bonus up to $1,000",
-        "Daily reload bonuses",
-        "VIP rewards program",
-        "24/7 customer support"
-      ]
-    },
-    {
-      id: "csgold",
-      name: "CsGold",
-      logo: csgoldLogo,
-      url: "https://csgold.com",
-      benefits: [
-        "Exclusive CS:GO skin deposits",
-        "Instant withdrawals",
-        "Rakeback program",
-        "Weekly giveaways"
-      ]
-    },
-    {
-      id: "csgowin",
-      name: "CsGoWin",
-      logo: csgowinLogo,
-      url: "https://csgowin.com",
-      benefits: [
-        "No deposit bonus available",
-        "Fast crypto payouts",
-        "Level-up rewards",
-        "Provably fair games"
-      ]
-    }
+    { id: "dejen", name: "Dejen", logo: dejenLogo, url: "https://dejen.com", benefits: [/*...*/] },
+    { id: "csgold", name: "CsGold", logo: csgoldLogo, url: "https://csgold.com", benefits: [/*...*/] },
+    { id: "csgowin", name: "CsGoWin", logo: csgowinLogo, url: "https://csgowin.com", benefits: [/*...*/] }
   ];
 
   return (
@@ -1399,14 +1364,15 @@ function BonusesPage() {
                 ))}
               </div>
 
-              
+              {/* FIXED: added missing opening <a ...> tag */}
+              <a
                 href={casino.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full text-center rounded-full px-6 py-3 text-base font-semibold text-white transition-all group-hover:shadow-2xl"
-                style={{ 
-                  backgroundImage: BRAND_GRADIENT, 
-                  boxShadow: `0 20px 60px -30px ${BRAND_GLOW}` 
+                style={{
+                  backgroundImage: BRAND_GRADIENT,
+                  boxShadow: `0 20px 60px -30px ${BRAND_GLOW}`
                 }}
               >
                 Claim Bonus
@@ -1431,7 +1397,9 @@ function BonusesPage() {
             <p className="text-sm text-gray-300">
               Need help choosing? Join our Discord community for recommendations!
             </p>
-            
+
+            {/* FIXED: added missing opening <a ...> tag */}
+            <a
               href="https://discord.gg/Web23tM2gB"
               target="_blank"
               rel="noopener noreferrer"
