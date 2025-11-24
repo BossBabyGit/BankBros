@@ -1293,12 +1293,12 @@ function BonusesPage() {
       id: "dejen",
       name: "Dejen",
       logo: dejenLogo,
-      url: "https://dejen.com",
+      url: "https://dejen.com/?r=codebankbros",
       benefits: [
-        "Welcome bonus up to $1,000",
-        "Daily reload bonuses",
-        "VIP rewards program",
-        "24/7 customer support"
+        "0.3% Wager Back: Earn $30 for every $10,000 wagered".
+        "10% Lossback",
+        "10% Deposit Bonus: 2× wager requirement",
+        "Monthly Leaderboards"
       ]
     },
     {
@@ -1307,10 +1307,10 @@ function BonusesPage() {
       logo: csgoldLogo,
       url: "https://csgold.com",
       benefits: [
-        "Exclusive CS:GO skin deposits",
-        "Instant withdrawals",
-        "Rakeback program",
-        "Weekly giveaways"
+        "Daily Stream Promo",
+        "Sponsored Battles",
+        "5% Deposit Bonus",
+        "Monthly Leaderboards"
       ]
     },
   ];
