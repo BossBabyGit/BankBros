@@ -4,7 +4,6 @@ import { ChevronDown, Sparkles, Trophy, ShieldCheck, MessageCircle, Play, Extern
 import useLeaderboardCountdown from "./useLeaderboardCountdown";
 import dejenLogo from "./assets/dejen.webp";
 import csgoldLogo from "./assets/csgold.svg";
-import csgowinLogo from "./assets/csgowin.svg"; // or whatever format your logo is
 
 // —— Brand Tokens ——
 const BRAND_PRIMARY = "#f97316"; // deep orange
@@ -13,7 +12,6 @@ const BRAND_GLOW = "rgba(250,204,21,0.65)";
 const BRAND_GRADIENT = `linear-gradient(135deg, ${BRAND_PRIMARY}, ${BRAND_SECONDARY})`;
 const DEJEN_END_ISO = "2025-12-06T20:00:00-05:00";   // Dec 8, 2025 20:00 EST (UTC-5)
 const CSGOLD_END_ISO = "2025-12-06T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
-const CSGOWIN_END_ISO = "2025-12-06T20:00:00-05:00";
 
 
 const PODIUM_GOLD = {
@@ -159,37 +157,6 @@ const CSGOLD_FALLBACK = Object.freeze(
   )
 );
 
-const CSGOWIN_PRIZE_LADDER = Object.freeze({
-  1: 105,
-  2: 65,
-  3: 40,
-  4: 25,
-  5: 15,
-  6: 0,
-  7: 0,
-  8: 0,
-  9: 0,
-  10: 0,
-});
-
-const CSGOWIN_FALLBACK = Object.freeze(
-  normalizeLeaderboardRows(
-    [
-      { rank: 1, name: "No User", wagered: 0.00 },
-      { rank: 2, name: "No User", wagered: 0.00 },
-      { rank: 3, name: "No User", wagered: 0.00 },
-      { rank: 4, name: "No User", wagered: 0.00 },
-      { rank: 5, name: "No User", wagered: 0.00 },
-      { rank: 6, name: "No User", wagered: 0.00 },
-      { rank: 7, name: "No User", wagered: 0.00 },
-      { rank: 8, name: "No User", wagered: 0.00 },
-      { rank: 9, name: "No User", wagered: 0.00 },
-      { rank: 10, name: "No User", wagered: 0.00 },
-    ],
-    CSGOWIN_PRIZE_LADDER
-  )
-);
-
 const LEADERBOARD_CONFIGS = [
   {
     id: "dejen",
@@ -217,20 +184,6 @@ const LEADERBOARD_CONFIGS = [
     messages: {
       empty: "No live CsGold data yet – showing sample data.",
       error: "Couldn’t load CsGold data – showing sample data.",
-    },
-  },
-   {
-    id: "csgowin",
-    name: "CsGoWin",
-    buttonLabel: "CsGoWin Leaderboard",
-    logo: csgowinLogo,
-    topUrl: "/data/csgowin-leaderboard.json",
-    historyUrl: null,
-    fallback: CSGOWIN_FALLBACK,
-    prizes: CSGOWIN_PRIZE_LADDER,
-    messages: {
-      empty: "No live CsGoWin data yet – showing sample data.",
-      error: "Couldn't load CsGoWin data – showing sample data.",
     },
   },
 ];
@@ -271,6 +224,7 @@ export default function App() {
   // Map hash path → page
   let Page = HomePage;
   if (path.startsWith("/leaderboards")) Page = LeaderboardsPage;
+   if (path.startsWith("/bonuses")) Page = BonusesPage;
 
   return (
     <Layout>
@@ -423,6 +377,7 @@ function Navbar() {
           <ul className="hidden md:flex items-center gap-1 text-gray-200">
             <li>{link("/", "Home")}</li>
             <li>{link("/leaderboards", "Leaderboards")}</li>
+            <li>{link("/bonuses", "Bonuses")}</li>  
           </ul>
 
           <div className="hidden md:flex items-center gap-3">
@@ -453,6 +408,7 @@ function Navbar() {
             <div className="grid gap-2 text-sm text-gray-200">
               {link("/", "Home")}
               {link("/leaderboards", "Leaderboards")}
+              {link("/bonuses", "Bonuses")}
             </div>
             <div className="mt-4 flex items-center gap-3 text-white/80">
               <a
@@ -524,6 +480,7 @@ function Footer() {
             links={[
               { label: "Home", href: "#/" },
               { label: "Leaderboards", href: "#/leaderboards" },
+              { label: "Bonuses", href: "#/bonuses" },
             ]}
           />
           <FooterCol
@@ -761,7 +718,6 @@ function LeaderboardsPage() {
   const activeConfigForCountdown = leaderboardConfigs.find((cfg) => cfg.id === activeLeaderboard) ?? leaderboardConfigs[0];
   const countdownTarget = 
   activeConfigForCountdown?.id === 'dejen' ? DEJEN_END_ISO :
-  activeConfigForCountdown?.id === 'csgowin' ? CSGOWIN_END_ISO :
   CSGOLD_END_ISO;
   const countdown = useLeaderboardCountdown(countdownTarget);  // <-- THE COUNTDOWN IS HERE
   
@@ -1329,6 +1285,165 @@ function LeaderboardPreview() {
         ))}
       </div>
     </div>
+  );
+}
+
+// ADD THIS ENTIRE SECTION AFTER THE LeaderboardsPage FUNCTION
+
+function BonusesPage() {
+  const casinos = [
+    {
+      id: "dejen",
+      name: "Dejen",
+      logo: dejenLogo,
+      url: "https://dejen.com",
+      benefits: [
+        "Welcome bonus up to $1,000",
+        "Daily reload bonuses",
+        "VIP rewards program",
+        "24/7 customer support"
+      ]
+    },
+    {
+      id: "csgold",
+      name: "CsGold",
+      logo: csgoldLogo,
+      url: "https://csgold.com",
+      benefits: [
+        "Exclusive CS:GO skin deposits",
+        "Instant withdrawals",
+        "Rakeback program",
+        "Weekly giveaways"
+      ]
+    },
+    {
+      id: "csgowin",
+      name: "CsGoWin",
+      logo: csgowinLogo,
+      url: "https://csgowin.com",
+      benefits: [
+        "No deposit bonus available",
+        "Fast crypto payouts",
+        "Level-up rewards",
+        "Provably fair games"
+      ]
+    }
+  ];
+
+  return (
+    <section className="relative z-20 py-16 px-6">
+      <div className="mx-auto max-w-7xl">
+        <header className="mb-12 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mx-auto inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-amber-100/80 mb-6"
+          >
+            <Sparkles size={14} style={{ color: BRAND_PRIMARY }} /> Exclusive Casino Bonuses
+          </motion.div>
+
+          <motion.h1
+            className="text-4xl md:text-5xl font-black text-white mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.6 }}
+            style={{ textShadow: `0 0 45px ${BRAND_PRIMARY}55` }}
+          >
+            Partner Casinos
+          </motion.h1>
+
+          <motion.p
+            className="mx-auto max-w-2xl text-lg text-slate-300/90"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            Use code <span className="font-bold text-amber-400">BankBros</span> at any of our partner casinos to unlock exclusive bonuses and earn leaderboard points.
+          </motion.p>
+        </header>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {casinos.map((casino, index) => (
+            <motion.div
+              key={casino.id}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 * index, duration: 0.6 }}
+              className="group relative rounded-3xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl hover:border-white/20 transition-all"
+              style={{ boxShadow: `0 25px 80px -45px ${BRAND_GLOW}` }}
+            >
+              <div className="mb-6 flex justify-center">
+                <div className="relative h-24 w-24 rounded-2xl overflow-hidden border border-white/10 bg-black/40 p-3">
+                  <img
+                    src={casino.logo}
+                    alt={`${casino.name} logo`}
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+              </div>
+
+              <h3 className="text-2xl font-bold text-white text-center mb-4">
+                {casino.name}
+              </h3>
+
+              <div className="mb-6 space-y-3">
+                {casino.benefits.map((benefit, i) => (
+                  <div key={i} className="flex items-start gap-2 text-sm text-gray-300">
+                    <div
+                      className="mt-1 h-1.5 w-1.5 rounded-full shrink-0"
+                      style={{ background: BRAND_GRADIENT }}
+                    />
+                    <span>{benefit}</span>
+                  </div>
+                ))}
+              </div>
+
+              
+                href={casino.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full text-center rounded-full px-6 py-3 text-base font-semibold text-white transition-all group-hover:shadow-2xl"
+                style={{ 
+                  backgroundImage: BRAND_GRADIENT, 
+                  boxShadow: `0 20px 60px -30px ${BRAND_GLOW}` 
+                }}
+              >
+                Claim Bonus
+              </a>
+
+              <div className="mt-4 text-center">
+                <span className="inline-block rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber-100/80">
+                  Code: BankBros
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          className="mt-16 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.6 }}
+        >
+          <div className="inline-flex flex-col items-center gap-4 rounded-3xl border border-white/10 bg-white/[0.03] px-8 py-6 backdrop-blur-xl">
+            <p className="text-sm text-gray-300">
+              Need help choosing? Join our Discord community for recommendations!
+            </p>
+            
+              href="https://discord.gg/Web23tM2gB"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-2 text-sm font-semibold uppercase tracking-widest text-white/80 hover:text-white hover:border-white/40 transition"
+            >
+              <DiscordIcon size={18} />
+              Join Discord
+            </a>
+          </div>
+        </motion.div>
+      </div>
+    </section>
   );
 }
 
