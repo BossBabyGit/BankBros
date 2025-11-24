@@ -1296,8 +1296,8 @@ function BonusesPage() {
       url: "https://dejen.com/?r=codebankbros",
       benefits: [
         "0.3% Wager Back: Earn $30 for every $10,000 wagered",
-        "10% Lossback",
-        "10% Deposit Bonus: 2× wager requirement",
+        "Up to 10% Lossback",
+        "Up to 10% depo bonus 2x wager",
         "Monthly Leaderboards"
       ]
     },
