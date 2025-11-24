@@ -1287,12 +1287,32 @@ function LeaderboardPreview() {
     </div>
   );
 }
-
 function BonusesPage() {
   const casinos = [
-    { id: "dejen", name: "Dejen", logo: dejenLogo, url: "https://dejen.com", benefits: [/*...*/] },
-    { id: "csgold", name: "CsGold", logo: csgoldLogo, url: "https://csgold.com", benefits: [/*...*/] },
-    { id: "csgowin", name: "CsGoWin", logo: csgowinLogo, url: "https://csgowin.com", benefits: [/*...*/] }
+    {
+      id: "dejen",
+      name: "Dejen",
+      logo: dejenLogo,
+      url: "https://dejen.com",
+      benefits: [
+        "Welcome bonus up to $1,000",
+        "Daily reload bonuses",
+        "VIP rewards program",
+        "24/7 customer support"
+      ]
+    },
+    {
+      id: "csgold",
+      name: "CsGold",
+      logo: csgoldLogo,
+      url: "https://csgold.com",
+      benefits: [
+        "Exclusive CS:GO skin deposits",
+        "Instant withdrawals",
+        "Rakeback program",
+        "Weekly giveaways"
+      ]
+    },
   ];
 
   return (
@@ -1364,7 +1384,6 @@ function BonusesPage() {
                 ))}
               </div>
 
-              {/* FIXED: added missing opening <a ...> tag */}
               <a
                 href={casino.url}
                 target="_blank"
@@ -1398,7 +1417,6 @@ function BonusesPage() {
               Need help choosing? Join our Discord community for recommendations!
             </p>
 
-            {/* FIXED: added missing opening <a ...> tag */}
             <a
               href="https://discord.gg/Web23tM2gB"
               target="_blank"
@@ -1414,6 +1432,7 @@ function BonusesPage() {
     </section>
   );
 }
+
 
 function Accordion({ question, answer, defaultOpen }) {
   const [open, setOpen] = useState(!!defaultOpen);
