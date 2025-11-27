@@ -813,8 +813,8 @@ function LeaderboardsPage() {
   const countdownTarget = 
   activeConfigForCountdown?.id === 'dejen' ? DEJEN_END_ISO :
   activeConfigForCountdown?.id === 'csgold' ? CSGOLD_END_ISO :
-  activeConfigForCountdown?.id === 'newcasino1' ? NEWCASINO1_END_ISO :
-  activeConfigForCountdown?.id === 'newcasino2' ? NEWCASINO2_END_ISO :
+  activeConfigForCountdown?.id === 'roulo' ? ROULO_END_ISO :
+  activeConfigForCountdown?.id === 'csbattle' ? CSBATTLE_END_ISO :
   DEJEN_END_ISO; // 
   const countdown = useLeaderboardCountdown(countdownTarget);  // <-- THE COUNTDOWN IS HERE
   
