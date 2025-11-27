@@ -4,6 +4,8 @@ import { ChevronDown, Sparkles, Trophy, ShieldCheck, MessageCircle, Play, Extern
 import useLeaderboardCountdown from "./useLeaderboardCountdown";
 import dejenLogo from "./assets/dejen.webp";
 import csgoldLogo from "./assets/csgold.svg";
+import rouloLogo from "./assets/roulo.wepb";
+import csbattleLogo from "./assets/csbattle.svg";
 
 // —— Brand Tokens ——
 const BRAND_PRIMARY = "#f97316"; // deep orange
@@ -12,6 +14,8 @@ const BRAND_GLOW = "rgba(250,204,21,0.65)";
 const BRAND_GRADIENT = `linear-gradient(135deg, ${BRAND_PRIMARY}, ${BRAND_SECONDARY})`;
 const DEJEN_END_ISO = "2025-12-06T20:00:00-05:00";   // Dec 8, 2025 20:00 EST (UTC-5)
 const CSGOLD_END_ISO = "2025-12-06T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
+const ROULO_END_ISO = "2025-12-27T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
+const CSBATTLE_END_ISO = "2025-12-31T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
 
 
 const PODIUM_GOLD = {
@@ -102,6 +106,32 @@ function applyPrizeLadder(rows, prizeLadder) {
   return normalizeLeaderboardRows(rows, prizeLadder);
 }
 
+const ROULO_PRIZE_LADDER = Object.freeze({
+  1: 1050,
+  2: 750,
+  3: 500,
+  4: 275,
+  5: 150,
+  6: 100,
+  7: 75,
+  8: 50,
+  9: 30,
+  10: 20,
+});
+
+const CSBATTLE_PRIZE_LADDER = Object.freeze({
+  1: 1050,
+  2: 750,
+  3: 500,
+  4: 275,
+  5: 150,
+  6: 100,
+  7: 75,
+  8: 50,
+  9: 30,
+  10: 20,
+});
+
 const DEJEN_PRIZE_LADDER = Object.freeze({
   1: 1050,
   2: 750,
@@ -157,6 +187,42 @@ const CSGOLD_FALLBACK = Object.freeze(
   )
 );
 
+const ROULO_FALLBACK = Object.freeze(
+  normalizeLeaderboardRows(
+    [
+      { rank: 1, name: "No User", wagered: 0.00 },
+      { rank: 2, name: "No User", wagered: 0.00 },
+      { rank: 3, name: "No User", wagered: 0.00 },
+      { rank: 4, name: "No User", wagered: 0.00 },
+      { rank: 5, name: "No User", wagered: 0.00 },
+      { rank: 6, name: "No User", wagered: 0.00 },
+      { rank: 7, name: "No User", wagered: 0.00 },
+      { rank: 8, name: "No User", wagered: 0.00 },
+      { rank: 9, name: "No User", wagered: 0.00 },
+      { rank: 10, name: "No User", wagered: 0.00 },
+    ],
+    CSGOLD_PRIZE_LADDER
+  )
+);
+
+const CSBATTLE_FALLBACK = Object.freeze(
+  normalizeLeaderboardRows(
+    [
+      { rank: 1, name: "No User", wagered: 0.00 },
+      { rank: 2, name: "No User", wagered: 0.00 },
+      { rank: 3, name: "No User", wagered: 0.00 },
+      { rank: 4, name: "No User", wagered: 0.00 },
+      { rank: 5, name: "No User", wagered: 0.00 },
+      { rank: 6, name: "No User", wagered: 0.00 },
+      { rank: 7, name: "No User", wagered: 0.00 },
+      { rank: 8, name: "No User", wagered: 0.00 },
+      { rank: 9, name: "No User", wagered: 0.00 },
+      { rank: 10, name: "No User", wagered: 0.00 },
+    ],
+    CSGOLD_PRIZE_LADDER
+  )
+);
+
 const LEADERBOARD_CONFIGS = [
   {
     id: "dejen",
@@ -184,6 +250,34 @@ const LEADERBOARD_CONFIGS = [
     messages: {
       empty: "No live CsGold data yet – showing sample data.",
       error: "Couldn’t load CsGold data – showing sample data.",
+    },
+  },
+  {
+    id: "Roulo",
+    name: "Roulo",
+    buttonLabel: "Roulo Leaderboard",
+    logo: rouloLogo,
+    topUrl: "/data/roulo-leaderboard.json",
+    historyUrl: null,
+    fallback: ROULO_FALLBACK,
+    prizes: ROULO_PRIZE_LADDER,
+    messages: {
+      empty: "No live Roulo data yet – showing sample data.",
+      error: "Couldn’t load Roulo data – showing sample data.",
+    },
+  },
+    {
+    id: "CSBattle",
+    name: "CSBattle",
+    buttonLabel: "CSBattle Leaderboard",
+    logo: csbattleLogo,
+    topUrl: "/data/csbattle-leaderboard.json",
+    historyUrl: null,
+    fallback: CSBATTLE_FALLBACK,
+    prizes: CSBATTLE_PRIZE_LADDER,
+    messages: {
+      empty: "No live CSBattle data yet – showing sample data.",
+      error: "Couldn’t load CSBattle data – showing sample data.",
     },
   },
 ];
@@ -718,7 +812,10 @@ function LeaderboardsPage() {
   const activeConfigForCountdown = leaderboardConfigs.find((cfg) => cfg.id === activeLeaderboard) ?? leaderboardConfigs[0];
   const countdownTarget = 
   activeConfigForCountdown?.id === 'dejen' ? DEJEN_END_ISO :
-  CSGOLD_END_ISO;
+  activeConfigForCountdown?.id === 'csgold' ? CSGOLD_END_ISO :
+  activeConfigForCountdown?.id === 'newcasino1' ? NEWCASINO1_END_ISO :
+  activeConfigForCountdown?.id === 'newcasino2' ? NEWCASINO2_END_ISO :
+  DEJEN_END_ISO; // 
   const countdown = useLeaderboardCountdown(countdownTarget);  // <-- THE COUNTDOWN IS HERE
   
   const [leaderboardState, setLeaderboardState] = React.useState(() => {
