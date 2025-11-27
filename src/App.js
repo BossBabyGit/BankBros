@@ -4,7 +4,7 @@ import { ChevronDown, Sparkles, Trophy, ShieldCheck, MessageCircle, Play, Extern
 import useLeaderboardCountdown from "./useLeaderboardCountdown";
 import dejenLogo from "./assets/dejen.webp";
 import csgoldLogo from "./assets/csgold.svg";
-import rouloLogo from "./assets/roulo.wepb";
+import rouloLogo from "./assets/roulo.svg";
 import csbattleLogo from "./assets/csbattle.svg";
 
 // —— Brand Tokens ——
