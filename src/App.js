@@ -659,20 +659,20 @@ function HomePage() {
             </motion.div>
 
             <motion.h1
-              className="inline-flex items-center gap-2 text-center text-4xl font-black leading-[1.05] text-white sm:text-5xl md:text-6xl"
+              className="text-center text-4xl font-black leading-[1.05] text-white sm:text-5xl md:text-6xl"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.7 }}
             >
-              <img
-                src={bankbros}
-                alt="BankBros Logo"
-                className="inline-block h-[1em] w-auto align-middle"
-                style={{ verticalAlign: "middle" }}
-              />
-              <span style={{ color: BRAND_PRIMARY }}>Rewards</span>
+              <span className="inline-flex items-center gap-2">
+                <img
+                  src={bankbros}
+                  alt="BankBros Logo"
+                  className="inline-block h-[1em] w-auto align-middle"
+                />
+                <span style={{ color: BRAND_PRIMARY }}>Rewards</span>
+              </span>
             </motion.h1>
-
 
             <motion.p
               className="mx-auto max-w-2xl text-base text-slate-300/90 sm:text-lg"
