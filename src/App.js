@@ -5,6 +5,7 @@ import useLeaderboardCountdown from "./useLeaderboardCountdown";
 import dejenLogo from "./assets/dejen.webp";
 import csgoldLogo from "./assets/csgold.svg";
 import rouloLogo from "./assets/roulo.png";
+import rouloLogo from "./assets/bankrollbros.png";
 import csbattleLogo from "./assets/csbattle.svg";
 
 // —— Brand Tokens ——
@@ -462,8 +463,12 @@ function Navbar() {
               </div>
             </div>
             <div>
-              <div className="text-lg font-semibold tracking-tight" style={{ color: BRAND_PRIMARY }}>
-                BankBros
+              <div className="flex items-center">
+                <img
+                  src={rouloLogo}
+                  alt="BankBros Logo"
+                  className="h-8 w-auto"
+                />
               </div>
             </div>
           </div>
@@ -540,8 +545,15 @@ function Footer() {
                 style={{ backgroundImage: BRAND_GRADIENT, boxShadow: `0 18px 40px -18px ${BRAND_GLOW}` }}
               />
               <div>
-                <div className="text-xl font-bold tracking-tight" style={{ color: BRAND_PRIMARY }}>
-                  BankBros Rewards
+                <div className="flex items-center gap-2" style={{ color: BRAND_PRIMARY }}>
+                  <img
+                    src={rouloLogo}
+                    alt="BankBros Logo"
+                    className="h-7 w-auto"
+                  />
+                  <span className="text-xl font-bold tracking-tight">
+                    Rewards
+                  </span>
                 </div>
               </div>
             </div>
