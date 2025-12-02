@@ -454,11 +454,6 @@ function Navbar() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="flex items-center justify-between gap-4 rounded-3xl border border-white/10 bg-white/[0.05] px-5 py-4 backdrop-blur-xl supports-[backdrop-filter]:bg-white/[0.05]" style={{ boxShadow: `0 25px 80px -40px ${BRAND_GLOW}` }}>
           <div className="flex items-center gap-3">
-            <div
-              className="relative h-12 w-12 shrink-0 overflow-hidden rounded-2xl"
-              style={{ backgroundImage: BRAND_GRADIENT, boxShadow: `0 15px 35px -15px ${BRAND_GLOW}` }}
-            >
-            </div>
             <div>
               <div className="flex items-center">
                 <img
@@ -537,10 +532,6 @@ function Footer() {
         <div className="grid gap-12 md:grid-cols-[1.4fr,1fr,1fr]">
           <div className="space-y-4">
             <div className="inline-flex items-center gap-3">
-              <div
-                className="h-11 w-11 rounded-2xl"
-                style={{ backgroundImage: BRAND_GRADIENT, boxShadow: `0 18px 40px -18px ${BRAND_GLOW}` }}
-              />
               <div>
                 <div className="flex items-center gap-2" style={{ color: BRAND_PRIMARY }}>
                   <img
@@ -548,9 +539,6 @@ function Footer() {
                     alt="BankBros Logo"
                     className="h-7 w-auto"
                   />
-                  <span className="text-xl font-bold tracking-tight">
-                    Rewards
-                  </span>
                 </div>
               </div>
             </div>
@@ -676,7 +664,13 @@ function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.7 }}
             >
-              BankBros Rewards
+            <div className="flex items-center gap-2" style={{ color: BRAND_PRIMARY }}>
+                  <img
+                    src={bankbros}
+                    alt="BankBros Logo"
+                    className="h-7 w-auto"
+                  />
+                </div> Rewards
             </motion.h1>
 
             <motion.p
