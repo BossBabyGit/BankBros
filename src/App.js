@@ -121,16 +121,16 @@ const ROULO_PRIZE_LADDER = Object.freeze({
 });
 
 const CSBATTLE_PRIZE_LADDER = Object.freeze({
-  1: 1050,
-  2: 750,
-  3: 500,
-  4: 275,
-  5: 150,
-  6: 100,
-  7: 75,
-  8: 50,
-  9: 30,
-  10: 20,
+  1: 450,
+  2: 225,
+  3: 150,
+  4: 100,
+  5: 50,
+  6: 25,
+  7: 0,
+  8: 0,
+  9: 0,
+  10: 0,
 });
 
 const DEJEN_PRIZE_LADDER = Object.freeze({
