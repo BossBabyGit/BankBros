@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Sparkles, Trophy, ShieldCheck, MessageCircle, Play, ExternalLink, Timer, Users } from "lucide-react";
 import useLeaderboardCountdown from "./useLeaderboardCountdown";
 import dejenLogo from "./assets/dejen.webp";
+import "./App.css";
 import csgoldLogo from "./assets/csgold.svg";
 import rouloLogo from "./assets/roulo.png";
 import bankbros from "./assets/bankrollbros.png";
