@@ -9,10 +9,10 @@ import rouloLogo from "./assets/roulo.png";
 import bankbros from "./assets/bankrollbros.png";
 import csbattleLogo from "./assets/csbattle.svg";
 
-// —— Brand Tokens ——
-const BRAND_PRIMARY = "#f97316"; // deep orange
-const BRAND_SECONDARY = "#92400e"; // rich brown accent
-const BRAND_GLOW = "rgba(250,204,21,0.65)";
+// —— Winter Brand Tokens ——
+const BRAND_PRIMARY = "#B0D2E3"; // logo blue
+const BRAND_SECONDARY = "#8FBFD0"; // slightly darker blue for gradients
+const BRAND_GLOW = "rgba(176,210,227,0.45)"; // softer blue glow
 const BRAND_GRADIENT = `linear-gradient(135deg, ${BRAND_PRIMARY}, ${BRAND_SECONDARY})`;
 const DEJEN_END_ISO = "2025-12-06T20:00:00-05:00";   // Dec 8, 2025 20:00 EST (UTC-5)
 const CSGOLD_END_ISO = "2025-12-06T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
