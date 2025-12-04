@@ -386,39 +386,70 @@ function Particles() {
     setSize();
     window.addEventListener("resize", setSize);
 
+    // Helper: logo blue rgba
+    const BLUE_RGBA = (a = 1) => `rgba(176,210,227,${a})`;
+    const WHITE_RGBA = (a = 1) => `rgba(255,255,255,${a})`;
+
     function Particle(startBottom) {
       this.reset = function (sb) {
         const startFromBottom = typeof sb === "boolean" ? sb : false;
         this.x = Math.random() * canvas.width;
+        // start a little offscreen so they float in
         this.y = startFromBottom ? canvas.height + Math.random() * canvas.height : canvas.height + Math.random() * 160;
-        this.size = Math.random() * 1.6 + 0.7;
-        this.speedY = -(Math.random() * 0.7 + 0.35);
-        this.speedX = Math.random() * 0.3 - 0.15;
-        this.alpha = Math.random() * 0.5 + 0.3;
+        // choose whether this is a small flake or a larger slow flake
+        this.type = Math.random() < 0.16 ? "big" : "small";
+        if (this.type === "big") {
+          this.size = Math.random() * 2.6 + 1.4; // bigger
+          this.speedY = -(Math.random() * 0.35 + 0.15); // slower
+          this.alpha = Math.random() * 0.45 + 0.35;
+        } else {
+          this.size = Math.random() * 1.6 + 0.6;
+          this.speedY = -(Math.random() * 0.9 + 0.4);
+          this.alpha = Math.random() * 0.5 + 0.25;
+        }
+        this.speedX = Math.random() * 0.4 - 0.2;
         this.wobble = Math.random() * Math.PI * 2;
+        // color bias: mostly blue, some pure white flakes
+        this.isWhite = Math.random() < 0.18;
       };
+
       this.update = function () {
         this.y += this.speedY;
-        this.x += Math.sin((this.wobble += 0.03)) * 0.15 + this.speedX;
-        if (this.y < -20) this.reset(true);
+        this.x += Math.sin((this.wobble += 0.03)) * 0.18 + this.speedX;
+        if (this.y < -40) this.reset(true);
+        // wrap horizontally
+        if (this.x < -20) this.x = canvas.width + 20;
+        if (this.x > canvas.width + 20) this.x = -20;
       };
+
       this.draw = function () {
         ctx.save();
         ctx.beginPath();
-        ctx.shadowBlur = 18;
-        ctx.shadowColor = `rgba(217,119,6,${this.alpha})`;
-        ctx.fillStyle = `rgba(217,119,6,${this.alpha})`;
+        // softer shadow for wintery glow
+        ctx.shadowBlur = this.type === "big" ? 10 : 6;
+        // blue glow for blue flakes, faint for white ones
+        if (this.isWhite) {
+          ctx.shadowColor = WHITE_RGBA(this.alpha * 0.6);
+          ctx.fillStyle = WHITE_RGBA(this.alpha);
+        } else {
+          ctx.shadowColor = BLUE_RGBA(this.alpha * 0.9);
+          ctx.fillStyle = BLUE_RGBA(this.alpha);
+        }
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
       };
+
       this.reset(typeof startBottom === "boolean" ? startBottom : true);
     }
 
     function init() {
       particlesArray = [];
-      for (let i = 0; i < 200; i++) particlesArray.push(new Particle(true));
+      // pick count relative to viewport size for consistent density
+      const baseCount = Math.round(Math.max(140, (window.innerWidth * window.innerHeight) / 7000));
+      for (let i = 0; i < baseCount; i++) particlesArray.push(new Particle(true));
     }
+
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (const p of particlesArray) {
@@ -430,6 +461,7 @@ function Particles() {
 
     init();
     animate();
+
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", setSize);
@@ -438,6 +470,7 @@ function Particles() {
 
   return <canvas id="particles" className="fixed top-0 left-0 w-full h-full z-10 pointer-events-none" />;
 }
+
 
 // —— Navbar & Footer (shared everywhere) ——
 function Navbar() {
