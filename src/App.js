@@ -15,8 +15,8 @@ const BRAND_GLOW = "rgba(250,204,21,0.65)";
 const BRAND_GRADIENT = `linear-gradient(135deg, ${BRAND_PRIMARY}, ${BRAND_SECONDARY})`;
 const DEJEN_END_ISO = "2025-12-06T20:00:00-05:00";   // Dec 8, 2025 20:00 EST (UTC-5)
 const CSGOLD_END_ISO = "2025-12-06T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
-const ROULO_END_ISO = "2025-12-27T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
-const CSBATTLE_END_ISO = "2025-12-31T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
+const ROULO_END_ISO = "2026-01-6T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
+const CSBATTLE_END_ISO = "2026-01-02T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
 
 
 const PODIUM_GOLD = {
@@ -1119,7 +1119,13 @@ function LeaderboardsPage() {
               <div className="mt-3 text-center text-gray-400 text-sm">
                 {activeConfig?.id === 'dejen' 
                   ? 'Dejen ends Dec 6 @ 8 PM EST'
-                  : 'CsGold ends Dec 6 @ 8 PM EST'}
+                  : activeConfig?.id === 'csgold'
+                  ? 'CsGold ends Dec 6 @ 8 PM EST'
+                  : activeConfig?.id === 'Roulo'
+                  ? 'Roulo ends Jan 06 @ 8 PM EST'
+                  : activeConfig?.id === 'CSBattle'
+                  ? 'CSBattle ends Jan 02 @ 8 PM EST'
+                  : 'Leaderboard ends soon'}
               </div>
             </div>
             
