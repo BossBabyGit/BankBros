@@ -558,7 +558,7 @@ function Navbar() {
 
 function Footer() {
   return (
-    <footer className="relative z-20 mt-20 border-t border-amber-500/10 bg-black/70 backdrop-blur">
+    <footer className="relative z-20 mt-20 border-t border-sky-300/30 bg-black/70 backdrop-blur">
       <div className="absolute inset-x-0 -top-20 h-20" aria-hidden>
         <div
           className="mx-auto h-full w-full max-w-5xl rounded-full blur-3xl"
@@ -690,7 +690,7 @@ function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="mx-auto inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-amber-100/80"
+              className="mx-auto inline-flex items-center gap-2 rounded-full border border-sky-300/30 bg-sky-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-sky-100/80"
             >
               <Sparkles size={14} style={{ color: BRAND_PRIMARY }} /> Leaderboard Live Now!
             </motion.div>
@@ -733,7 +733,7 @@ function HomePage() {
               ].map((s) => (
                 <div
                   key={s.label}
-                  className="rounded-3xl border border-amber-500/20 bg-white/[0.05] px-4 py-5 text-center shadow-[0_25px_80px_-45px_rgba(217,119,6,0.55)]"
+                  className="rounded-3xl border border-sky-500/20 bg-white/[0.05] px-4 py-5 text-center shadow-[0_25px_80px_-45px_rgba(217,119,6,0.55)]"
                 >
                   <div className="text-xs uppercase tracking-[0.3em] text-slate-400">{s.label}</div>
                   <div className="mt-2 text-2xl font-extrabold" style={{ color: BRAND_PRIMARY }}>
@@ -760,7 +760,7 @@ function HomePage() {
                 href="https://discord.gg/Web23tM2gB"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-amber-500/30 px-8 py-3 text-base font-semibold text-white/80 transition hover:text-white hover:border-amber-400"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-sky-500/30 px-8 py-3 text-base font-semibold text-white/80 transition hover:text-white hover:border-sky-400"
               >
                 <MessageCircle size={18} /> Join the Lounge
               </a>
@@ -797,7 +797,7 @@ function HomePage() {
               </h2>
               <p className="mt-4 text-base text-slate-300/90">
                 Climb the ranks by wagering on our partnered casinos using the code
-                <span className="text-amber-400 font-semibold"> “BankBros”</span>.
+                <span className="text-sky-400 font-semibold"> “BankBros”</span>.
                 Every tracked bet pushes you up the leaderboard for a shot at cash,
                 merch, and exclusive drops. Compete live, rise fast, and lock in your spot among the BankBros elite.
               </p>
@@ -805,14 +805,14 @@ function HomePage() {
               <div className="mt-8 flex flex-wrap gap-3 text-xs uppercase tracking-[0.3em] text-slate-400">
                 <a
                   href="#/leaderboards"
-                  className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 px-4 py-2 text-white/80 transition hover:text-white hover:border-amber-400"
+                  className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 px-4 py-2 text-white/80 transition hover:text-white hover:border-sky-400"
                 >
                   <ExternalLink size={14} /> Open Leaderboard
                 </a>
               </div>
             </div>
       
-            <div className="rounded-[28px] border border-amber-500/15 bg-black/60 p-6 shadow-[0_30px_110px_-60px_rgba(217,119,6,0.7)]">
+            <div className="rounded-[28px] border border-sky-500/15 bg-black/60 p-6 shadow-[0_30px_110px_-60px_rgba(217,119,6,0.7)]">
               <div className="mb-5 flex items-center justify-between text-xs uppercase tracking-[0.35em] text-white/50">
                 <span>Snapshot</span>
                 <span>Updated live</span>
@@ -1473,7 +1473,7 @@ function BonusesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mx-auto inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-amber-100/80 mb-6"
+            className="mx-auto inline-flex items-center gap-2 rounded-full border border-sky-500/25 bg-sky-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-sky-100/80 mb-6"
           >
             <Sparkles size={14} style={{ color: BRAND_PRIMARY }} /> Exclusive Casino Bonuses
           </motion.div>
@@ -1494,7 +1494,7 @@ function BonusesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            Use code <span className="font-bold text-amber-400">BankBros</span> at any of our partner casinos to unlock exclusive bonuses and earn leaderboard points.
+            Use code <span className="font-bold text-sky-400">BankBros</span> at any of our partner casinos to unlock exclusive bonuses and earn leaderboard points.
           </motion.p>
         </header>
 
@@ -1548,7 +1548,7 @@ function BonusesPage() {
               </a>
 
               <div className="mt-4 text-center">
-                <span className="inline-block rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber-100/80">
+                <span className="inline-block rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-sky-100/80">
                   Code: BankBros
                 </span>
               </div>
