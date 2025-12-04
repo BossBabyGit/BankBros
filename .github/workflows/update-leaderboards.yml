@@ -42,8 +42,11 @@ jobs:
         env:
           DEJEN_RACE_ID: ${{ secrets.DEJEN_RACE_ID }}
           CSGOLD_API_KEY: ${{ secrets.CSGOLD_API_KEY }}
+          CSBATTLE_API_KEY: ${{ secrets.CSBATTLE_API_KEY }}               # optional
+          CSBATTLE_LEADERBOARD_URL: ${{ secrets.CSBATTLE_LEADERBOARD_URL }} # use your provided URL here
           DEBUG_FETCH: "1"   # optional: writes public/data/_debug/*.json
         run: node scripts/fetch-all.mjs
+
 
       - name: Commit & push if changed
         run: |
