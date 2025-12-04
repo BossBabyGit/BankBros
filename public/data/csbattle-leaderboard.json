@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "rows": [
+    {
+      "rank": 1,
+      "uuid": "6991904d-1b20-4d0f-96ef-4fce7540331d",
+      "username": "a******",
+      "avatar": null,
+      "wagered": 52.96,
+      "prize": 0
+    },
+    {
+      "rank": 2,
+      "uuid": "0b3d9001-322a-42f5-b2f8-a4e6d0e42da7",
+      "username": "L**********",
+      "avatar": null,
+      "wagered": 22.31,
+      "prize": 0
+    },
+    {
+      "rank": 3,
+      "uuid": "469d8bb5-f379-4f46-a3ca-af812f7caaee",
+      "username": "g***********",
+      "avatar": null,
+      "wagered": 19.97,
+      "prize": 0
+    },
+    {
+      "rank": 4,
+      "uuid": "ad1102cb-b1b2-4f21-b698-c2d448018f41",
+      "username": "X****",
+      "avatar": null,
+      "wagered": 7.75,
+      "prize": 0
+    },
+    {
+      "rank": 5,
+      "uuid": "df3914da-5be0-418f-ade8-8e83a9f78a4b",
+      "username": "j*******",
+      "avatar": null,
+      "wagered": 4.03,
+      "prize": 0
+    },
+    {
+      "rank": 6,
+      "uuid": "bdbb28e1-a638-4480-81f8-03efa91ab913",
+      "username": "2******",
+      "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKjljtn_8UD5yEFtEjViJSwS1tjt_2Vm83-XtBPRTcQOxb_Jg=s96-c",
+      "wagered": 3,
+      "prize": 0
+    },
+    {
+      "rank": 7,
+      "uuid": "72cf9356-ff65-468f-974f-1ecaf56ea7f5",
+      "username": "B*****",
+      "avatar": null,
+      "wagered": 1.3,
+      "prize": 0
+    },
+    {
+      "rank": 8,
+      "uuid": "b5c8ea88-1954-42e8-957c-0c59117a5366",
+      "username": "s*********",
+      "avatar": null,
+      "wagered": 0.7,
+      "prize": 0
+    }
+  ],
+  "prizes": [],
+  "metadata": {
+    "source": "csbattle",
+    "fetchedAt": "2025-12-04T17:08:30.139Z",
+    "url": "https://api.csbattle.com/leaderboards/affiliates/9f38c248-ff26-493e-ae4e-20f82a20ccf1?from=2025-01-12%2000:00:00&to=2036-01-02%2023:59:59"
+  }
+}
