@@ -814,14 +814,20 @@ function LeaderboardsPage() {
   
   // Determine countdown target based on active leaderboard - MUST be before other state
   const activeConfigForCountdown = leaderboardConfigs.find((cfg) => cfg.id === activeLeaderboard) ?? leaderboardConfigs[0];
-  const countdownTarget = 
-  activeConfigForCountdown?.id === 'dejen' ? DEJEN_END_ISO :
-  activeConfigForCountdown?.id === 'csgold' ? CSGOLD_END_ISO :
-  activeConfigForCountdown?.id === 'roulo' ? ROULO_END_ISO :
-  activeConfigForCountdown?.id === 'csbattle' ? CSBATTLE_END_ISO :
-  DEJEN_END_ISO; // 
-  const countdown = useLeaderboardCountdown(countdownTarget);  // <-- THE COUNTDOWN IS HERE
+  const countdownTarget = useMemo(() => {
+  const activeConfigForCountdown = leaderboardConfigs.find((cfg) => cfg.id === activeLeaderboard) ?? leaderboardConfigs[0];
   
+  switch (activeConfigForCountdown?.id) {
+    case 'dejen': return DEJEN_END_ISO;
+    case 'csgold': return CSGOLD_END_ISO;
+    case 'Roulo': return ROULO_END_ISO;
+    case 'CSBattle': return CSBATTLE_END_ISO;
+    default: return DEJEN_END_ISO;
+      }
+    }, [activeLeaderboard, leaderboardConfigs]);
+    
+    const countdown = useLeaderboardCountdown(countdownTarget);
+      
   const [leaderboardState, setLeaderboardState] = React.useState(() => {
     const initial = {};
     leaderboardConfigs.forEach((cfg) => {
