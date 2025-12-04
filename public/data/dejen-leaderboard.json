@@ -27,20 +27,20 @@
     },
     {
       "rank": 5,
-      "username": "freedomgambler",
-      "wagered": 6419.57,
+      "username": "reynaisqueen",
+      "wagered": 9715,
       "prize": 150
     },
     {
       "rank": 6,
-      "username": "hoodlum",
-      "wagered": 1757.55,
+      "username": "freedomgambler",
+      "wagered": 6419.57,
       "prize": 100
     },
     {
       "rank": 7,
-      "username": "reynaisqueen",
-      "wagered": 1695,
+      "username": "hoodlum",
+      "wagered": 1757.55,
       "prize": 75
     },
     {
@@ -107,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-12-04T21:43:01.350Z",
+    "fetchedAt": "2025-12-04T22:23:26.417Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
