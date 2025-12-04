@@ -9,6 +9,7 @@ import rouloLogo from "./assets/roulo.png";
 import bankbros from "./assets/bankrollbros.png";
 import csbattleLogo from "./assets/csbattle.svg";
 
+
 // —— Winter Brand Tokens ——
 const BRAND_PRIMARY = "#B0D2E3"; // logo blue
 const BRAND_SECONDARY = "#8FBFD0"; // slightly darker blue for gradients
@@ -21,25 +22,27 @@ const CSBATTLE_END_ISO = "2026-01-02T20:00:00-05:00";  // Nov 19, 2025 20:00 EST
 
 
 const PODIUM_GOLD = {
-  accent: "#ffd166",
-  edge: "#f9d66b",
-  tint: "rgba(255, 209, 102, 0.35)",
-  glow: "rgba(255, 209, 102, 0.65)",
+  accent: "#B0D2E3",                        // main brand blue
+  edge: "#8FBFD0",                          // slightly darker edge
+  tint: "rgba(176, 210, 227, 0.35)",        // soft blue overlay
+  glow: "rgba(176, 210, 227, 0.65)",        // stronger brand glow
 };
 
+
 const PODIUM_SILVER = {
-  accent: "#d1d5db",
-  edge: "#cbd5f5",
-  tint: "rgba(209, 213, 219, 0.28)",
-  glow: "rgba(209, 213, 219, 0.5)",
+  accent: "#8FBFD0",                         // secondary brand blue
+  edge: "#7AAEC1",                           // darker, cool edge
+  tint: "rgba(143, 191, 208, 0.28)",         // lighter tint
+  glow: "rgba(143, 191, 208, 0.5)",          // medium glow
 };
 
 const PODIUM_BRONZE = {
-  accent: "#cd7f32",
-  edge: "#c46a28",
-  tint: "rgba(205, 127, 50, 0.28)",
-  glow: "rgba(205, 127, 50, 0.55)",
+  accent: "#6B9BB0",                          // deeper desaturated blue
+  edge: "#5A889D",                            // dark blue edge for definition
+  tint: "rgba(107, 155, 176, 0.28)",          // soft darker tint
+  glow: "rgba(107, 155, 176, 0.55)",          // muted blue glow
 };
+
 
 function coerceNumber(value, fallback = 0) {
   if (typeof value === "number" && Number.isFinite(value)) return value;
