@@ -351,7 +351,7 @@ function Layout({ children }) {
         <div
           className="absolute inset-0 opacity-70"
           style={{
-            backgroundImage: "linear-gradient(110deg, rgba(255,255,255,0.05), transparent 45%, rgba(68,33,12,0.82))",
+            backgroundImage: "linear-gradient(110deg, rgba(255,255,255,0.05), transparent 45%, rgba(6, 18, 28, 0.82))",
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/70 to-black" />
@@ -1085,7 +1085,7 @@ function LeaderboardsPage() {
     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
     focus-visible:ring-offset-black focus-visible:ring-white/80
     ${isActive
-      ? "bg-white/15 border-white/40 text-white shadow-[0_0_30px_rgba(249,115,22,0.45)]"
+      ? "bg-white/15 border-white/40 text-white shadow-[0_0_30px_rgba(176,210,227,0.45)]"
       : "bg-white/[0.04] border-white/10 text-white/70 hover:text-white hover:border-white/30"
     }
     px-3 py-3  /* was px-2 py-2 */
@@ -1224,7 +1224,7 @@ function PodiumCard({ item, className, height, tint, edgeColor, accentColor, glo
         className={`rounded-3xl ${height} p-5 md:p-6 flex flex-col justify-between border`}
         style={{
           borderColor: `${(edgeColor || accent)}55`,
-          background: `linear-gradient(165deg, ${tint}, rgba(12,9,7,0.92))`,
+          background: `linear-gradient(165deg, ${tint}, rgba(6, 18, 28, 0.92))`,
           boxShadow: `0 25px 80px -45px ${glowColor || `${accent}55`}`,
         }}
       >
