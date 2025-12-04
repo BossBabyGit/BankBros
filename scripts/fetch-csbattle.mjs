@@ -25,37 +25,31 @@ function extractUsername(entry, fb = "Player") {
   );
 }
 
-// Extract wagered — handle cents-style fields and direct dollar/number fields
+// Extract wager — support direct 'wager' field and other fallbacks.
+// If cents-like fields appear, we convert them to base units by dividing by 100.
 function extractWagered(entry) {
-  // Common cent-like fields
+  if (!entry) return 0;
+
+  // explicit CSBattle shape uses `wager` (already base units)
+  if (entry?.wager != null) return coerceNumber(entry.wager, 0);
+
+  // common cent-like fields (unlikely for your sample, but kept defensively)
   const centLike =
     entry?.wager_total ??
     entry?.wagered_cents ??
     entry?.wageredCents ??
-    entry?.total_wagered_cents ??
-    entry?.totalWageredCents ??
     entry?.amount_cents ??
     entry?.amountCents;
+  if (centLike != null) return coerceNumber(centLike, 0) / 100;
 
-  if (centLike != null) {
-    const n = coerceNumber(centLike, 0);
-    // convert cents to dollars (or base units)
-    return Math.round(n) / 100;
-  }
-
-  // direct numeric fields (already in base currency)
+  // general fallbacks
   const direct =
     entry?.wagered ??
-    entry?.wager ??
+    entry?.wager_amount ??
     entry?.total_wagered ??
-    entry?.totalWagered ??
     entry?.totalAmount ??
     entry?.amount ??
-    entry?.value ??
-    entry?.total ??
-    entry?.points ??
-    entry?.volume;
-
+    entry?.value;
   return coerceNumber(direct, 0);
 }
 
@@ -63,7 +57,9 @@ async function fetchJson(url, init) {
   const res = await fetch(url, init);
   const txt = await res.text();
   let json = null;
-  try { json = JSON.parse(txt); } catch {}
+  try { json = JSON.parse(txt); } catch (e) {
+    // still throw with helpful message
+  }
   if (!res.ok) {
     throw new Error(`HTTP ${res.status} – ${url} – ${txt?.slice?.(0,200)}`);
   }
@@ -79,8 +75,6 @@ async function writeJson(file, data) {
 }
 
 export default async function fetchCsBattle() {
-  // You can set CSBATTLE_LEADERBOARD_URL in your secrets or env.
-  // If not set, fallback to the URL you provided in the request.
   const lbUrl =
     process.env.CSBATTLE_LEADERBOARD_URL ??
     "https://api.csbattle.com/leaderboards/affiliates/9f38c248-ff26-493e-ae4e-20f82a20ccf1?from=2025-01-12%2000:00:00&to=2036-01-02%2023:59:59";
@@ -89,20 +83,21 @@ export default async function fetchCsBattle() {
 
   const lbResponse = await fetchJson(lbUrl, {
     headers: {
-      // if you have an API key for csbattle, set it in CSBATTLE_API_KEY
       ...(process.env.CSBATTLE_API_KEY ? { Authorization: `Bearer ${process.env.CSBATTLE_API_KEY}` } : {}),
+      "Accept": "application/json",
     },
   });
 
   if (process.env.DEBUG_FETCH) {
-    await writeJson("public/data/_debug/csbattle-lb.json", lbResponse);
+    await writeJson("public/data/_debug/csbattle-raw.json", lbResponse);
   }
 
-  // Normalize possible response shapes
+  // ----- Prefer explicit CSBattle shape first -----
   let leaderboardData = [];
 
-  // common shapes: array directly, or object with leaderboard/data/entries rows
-  if (Array.isArray(lbResponse)) {
+  if (Array.isArray(lbResponse?.users)) {
+    leaderboardData = lbResponse.users;
+  } else if (Array.isArray(lbResponse)) {
     leaderboardData = lbResponse;
   } else if (Array.isArray(lbResponse?.leaderboard)) {
     leaderboardData = lbResponse.leaderboard;
@@ -110,59 +105,56 @@ export default async function fetchCsBattle() {
     leaderboardData = lbResponse.data;
   } else if (Array.isArray(lbResponse?.entries)) {
     leaderboardData = lbResponse.entries;
-  } else if (Array.isArray(lbResponse?.rows)) {
-    leaderboardData = lbResponse.rows;
-  } else if (Array.isArray(lbResponse?.result)) {
-    leaderboardData = lbResponse.result;
-  } else if (Array.isArray(lbResponse?.response?.data)) {
-    leaderboardData = lbResponse.response.data;
   } else {
     // try to detect any array nested one level deep
-    const firstArray = Object.values(lbResponse).find(v => Array.isArray(v));
+    const firstArray = Object.values(lbResponse ?? {}).find(v => Array.isArray(v));
     if (firstArray) leaderboardData = firstArray;
   }
 
   console.log(`📊 CsBattle: Found ${leaderboardData.length} leaderboard entries`);
 
   const rows = leaderboardData
-    .map((e, i) => ({
-      rank: Number.isFinite(+e?.rank) && +e.rank > 0 ? +e.rank : i + 1,
-      username: extractUsername(e, `Player ${i + 1}`),
-      wagered: extractWagered(e),
-      prize: 0,
-      // keep raw for debugging/reference
-      raw: process.env.DEBUG_FETCH ? e : undefined,
-    }))
+    .map((e, i) => {
+      const rank = Number.isFinite(+e?.rank) && +e.rank > 0 ? +e.rank : i + 1;
+      const username = extractUsername(e, `Player ${i + 1}`);
+      const wagered = extractWagered(e);
+      const row = {
+        rank,
+        username,
+        wagered,
+        prize: 0,
+      };
+      if (process.env.DEBUG_FETCH) row.raw = e;
+      return row;
+    })
     .sort((a, b) => a.rank - b.rank);
 
-  // Try to extract prizes from the response if present in various shapes
+  // Prizes: CSBattle example didn't include prizes — keep defensive logic
   let prizes = [];
   const maybePrizes =
     lbResponse?.prizes ??
     lbResponse?.prize_tiers ??
     lbResponse?.prizeTiers ??
     lbResponse?.metadata?.prizes ??
-    lbResponse?.meta?.prizes ??
-    lbResponse?.race?.prizes ??
-    lbResponse?.data?.prizes;
+    lbResponse?.meta?.prizes;
 
   if (Array.isArray(maybePrizes) && maybePrizes.length) {
     prizes = maybePrizes
-      .map(p => ({
-        rank: coerceNumber(p?.rank ?? p?.position ?? p?.place, NaN),
-        amount: (() => {
-          const centLike = p?.amount_cents ?? p?.amountCents ?? p?.value_cents ?? p?.valueCents;
-          if (centLike != null) return coerceNumber(centLike, 0) / 100;
-          return coerceNumber(p?.amount ?? p?.value ?? p?.price ?? p?.payout, 0);
-        })(),
-      }))
+      .map(p => {
+        const rank = coerceNumber(p?.rank ?? p?.position ?? p?.place, NaN);
+        let amount = 0;
+        if (p?.amount_cents ?? p?.value_cents ?? p?.payout_cents) {
+          amount = coerceNumber(p?.amount_cents ?? p?.value_cents ?? p?.payout_cents, 0) / 100;
+        } else {
+          amount = coerceNumber(p?.amount ?? p?.value ?? p?.payout, 0);
+        }
+        return { rank, amount };
+      })
       .filter(p => Number.isFinite(p.rank) && p.rank > 0)
       .sort((a, b) => a.rank - b.rank);
   }
 
-  console.log(`💰 CsBattle: Processed ${prizes.length} prize tiers`);
-
-  // attach prize by rank if available
+  // attach prizes by rank if present
   if (prizes.length && rows.length) {
     const byRank = new Map(prizes.map(p => [p.rank, p.amount]));
     for (const r of rows) {
@@ -178,10 +170,8 @@ export default async function fetchCsBattle() {
       source: "csbattle",
       fetchedAt: new Date().toISOString(),
       url: lbUrl,
-      rawResponseShape: {
-        topKeys: Array.isArray(lbResponse) ? ["array"] : Object.keys(lbResponse ?? {}).slice(0, 20)
-      }
-    }
+      shapeHint: Array.isArray(lbResponse) ? "array" : Object.keys(lbResponse ?? {}).slice(0, 20),
+    },
   };
 
   await writeJson("public/data/csbattle-leaderboard.json", output);
