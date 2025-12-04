@@ -22,7 +22,7 @@
     {
       "rank": 4,
       "username": "reynaisqueen",
-      "wagered": 19715,
+      "wagered": 20035,
       "prize": 275
     },
     {
@@ -58,7 +58,7 @@
     {
       "rank": 10,
       "username": "ethans",
-      "wagered": 198.12,
+      "wagered": 437.12,
       "prize": 20
     }
   ],
@@ -107,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-12-04T23:24:56.177Z",
+    "fetchedAt": "2025-12-04T23:41:58.312Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
