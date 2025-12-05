@@ -812,7 +812,7 @@ function HomePage() {
               </div>
             </div>
       
-            <div className="rounded-[28px] border border-sky-500/15 bg-black/60 p-6 shadow-[0_30px_110px_-60px_rgba(217,119,6,0.7)]">
+            <div className="rounded-[28px] border border-sky-500/15 bg-black/60 p-6 shadow-[0_30px_110px_-60px_rgba(176,210,227,0.55)]">
               <div className="mb-5 flex items-center justify-between text-xs uppercase tracking-[0.35em] text-white/50">
                 <span>Snapshot</span>
                 <span>Updated live</span>
