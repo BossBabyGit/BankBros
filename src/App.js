@@ -262,7 +262,7 @@ const LEADERBOARD_CONFIGS = [
     name: "Roulo",
     buttonLabel: "Roulo Leaderboard",
     logo: rouloLogo,
-    topUrl: "/data/roulo-leaderboard.json",
+    topUrl: "/data/roulobets-leaderboard.json",
     historyUrl: null,
     fallback: ROULO_FALLBACK,
     prizes: ROULO_PRIZE_LADDER,
