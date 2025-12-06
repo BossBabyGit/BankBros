@@ -4,13 +4,13 @@
     {
       "rank": 1,
       "username": "boobs",
-      "wagered": 183386.95,
+      "wagered": 183439.41,
       "prize": 1050
     },
     {
       "rank": 2,
       "username": "reynaisqueen",
-      "wagered": 132925,
+      "wagered": 136795,
       "prize": 750
     },
     {
@@ -58,7 +58,7 @@
     {
       "rank": 10,
       "username": "ethans",
-      "wagered": 559.94,
+      "wagered": 684.44,
       "prize": 20
     }
   ],
@@ -107,7 +107,7 @@
   "metadata": {
     "source": "dejen",
     "raceId": "e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b",
-    "fetchedAt": "2025-12-06T03:13:58.386Z",
+    "fetchedAt": "2025-12-06T03:54:29.207Z",
     "url": "https://api.dejen.com/races/e6f57e68-86ba-4571-87fd-cc6f2cb0ed0b/leaderboard",
     "raceInfo": {
       "displayName": "Bankbros Funded Leaderboard!",
