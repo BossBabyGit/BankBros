@@ -132,18 +132,30 @@ export default async function fetchRoulobets() {
     isAnon: e?.isAnon ?? false,
   }));
 
-  const top = normalized
+  // Sort & take existing top players
+  let top = normalized
     .slice()
     .sort((a, b) => coerceNumber(b.wagered, 0) - coerceNumber(a.wagered, 0))
     .slice(0, 10);
 
+  // Fill missing slots with default "No User"
+  while (top.length < 10) {
+    top.push({
+      username: "No User",
+      wagered: 0,
+      avatar: null,
+      isAnon: false,
+    });
+  }
+
+  // Map into rows
   const rows = top.map((e, i) => ({
     rank: i + 1,
     username: e.username,
     wagered: e.wagered,
     prize: 0,
-    avatar: e.avatar,
-    isAnon: e.isAnon,
+    avatar: e.avatar ?? null,
+    isAnon: e.isAnon ?? false,
   }));
 
   const output = {
