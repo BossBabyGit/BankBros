@@ -24,12 +24,68 @@
       "prize": 0,
       "avatar": null,
       "isAnon": false
+    },
+    {
+      "rank": 4,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0,
+      "avatar": null,
+      "isAnon": false
+    },
+    {
+      "rank": 5,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0,
+      "avatar": null,
+      "isAnon": false
+    },
+    {
+      "rank": 6,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0,
+      "avatar": null,
+      "isAnon": false
+    },
+    {
+      "rank": 7,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0,
+      "avatar": null,
+      "isAnon": false
+    },
+    {
+      "rank": 8,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0,
+      "avatar": null,
+      "isAnon": false
+    },
+    {
+      "rank": 9,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0,
+      "avatar": null,
+      "isAnon": false
+    },
+    {
+      "rank": 10,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0,
+      "avatar": null,
+      "isAnon": false
     }
   ],
   "prizes": [],
   "metadata": {
     "source": "roulobets",
-    "fetchedAt": "2025-12-06T12:49:06.517Z",
+    "fetchedAt": "2025-12-06T13:09:00.693Z",
     "url": "https://api.roulobets.com/v1/external/affiliates?start_at=2025-12-06&end_at=2026-01-06&key=cc4nngesomt6yt9an7d7jzws72ahnbz1",
     "range": {
       "after": 1764979200000,
