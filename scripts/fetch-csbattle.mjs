@@ -46,7 +46,7 @@ async function writeJson(file, data) {
 
 export default async function fetchCsBattle() {
   // default to the URL you provided; can be overridden by CSBATTLE_URL env var
-  const defaultUrl = "https://api.csbattle.com/leaderboards/affiliates/9f38c248-ff26-493e-ae4e-20f82a20ccf1?from=2025-01-12%2000:00:00&to=2036-01-02%2023:59:59";
+  const defaultUrl = "https://api.csbattle.com/leaderboards/affiliates/9f38c248-ff26-493e-ae4e-20f82a20ccf1?from=2025-01-12%2000:00:00&to=2026-01-06%2023:59:59";
   const url = process.env.CSBATTLE_URL ?? defaultUrl;
 
   if (!url) throw new Error("CSBATTLE_URL is not set and no default URL available");
