@@ -257,6 +257,7 @@ const LEADERBOARD_CONFIGS = [
       empty: "No live CsGold data yet – showing sample data.",
       error: "Couldn’t load CsGold data – showing sample data.",
     },
+    archived: true,
   },
   {
     id: "Roulo",
