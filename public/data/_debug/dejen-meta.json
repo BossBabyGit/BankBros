@@ -4,7 +4,7 @@
   "affiliate_code": "codebankbros",
   "display_name": "Bankbros Funded Leaderboard!",
   "description": "",
-  "status": "active",
+  "status": "distributed",
   "start_time": "2025-11-07T01:00:00Z",
   "end_time": "2025-12-07T01:00:00Z",
   "prizes": [
@@ -52,5 +52,5 @@
   "total_prize": 300000,
   "created_by": "64f87458-20b1-702a-3041-a3af0bf468ea",
   "created_at": "2025-11-06T15:13:54Z",
-  "updated_at": "2025-11-07T01:00:01Z"
+  "updated_at": "2025-12-07T01:00:53Z"
 }
