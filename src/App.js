@@ -242,6 +242,7 @@ const LEADERBOARD_CONFIGS = [
       empty: "No live Dejen data yet – showing sample data.",
       error: "Couldn’t load Dejen data – showing sample data.",
     },
+    archived: true,
   },
   {
     id: "csgold",
@@ -847,7 +848,13 @@ function HomePage() {
 
 function LeaderboardsPage() {
   const leaderboardConfigs = LEADERBOARD_CONFIGS;
-  const [activeLeaderboard, setActiveLeaderboard] = React.useState(leaderboardConfigs[0]?.id ?? "");
+  // only the configs we want the user to be able to pick
+  const visibleConfigs = leaderboardConfigs.filter((cfg) => !cfg.archived);
+
+  // pick first visible one as default (falls back to empty string)
+  const [activeLeaderboard, setActiveLeaderboard] = React.useState(
+    () => visibleConfigs[0]?.id ?? ""
+  );
   
   // Determine countdown target based on active leaderboard - MUST be before other state
   const activeConfigForCountdown = leaderboardConfigs.find((cfg) => cfg.id === activeLeaderboard) ?? leaderboardConfigs[0];
@@ -1071,7 +1078,7 @@ function LeaderboardsPage() {
 
             <div className="mb-8">
               <div className="flex flex-wrap items-center justify-center gap-3">
-                {leaderboardConfigs.map((cfg) => {
+                {visibleConfigs.map((cfg) => {
                   const isActive = cfg.id === (activeConfig?.id ?? activeLeaderboard);
                   return (
                     <motion.button
