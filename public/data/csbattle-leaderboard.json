@@ -30,7 +30,7 @@
       "uuid": "bdbb28e1-a638-4480-81f8-03efa91ab913",
       "username": "2******",
       "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKjljtn_8UD5yEFtEjViJSwS1tjt_2Vm83-XtBPRTcQOxb_Jg=s96-c",
-      "wagered": 8.05,
+      "wagered": 10.65,
       "prize": 0
     },
     {
@@ -85,7 +85,7 @@
   "prizes": [],
   "metadata": {
     "source": "csbattle",
-    "fetchedAt": "2025-12-09T12:56:25.108Z",
+    "fetchedAt": "2025-12-09T13:40:36.530Z",
     "url": "https://api.csbattle.com/leaderboards/affiliates/9f38c248-ff26-493e-ae4e-20f82a20ccf1?from=2025-01-12%2000:00:00&to=2026-01-06%2023:59:59"
   }
 }
