@@ -8,5 +8,11 @@
         { "key": "Expires", "value": "0" }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!assets|_next|api|favicon\\.ico|static).*)",
+      "destination": "/maintenance.html"
+    }
   ]
 }
