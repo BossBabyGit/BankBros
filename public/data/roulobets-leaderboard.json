@@ -85,7 +85,7 @@
   "prizes": [],
   "metadata": {
     "source": "roulobets",
-    "fetchedAt": "2025-12-10T17:49:24.707Z",
+    "fetchedAt": "2025-12-10T18:37:43.177Z",
     "url": "https://api.roulobets.com/v1/external/affiliates?start_at=2025-12-06&end_at=2026-01-06&key=cc4nngesomt6yt9an7d7jzws72ahnbz1",
     "range": {
       "after": 1764979200000,
