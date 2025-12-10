@@ -50,24 +50,24 @@
       "rank": 7
     },
     {
+      "uuid": "dd3cc14a-4154-4323-a419-8a6d011aa9e9",
+      "username": "l************",
+      "avatar": null,
+      "wager": 8.24,
+      "rank": 8
+    },
+    {
       "uuid": "ad1102cb-b1b2-4f21-b698-c2d448018f41",
       "username": "X****",
       "avatar": null,
       "wager": 7.75,
-      "rank": 8
+      "rank": 9
     },
     {
       "uuid": "df3914da-5be0-418f-ade8-8e83a9f78a4b",
       "username": "j*******",
       "avatar": null,
       "wager": 4.03,
-      "rank": 9
-    },
-    {
-      "uuid": "75f00913-ac1e-45fb-989b-f1846ce04e1a",
-      "username": "r**********",
-      "avatar": null,
-      "wager": 2,
       "rank": 10
     }
   ]
