@@ -11,6 +11,14 @@
     },
     {
       "rank": 2,
+      "uuid": "4e340572-08c9-4fdb-a4c3-4934fe2640b6",
+      "username": "j*****",
+      "avatar": "https://lh3.googleusercontent.com/a/ACg8ocJn-uhpP4hSRAJUC3NwDixz2esXmSJXyYqEWnuw59xtWM74kA=s96-c",
+      "wagered": 68.63,
+      "prize": 0
+    },
+    {
+      "rank": 3,
       "uuid": "6991904d-1b20-4d0f-96ef-4fce7540331d",
       "username": "a******",
       "avatar": null,
@@ -18,7 +26,7 @@
       "prize": 0
     },
     {
-      "rank": 3,
+      "rank": 4,
       "uuid": "972da647-80aa-4c71-837e-01e88b9568ba",
       "username": "b*********",
       "avatar": null,
@@ -26,7 +34,7 @@
       "prize": 0
     },
     {
-      "rank": 4,
+      "rank": 5,
       "uuid": "469d8bb5-f379-4f46-a3ca-af812f7caaee",
       "username": "g***********",
       "avatar": null,
@@ -34,7 +42,7 @@
       "prize": 0
     },
     {
-      "rank": 5,
+      "rank": 6,
       "uuid": "dd3cc14a-4154-4323-a419-8a6d011aa9e9",
       "username": "l************",
       "avatar": null,
@@ -42,7 +50,7 @@
       "prize": 0
     },
     {
-      "rank": 6,
+      "rank": 7,
       "uuid": "daf02a7f-e969-4176-9bba-8904ebd3858f",
       "username": "s**********",
       "avatar": null,
@@ -50,7 +58,7 @@
       "prize": 0
     },
     {
-      "rank": 7,
+      "rank": 8,
       "uuid": "bdbb28e1-a638-4480-81f8-03efa91ab913",
       "username": "2******",
       "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKjljtn_8UD5yEFtEjViJSwS1tjt_2Vm83-XtBPRTcQOxb_Jg=s96-c",
@@ -58,7 +66,7 @@
       "prize": 0
     },
     {
-      "rank": 8,
+      "rank": 9,
       "uuid": "dab040b2-bcec-4daa-b9bb-67427cff2cc0",
       "username": "d***",
       "avatar": null,
@@ -66,26 +74,18 @@
       "prize": 0
     },
     {
-      "rank": 9,
+      "rank": 10,
       "uuid": "ad1102cb-b1b2-4f21-b698-c2d448018f41",
       "username": "X****",
       "avatar": null,
       "wagered": 7.75,
-      "prize": 0
-    },
-    {
-      "rank": 10,
-      "uuid": "df3914da-5be0-418f-ade8-8e83a9f78a4b",
-      "username": "j*******",
-      "avatar": null,
-      "wagered": 4.03,
       "prize": 0
     }
   ],
   "prizes": [],
   "metadata": {
     "source": "csbattle",
-    "fetchedAt": "2025-12-10T21:46:35.758Z",
+    "fetchedAt": "2025-12-10T22:25:50.955Z",
     "url": "https://api.csbattle.com/leaderboards/affiliates/9f38c248-ff26-493e-ae4e-20f82a20ccf1?from=2025-01-12%2000:00:00&to=2026-01-06%2023:59:59"
   }
 }
