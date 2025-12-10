@@ -27,6 +27,14 @@
     },
     {
       "rank": 4,
+      "uuid": "972da647-80aa-4c71-837e-01e88b9568ba",
+      "username": "b*********",
+      "avatar": null,
+      "wagered": 17.49,
+      "prize": 0
+    },
+    {
+      "rank": 5,
       "uuid": "daf02a7f-e969-4176-9bba-8904ebd3858f",
       "username": "s**********",
       "avatar": null,
@@ -34,7 +42,7 @@
       "prize": 0
     },
     {
-      "rank": 5,
+      "rank": 6,
       "uuid": "bdbb28e1-a638-4480-81f8-03efa91ab913",
       "username": "2******",
       "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKjljtn_8UD5yEFtEjViJSwS1tjt_2Vm83-XtBPRTcQOxb_Jg=s96-c",
@@ -42,19 +50,11 @@
       "prize": 0
     },
     {
-      "rank": 6,
+      "rank": 7,
       "uuid": "ad1102cb-b1b2-4f21-b698-c2d448018f41",
       "username": "X****",
       "avatar": null,
       "wagered": 7.75,
-      "prize": 0
-    },
-    {
-      "rank": 7,
-      "uuid": "972da647-80aa-4c71-837e-01e88b9568ba",
-      "username": "b*********",
-      "avatar": null,
-      "wagered": 4.82,
       "prize": 0
     },
     {
@@ -85,7 +85,7 @@
   "prizes": [],
   "metadata": {
     "source": "csbattle",
-    "fetchedAt": "2025-12-10T07:28:12.343Z",
+    "fetchedAt": "2025-12-10T07:46:12.063Z",
     "url": "https://api.csbattle.com/leaderboards/affiliates/9f38c248-ff26-493e-ae4e-20f82a20ccf1?from=2025-01-12%2000:00:00&to=2026-01-06%2023:59:59"
   }
 }
