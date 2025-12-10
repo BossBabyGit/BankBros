@@ -3,18 +3,18 @@
   "rows": [
     {
       "rank": 1,
-      "uuid": "6991904d-1b20-4d0f-96ef-4fce7540331d",
-      "username": "a******",
+      "uuid": "0b3d9001-322a-42f5-b2f8-a4e6d0e42da7",
+      "username": "L**********",
       "avatar": null,
-      "wagered": 52.96,
+      "wagered": 70.69,
       "prize": 0
     },
     {
       "rank": 2,
-      "uuid": "0b3d9001-322a-42f5-b2f8-a4e6d0e42da7",
-      "username": "L**********",
+      "uuid": "6991904d-1b20-4d0f-96ef-4fce7540331d",
+      "username": "a******",
       "avatar": null,
-      "wagered": 22.31,
+      "wagered": 52.96,
       "prize": 0
     },
     {
@@ -43,6 +43,14 @@
     },
     {
       "rank": 6,
+      "uuid": "daf02a7f-e969-4176-9bba-8904ebd3858f",
+      "username": "s**********",
+      "avatar": null,
+      "wagered": 7.31,
+      "prize": 0
+    },
+    {
+      "rank": 7,
       "uuid": "df3914da-5be0-418f-ade8-8e83a9f78a4b",
       "username": "j*******",
       "avatar": null,
@@ -50,7 +58,7 @@
       "prize": 0
     },
     {
-      "rank": 7,
+      "rank": 8,
       "uuid": "75f00913-ac1e-45fb-989b-f1846ce04e1a",
       "username": "r**********",
       "avatar": null,
@@ -58,7 +66,7 @@
       "prize": 0
     },
     {
-      "rank": 8,
+      "rank": 9,
       "uuid": "72cf9356-ff65-468f-974f-1ecaf56ea7f5",
       "username": "B*****",
       "avatar": null,
@@ -66,26 +74,18 @@
       "prize": 0
     },
     {
-      "rank": 9,
+      "rank": 10,
       "uuid": "b5c8ea88-1954-42e8-957c-0c59117a5366",
       "username": "s*********",
       "avatar": null,
       "wagered": 0.7,
-      "prize": 0
-    },
-    {
-      "rank": 10,
-      "uuid": "3be553cd-59f1-464b-b945-f607a24bd14f",
-      "username": "E*******",
-      "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKW1yNwNNo1Ql4Rmy5aSFgS4arxt2vYCSQta7YE3FyRbZyQEQ=s96-c",
-      "wagered": 0.09,
       "prize": 0
     }
   ],
   "prizes": [],
   "metadata": {
     "source": "csbattle",
-    "fetchedAt": "2025-12-09T23:40:30.808Z",
+    "fetchedAt": "2025-12-10T02:03:26.688Z",
     "url": "https://api.csbattle.com/leaderboards/affiliates/9f38c248-ff26-493e-ae4e-20f82a20ccf1?from=2025-01-12%2000:00:00&to=2026-01-06%2023:59:59"
   }
 }
