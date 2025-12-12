@@ -4,7 +4,7 @@
       "uuid": "3be553cd-59f1-464b-b945-f607a24bd14f",
       "username": "E*******",
       "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKW1yNwNNo1Ql4Rmy5aSFgS4arxt2vYCSQta7YE3FyRbZyQEQ=s96-c",
-      "wager": 246.25,
+      "wager": 288.92,
       "rank": 1
     },
     {
@@ -43,31 +43,31 @@
       "rank": 6
     },
     {
+      "uuid": "dcd39208-2b4f-4025-a8a7-964f0e0021e0",
+      "username": "R********",
+      "avatar": null,
+      "wager": 38.14,
+      "rank": 7
+    },
+    {
       "uuid": "dd3cc14a-4154-4323-a419-8a6d011aa9e9",
       "username": "l************",
       "avatar": null,
       "wager": 30.67,
-      "rank": 7
+      "rank": 8
     },
     {
       "uuid": "469d8bb5-f379-4f46-a3ca-af812f7caaee",
       "username": "g***********",
       "avatar": null,
       "wager": 19.97,
-      "rank": 8
+      "rank": 9
     },
     {
       "uuid": "daf02a7f-e969-4176-9bba-8904ebd3858f",
       "username": "s**********",
       "avatar": null,
       "wager": 13.31,
-      "rank": 9
-    },
-    {
-      "uuid": "dcd39208-2b4f-4025-a8a7-964f0e0021e0",
-      "username": "R********",
-      "avatar": null,
-      "wager": 11.1,
       "rank": 10
     }
   ]
