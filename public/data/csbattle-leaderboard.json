@@ -14,7 +14,7 @@
       "uuid": "0b3d9001-322a-42f5-b2f8-a4e6d0e42da7",
       "username": "L**********",
       "avatar": null,
-      "wagered": 119.95,
+      "wagered": 125.31,
       "prize": 0
     },
     {
@@ -85,7 +85,7 @@
   "prizes": [],
   "metadata": {
     "source": "csbattle",
-    "fetchedAt": "2025-12-14T05:45:34.443Z",
+    "fetchedAt": "2025-12-14T06:37:11.119Z",
     "url": "https://api.csbattle.com/leaderboards/affiliates/9f38c248-ff26-493e-ae4e-20f82a20ccf1?from=2025-01-12%2000:00:00&to=2026-01-06%2023:59:59"
   }
 }
