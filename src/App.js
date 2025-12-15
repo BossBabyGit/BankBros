@@ -286,6 +286,7 @@ const LEADERBOARD_CONFIGS = [
       empty: "No live CSBattle data yet – showing sample data.",
       error: "Couldn’t load CSBattle data – showing sample data.",
     },
+    archived: true,
   },
 ];
 
