@@ -5,7 +5,7 @@ import useLeaderboardCountdown from "./useLeaderboardCountdown";
 import dejenLogo from "./assets/dejen.webp";
 import "./App.css";
 import csgoldLogo from "./assets/csgold.svg";
-import rouloLogo from "./assets/roulo.png";
+import menaceLogo from "./assets/menace.png";
 import bankbros from "./assets/bankrollbros.png";
 import csbattleLogo from "./assets/csbattle.svg";
 
@@ -17,7 +17,7 @@ const BRAND_GLOW = "rgba(176,210,227,0.45)"; // softer blue glow
 const BRAND_GRADIENT = `linear-gradient(135deg, ${BRAND_PRIMARY}, ${BRAND_SECONDARY})`;
 const DEJEN_END_ISO = "2025-12-06T20:00:00-05:00";   // Dec 8, 2025 20:00 EST (UTC-5)
 const CSGOLD_END_ISO = "2025-12-06T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
-const ROULO_END_ISO = "2026-01-06T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
+const MENACE_END_ISO = "2026-01-06T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
 const CSBATTLE_END_ISO = "2025-12-16T20:00:00-05:00";  // Nov 19, 2025 20:00 EST (UTC-5)
 
 
@@ -260,17 +260,17 @@ const LEADERBOARD_CONFIGS = [
     archived: true,
   },
   {
-    id: "Roulo",
-    name: "Roulo",
-    buttonLabel: "Roulo Leaderboard",
-    logo: rouloLogo,
-    topUrl: "/data/roulobets-leaderboard.json",
+    id: "menace",
+    name: "menace",
+    buttonLabel: "Menace Leaderboard",
+    logo: menaceLogo,
+    topUrl: "/data/menace-leaderboard.json",
     historyUrl: null,
     fallback: ROULO_FALLBACK,
     prizes: ROULO_PRIZE_LADDER,
     messages: {
-      empty: "No live Roulo data yet – showing sample data.",
-      error: "Couldn’t load Roulo data – showing sample data.",
+      empty: "No live Menace data yet – showing sample data.",
+      error: "Couldn’t load Menace data – showing sample data.",
     },
   },
     {
@@ -866,7 +866,7 @@ function LeaderboardsPage() {
   switch (activeConfigForCountdown?.id) {
     case 'dejen': return DEJEN_END_ISO;
     case 'csgold': return CSGOLD_END_ISO;
-    case 'Roulo': return ROULO_END_ISO;
+    case 'menace': return MENACE_END_ISO;
     case 'CSBattle': return CSBATTLE_END_ISO;
     default: return DEJEN_END_ISO;
       }

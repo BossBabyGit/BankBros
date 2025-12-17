@@ -40,15 +40,8 @@ jobs:
 
       - name: Fetch leaderboards
         env:
-          DEJEN_RACE_ID: ${{ secrets.DEJEN_RACE_ID }}
-          CSGOLD_API_KEY: ${{ secrets.CSGOLD_API_KEY }}
-          CSBATTLE_API_KEY: ${{ secrets.CSBATTLE_API_KEY }}
-          CSBATTLE_LEADERBOARD_URL: ${{ secrets.CSBATTLE_LEADERBOARD_URL }}
-          ROULOBETS_API_KEY: ${{ secrets.ROULOBETS_API_KEY }}
           DEBUG_FETCH: "1"
         run: node scripts/fetch-all.mjs
-
-
 
       - name: Commit & push if changed
         run: |
