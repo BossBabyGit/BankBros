@@ -1380,7 +1380,7 @@ function LeaderboardPreview() {
     let alive = true;
     (async () => {
       try {
-        const r = await fetch(`/data/dejen-leaderboard.json?t=${Date.now()}`, {
+        const r = await fetch(`/data/menace-leaderboard.json?t=${Date.now()}`, {
           headers: { Accept: "application/json" },
           cache: "no-store",
         });
