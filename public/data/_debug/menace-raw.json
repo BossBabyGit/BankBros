@@ -1,0 +1,206 @@
+{
+  "data": {
+    "id": "3dc11c01-c0f0-4e1f-93ad-0c32ded89628",
+    "state": 3,
+    "prizes": [
+      {
+        "title": "650 USD",
+        "bonusId": null,
+        "state": 1,
+        "place": 1,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "375 USD",
+        "bonusId": null,
+        "state": 1,
+        "place": 2,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "225 USD",
+        "bonusId": null,
+        "state": 1,
+        "place": 3,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "100 USD",
+        "bonusId": null,
+        "state": 1,
+        "place": 4,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "75 USD",
+        "bonusId": null,
+        "state": 1,
+        "place": 5,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "50 USD",
+        "bonusId": null,
+        "state": 1,
+        "place": 6,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "25 USD",
+        "bonusId": null,
+        "state": 1,
+        "place": 7,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "08",
+        "bonusId": null,
+        "state": 1,
+        "place": 8,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "09",
+        "bonusId": null,
+        "state": 1,
+        "place": 9,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "10",
+        "bonusId": null,
+        "state": 1,
+        "place": 10,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "11",
+        "bonusId": null,
+        "state": 1,
+        "place": 11,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "12",
+        "bonusId": null,
+        "state": 1,
+        "place": 12,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "13",
+        "bonusId": null,
+        "state": 1,
+        "place": 13,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "14",
+        "bonusId": null,
+        "state": 1,
+        "place": 14,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "15",
+        "bonusId": null,
+        "state": 1,
+        "place": 15,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "16",
+        "bonusId": null,
+        "state": 1,
+        "place": 16,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "17",
+        "bonusId": null,
+        "state": 1,
+        "place": 17,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "18",
+        "bonusId": null,
+        "state": 1,
+        "place": 18,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "19",
+        "bonusId": null,
+        "state": 1,
+        "place": 19,
+        "type": 1,
+        "entry": null
+      },
+      {
+        "title": "20",
+        "bonusId": null,
+        "state": 1,
+        "place": 20,
+        "type": 1,
+        "entry": null
+      }
+    ],
+    "endAt": "2026-01-16T23:59:59.000Z",
+    "countRealAmountOnly": true,
+    "title": "Bankbros Leaderboard",
+    "type": 1,
+    "identity": "bankbros-race-december",
+    "confirmationRequired": false,
+    "rates": {
+      "baseCurrencyRate": 0.01,
+      "currencyRates": []
+    },
+    "conditions": {
+      "gameCollections": [
+        "all"
+      ],
+      "gameCollectionsExcluded": false,
+      "minAmount": 0.1,
+      "minAmountOp": "gte",
+      "maxAmountOp": "lte",
+      "currencies": []
+    },
+    "startAt": "2025-12-16T08:00:00.000Z",
+    "isAvailable": false,
+    "isParticipate": false,
+    "playerEntry": null,
+    "leaderboard": [
+      {
+        "playerId": "8bf90bb0-3e30-4844-b1c7-1c771f19686b",
+        "nickname": "Hqteful",
+        "place": 1,
+        "points": 54303
+      },
+      {
+        "playerId": "ba82634a-a6df-400e-9e7f-3640be4bc3a2",
+        "nickname": "Uknown artist",
+        "place": 2,
+        "points": 520
+      }
+    ]
+  }
+}

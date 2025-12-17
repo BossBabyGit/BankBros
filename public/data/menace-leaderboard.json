@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "rows": [
+    {
+      "rank": 1,
+      "username": "Hqteful",
+      "wagered": 543.03,
+      "prize": 0
+    },
+    {
+      "rank": 2,
+      "username": "Uknown artist",
+      "wagered": 5.2,
+      "prize": 0
+    },
+    {
+      "rank": 3,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0
+    },
+    {
+      "rank": 4,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0
+    },
+    {
+      "rank": 5,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0
+    },
+    {
+      "rank": 6,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0
+    },
+    {
+      "rank": 7,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0
+    },
+    {
+      "rank": 8,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0
+    },
+    {
+      "rank": 9,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0
+    },
+    {
+      "rank": 10,
+      "username": "No User",
+      "wagered": 0,
+      "prize": 0
+    }
+  ],
+  "prizes": [],
+  "metadata": {
+    "source": "menace",
+    "tournamentId": "3dc11c01-c0f0-4e1f-93ad-0c32ded89628",
+    "fetchedAt": "2025-12-17T15:05:28.895Z",
+    "url": "https://api.menace.com/api/retention/tournaments/3dc11c01-c0f0-4e1f-93ad-0c32ded89628",
+    "range": {
+      "startAt": "2025-12-16T08:00:00.000Z",
+      "endAt": "2026-01-16T23:59:59.000Z"
+    },
+    "sourceCacheUpdatedAt": null
+  }
+}
