@@ -112,16 +112,16 @@ function applyPrizeLadder(rows, prizeLadder) {
 }
 
 const ROULO_PRIZE_LADDER = Object.freeze({
-  1: 1050,
-  2: 750,
-  3: 500,
-  4: 275,
-  5: 150,
-  6: 100,
-  7: 75,
-  8: 50,
-  9: 30,
-  10: 20,
+  1: 650,
+  2: 375,
+  3: 225,
+  4: 100,
+  5: 75,
+  6: 50,
+  7: 25,
+  8: 0,
+  9: 0,
+  10: 0,
 });
 
 const CSBATTLE_PRIZE_LADDER = Object.freeze({
