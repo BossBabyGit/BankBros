@@ -15,26 +15,26 @@
     },
     {
       "rank": 3,
+      "username": "demondihhh",
+      "wagered": 18,
+      "prize": 0
+    },
+    {
+      "rank": 4,
       "username": "Drwu",
       "wagered": 11.79,
       "prize": 0
     },
     {
-      "rank": 4,
+      "rank": 5,
       "username": "ExtremeJack9",
       "wagered": 10.19,
       "prize": 0
     },
     {
-      "rank": 5,
+      "rank": 6,
       "username": "fo3us",
       "wagered": 1.21,
-      "prize": 0
-    },
-    {
-      "rank": 6,
-      "username": "No User",
-      "wagered": 0,
       "prize": 0
     },
     {
@@ -66,7 +66,7 @@
   "metadata": {
     "source": "menace",
     "tournamentId": "3dc11c01-c0f0-4e1f-93ad-0c32ded89628",
-    "fetchedAt": "2025-12-30T18:39:23.868Z",
+    "fetchedAt": "2025-12-30T19:20:45.256Z",
     "url": "https://api.menace.com/api/retention/tournaments/3dc11c01-c0f0-4e1f-93ad-0c32ded89628",
     "range": {
       "startAt": "2025-12-16T08:00:00.000Z",
