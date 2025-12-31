@@ -208,21 +208,27 @@
         "points": 6927
       },
       {
+        "playerId": "ba1306a3-dd48-49a6-b0ac-eaf4eb2a2fcf",
+        "nickname": "Paradox123",
+        "place": 4,
+        "points": 1889
+      },
+      {
         "playerId": "87413af4-8ce1-427d-8353-bc5b36132985",
         "nickname": "demondihhh",
-        "place": 4,
+        "place": 5,
         "points": 1800
       },
       {
         "playerId": "7c4140ab-e2cc-463d-a817-80060c72afc4",
         "nickname": "Drwu",
-        "place": 5,
+        "place": 6,
         "points": 1179
       },
       {
         "playerId": "6fb48e95-f072-406f-bfef-7b72ed0f95d0",
         "nickname": "fo3us",
-        "place": 6,
+        "place": 7,
         "points": 121
       }
     ]
