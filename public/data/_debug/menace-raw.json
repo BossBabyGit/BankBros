@@ -226,9 +226,21 @@
         "points": 1179
       },
       {
+        "playerId": "a97d93da-94ab-487b-8090-bf0c9ade63da",
+        "nickname": "EternalSnow",
+        "place": 7,
+        "points": 1000
+      },
+      {
+        "playerId": "b5d70e8f-be09-43f0-a31b-19a36af02ca4",
+        "nickname": "NightborneGate9",
+        "place": 8,
+        "points": 300
+      },
+      {
         "playerId": "6fb48e95-f072-406f-bfef-7b72ed0f95d0",
         "nickname": "fo3us",
-        "place": 7,
+        "place": 9,
         "points": 121
       }
     ]
