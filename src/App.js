@@ -112,7 +112,7 @@ function applyPrizeLadder(rows, prizeLadder) {
 }
 
 const ROULO_PRIZE_LADDER = Object.freeze({
-  1: 650,
+  1: 1000,
   2: 375,
   3: 225,
   4: 100,
