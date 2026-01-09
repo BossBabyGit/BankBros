@@ -10,7 +10,7 @@
     {
       "rank": 2,
       "username": "bdawg1818",
-      "wagered": 1575.61,
+      "wagered": 1650.61,
       "prize": 0
     },
     {
@@ -22,7 +22,7 @@
     {
       "rank": 4,
       "username": "freezingcold",
-      "wagered": 425.12,
+      "wagered": 431.9,
       "prize": 0
     },
     {
@@ -66,7 +66,7 @@
   "metadata": {
     "source": "menace",
     "tournamentId": "3dc11c01-c0f0-4e1f-93ad-0c32ded89628",
-    "fetchedAt": "2026-01-09T19:42:10.143Z",
+    "fetchedAt": "2026-01-09T20:31:17.962Z",
     "url": "https://api.menace.com/api/retention/tournaments/3dc11c01-c0f0-4e1f-93ad-0c32ded89628",
     "range": {
       "startAt": "2025-12-16T08:00:00.000Z",
