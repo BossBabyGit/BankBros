@@ -220,57 +220,63 @@
         "points": 10600
       },
       {
+        "playerId": "cfa86e69-05d2-4fdd-99f5-bf7a7bd657e6",
+        "nickname": "insanelyone",
+        "place": 6,
+        "points": 9800
+      },
+      {
         "playerId": "7e8cdc57-77fb-44e2-9f60-89abaa8550dc",
         "nickname": "ExtremeJack9",
-        "place": 6,
+        "place": 7,
         "points": 7874
       },
       {
         "playerId": "fe81b39a-a3d1-49fe-991b-33db1040c7e1",
         "nickname": "notshubhankar",
-        "place": 7,
-        "points": 3585
+        "place": 8,
+        "points": 3599
       },
       {
         "playerId": "4e0dc6cb-2f60-47a4-9370-034ea4849362",
         "nickname": "Uknown artist",
-        "place": 8,
+        "place": 9,
         "points": 3523
       },
       {
         "playerId": "e4484b7a-c9c0-44f7-83c8-61ead1830b08",
         "nickname": "mrevald",
-        "place": 9,
+        "place": 10,
         "points": 2971
       },
       {
         "playerId": "ba1306a3-dd48-49a6-b0ac-eaf4eb2a2fcf",
         "nickname": "Paradox123",
-        "place": 10,
+        "place": 11,
         "points": 1889
       },
       {
         "playerId": "87413af4-8ce1-427d-8353-bc5b36132985",
         "nickname": "demondihhh",
-        "place": 11,
+        "place": 12,
         "points": 1800
       },
       {
         "playerId": "7c4140ab-e2cc-463d-a817-80060c72afc4",
         "nickname": "Drwu",
-        "place": 12,
+        "place": 13,
         "points": 1179
       },
       {
         "playerId": "b5d70e8f-be09-43f0-a31b-19a36af02ca4",
         "nickname": "NightborneGate9",
-        "place": 13,
+        "place": 14,
         "points": 300
       },
       {
         "playerId": "6fb48e95-f072-406f-bfef-7b72ed0f95d0",
         "nickname": "fo3us",
-        "place": 14,
+        "place": 15,
         "points": 121
       }
     ]
