@@ -211,7 +211,7 @@
         "playerId": "7b64783e-a209-48b5-8da3-6e3b09a75698",
         "nickname": "Lightbenjamin",
         "place": 4,
-        "points": 184274
+        "points": 187402
       },
       {
         "playerId": "ba82634a-a6df-400e-9e7f-3640be4bc3a2",
@@ -238,16 +238,16 @@
         "points": 13709
       },
       {
-        "playerId": "cfa86e69-05d2-4fdd-99f5-bf7a7bd657e6",
-        "nickname": "insanelyone",
-        "place": 9,
-        "points": 9800
-      },
-      {
         "playerId": "4e0dc6cb-2f60-47a4-9370-034ea4849362",
         "nickname": "Uknown artist",
+        "place": 9,
+        "points": 13563
+      },
+      {
+        "playerId": "cfa86e69-05d2-4fdd-99f5-bf7a7bd657e6",
+        "nickname": "insanelyone",
         "place": 10,
-        "points": 8663
+        "points": 9800
       },
       {
         "playerId": "7e8cdc57-77fb-44e2-9f60-89abaa8550dc",
