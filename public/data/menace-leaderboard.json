@@ -45,14 +45,14 @@
     },
     {
       "rank": 8,
-      "username": "Abrol001",
-      "wagered": 137.09,
+      "username": "Uknown artist",
+      "wagered": 178.19,
       "prize": 0
     },
     {
       "rank": 9,
-      "username": "Uknown artist",
-      "wagered": 135.63,
+      "username": "Abrol001",
+      "wagered": 137.09,
       "prize": 0
     },
     {
@@ -66,7 +66,7 @@
   "metadata": {
     "source": "menace",
     "tournamentId": "3dc11c01-c0f0-4e1f-93ad-0c32ded89628",
-    "fetchedAt": "2026-01-16T17:29:04.175Z",
+    "fetchedAt": "2026-01-16T17:50:50.542Z",
     "url": "https://api.menace.com/api/retention/tournaments/3dc11c01-c0f0-4e1f-93ad-0c32ded89628",
     "range": {
       "startAt": "2025-12-16T08:00:00.000Z",
