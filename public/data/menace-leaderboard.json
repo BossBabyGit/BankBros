@@ -21,44 +21,44 @@
     },
     {
       "rank": 4,
+      "username": "RogueHonor51",
+      "wagered": 1776,
+      "prize": 0
+    },
+    {
+      "rank": 5,
       "username": "freezingcold",
       "wagered": 1562.95,
       "prize": 0
     },
     {
-      "rank": 5,
+      "rank": 6,
       "username": "EternalSnow",
       "wagered": 611.7,
       "prize": 0
     },
     {
-      "rank": 6,
+      "rank": 7,
       "username": "miyklovesu",
       "wagered": 582.8,
       "prize": 0
     },
     {
-      "rank": 7,
+      "rank": 8,
       "username": "Abrol001",
       "wagered": 137.09,
       "prize": 0
     },
     {
-      "rank": 8,
+      "rank": 9,
       "username": "insanelyone",
       "wagered": 98,
       "prize": 0
     },
     {
-      "rank": 9,
-      "username": "Uknown artist",
-      "wagered": 81.63,
-      "prize": 0
-    },
-    {
       "rank": 10,
-      "username": "ExtremeJack9",
-      "wagered": 78.74,
+      "username": "Uknown artist",
+      "wagered": 86.63,
       "prize": 0
     }
   ],
@@ -66,7 +66,7 @@
   "metadata": {
     "source": "menace",
     "tournamentId": "3dc11c01-c0f0-4e1f-93ad-0c32ded89628",
-    "fetchedAt": "2026-01-16T14:29:59.416Z",
+    "fetchedAt": "2026-01-16T14:54:03.262Z",
     "url": "https://api.menace.com/api/retention/tournaments/3dc11c01-c0f0-4e1f-93ad-0c32ded89628",
     "range": {
       "startAt": "2025-12-16T08:00:00.000Z",
