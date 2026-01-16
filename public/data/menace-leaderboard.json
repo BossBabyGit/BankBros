@@ -10,7 +10,7 @@
     {
       "rank": 2,
       "username": "bdawg1818",
-      "wagered": 9914.1,
+      "wagered": 9927.02,
       "prize": 0
     },
     {
@@ -34,7 +34,7 @@
     {
       "rank": 6,
       "username": "miyklovesu",
-      "wagered": 582.26,
+      "wagered": 582.8,
       "prize": 0
     },
     {
@@ -51,14 +51,14 @@
     },
     {
       "rank": 9,
-      "username": "ExtremeJack9",
-      "wagered": 78.74,
+      "username": "Uknown artist",
+      "wagered": 81.63,
       "prize": 0
     },
     {
       "rank": 10,
-      "username": "Uknown artist",
-      "wagered": 76.13,
+      "username": "ExtremeJack9",
+      "wagered": 78.74,
       "prize": 0
     }
   ],
@@ -66,7 +66,7 @@
   "metadata": {
     "source": "menace",
     "tournamentId": "3dc11c01-c0f0-4e1f-93ad-0c32ded89628",
-    "fetchedAt": "2026-01-16T13:43:14.577Z",
+    "fetchedAt": "2026-01-16T14:29:59.416Z",
     "url": "https://api.menace.com/api/retention/tournaments/3dc11c01-c0f0-4e1f-93ad-0c32ded89628",
     "range": {
       "startAt": "2025-12-16T08:00:00.000Z",
