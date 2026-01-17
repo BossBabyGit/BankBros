@@ -1,156 +1,264 @@
 {
   "data": {
     "id": "3dc11c01-c0f0-4e1f-93ad-0c32ded89628",
-    "state": 3,
+    "state": 5,
     "prizes": [
       {
         "title": "650 USD",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 1,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "8bf90bb0-3e30-4844-b1c7-1c771f19686b",
+          "nickname": "Hqteful",
+          "points": 2145721,
+          "createdAt": "2025-12-17T14:04:44.841Z",
+          "updatedAt": "2026-01-10T21:07:07.660Z"
+        }
       },
       {
         "title": "375 USD",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 2,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "7d7579d3-ad65-42ba-adb5-e47d9cc0c6e9",
+          "nickname": "RogueHonor51",
+          "points": 1657273,
+          "createdAt": "2026-01-16T14:46:08.575Z",
+          "updatedAt": "2026-01-16T19:13:57.387Z"
+        }
       },
       {
         "title": "225 USD",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 3,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "74b56d8e-9ac2-47f9-9ba8-fb46324836d4",
+          "nickname": "bdawg1818",
+          "points": 992702,
+          "createdAt": "2026-01-09T04:29:51.530Z",
+          "updatedAt": "2026-01-16T13:54:41.334Z"
+        }
       },
       {
         "title": "100 USD",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 4,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "7b64783e-a209-48b5-8da3-6e3b09a75698",
+          "nickname": "Lightbenjamin",
+          "points": 187402,
+          "createdAt": "2026-01-06T02:56:08.530Z",
+          "updatedAt": "2026-01-16T17:10:07.250Z"
+        }
       },
       {
         "title": "75 USD",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 5,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "ba82634a-a6df-400e-9e7f-3640be4bc3a2",
+          "nickname": "freezingcold",
+          "points": 156295,
+          "createdAt": "2025-12-17T03:46:33.828Z",
+          "updatedAt": "2026-01-16T11:32:19.069Z"
+        }
       },
       {
         "title": "50 USD",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 6,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "a97d93da-94ab-487b-8090-bf0c9ade63da",
+          "nickname": "EternalSnow",
+          "points": 61170,
+          "createdAt": "2026-01-02T10:26:29.512Z",
+          "updatedAt": "2026-01-14T10:09:01.599Z"
+        }
       },
       {
         "title": "25 USD",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 7,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "ac038efd-2b47-4f9c-9d98-6c0f9ac98eff",
+          "nickname": "miyklovesu",
+          "points": 58280,
+          "createdAt": "2026-01-15T21:28:48.446Z",
+          "updatedAt": "2026-01-16T14:24:14.868Z"
+        }
       },
       {
         "title": "08",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 8,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "4e0dc6cb-2f60-47a4-9370-034ea4849362",
+          "nickname": "Unknown artist",
+          "points": 17819,
+          "createdAt": "2026-01-10T14:29:09.727Z",
+          "updatedAt": "2026-01-16T17:33:44.219Z"
+        }
       },
       {
         "title": "09",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 9,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "3fdf39bf-9680-4cc2-9eb9-05b92138a730",
+          "nickname": "Abrol001",
+          "points": 13709,
+          "createdAt": "2026-01-16T11:53:55.513Z",
+          "updatedAt": "2026-01-16T11:58:56.960Z"
+        }
       },
       {
         "title": "10",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 10,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "cfa86e69-05d2-4fdd-99f5-bf7a7bd657e6",
+          "nickname": "insanelyone",
+          "points": 9800,
+          "createdAt": "2026-01-11T15:49:54.022Z",
+          "updatedAt": "2026-01-11T15:51:52.217Z"
+        }
       },
       {
         "title": "11",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 11,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "7e8cdc57-77fb-44e2-9f60-89abaa8550dc",
+          "nickname": "ExtremeJack9",
+          "points": 7874,
+          "createdAt": "2025-12-30T15:07:10.650Z",
+          "updatedAt": "2026-01-02T01:57:05.497Z"
+        }
       },
       {
         "title": "12",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 12,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "fe81b39a-a3d1-49fe-991b-33db1040c7e1",
+          "nickname": "notshubhankar",
+          "points": 3829,
+          "createdAt": "2026-01-11T09:00:29.392Z",
+          "updatedAt": "2026-01-12T03:34:57.744Z"
+        }
       },
       {
         "title": "13",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 13,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "e4484b7a-c9c0-44f7-83c8-61ead1830b08",
+          "nickname": "mrevald",
+          "points": 2971,
+          "createdAt": "2026-01-10T12:51:56.736Z",
+          "updatedAt": "2026-01-10T13:00:50.817Z"
+        }
       },
       {
         "title": "14",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 14,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "ba1306a3-dd48-49a6-b0ac-eaf4eb2a2fcf",
+          "nickname": "Paradox123",
+          "points": 1889,
+          "createdAt": "2025-12-31T05:07:27.496Z",
+          "updatedAt": "2025-12-31T05:13:52.965Z"
+        }
       },
       {
         "title": "15",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 15,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "87413af4-8ce1-427d-8353-bc5b36132985",
+          "nickname": "demondihhh",
+          "points": 1800,
+          "createdAt": "2025-12-30T18:58:33.712Z",
+          "updatedAt": "2025-12-30T19:06:49.631Z"
+        }
       },
       {
         "title": "16",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 16,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "7c4140ab-e2cc-463d-a817-80060c72afc4",
+          "nickname": "Drwu",
+          "points": 1179,
+          "createdAt": "2025-12-30T15:31:14.320Z",
+          "updatedAt": "2025-12-30T16:07:56.805Z"
+        }
       },
       {
         "title": "17",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 17,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "b5d70e8f-be09-43f0-a31b-19a36af02ca4",
+          "nickname": "NightborneGate9",
+          "points": 300,
+          "createdAt": "2026-01-02T10:03:04.242Z",
+          "updatedAt": "2026-01-02T10:03:04.304Z"
+        }
       },
       {
         "title": "18",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 18,
         "type": 1,
-        "entry": null
+        "entry": {
+          "playerId": "6fb48e95-f072-406f-bfef-7b72ed0f95d0",
+          "nickname": "fo3us",
+          "points": 121,
+          "createdAt": "2025-12-27T11:38:06.917Z",
+          "updatedAt": "2025-12-27T11:38:32.043Z"
+        }
       },
       {
         "title": "19",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 19,
         "type": 1,
         "entry": null
@@ -158,7 +266,7 @@
       {
         "title": "20",
         "bonusId": null,
-        "state": 1,
+        "state": 3,
         "place": 20,
         "type": 1,
         "entry": null
@@ -188,115 +296,6 @@
     "isAvailable": false,
     "isParticipate": false,
     "playerEntry": null,
-    "leaderboard": [
-      {
-        "playerId": "8bf90bb0-3e30-4844-b1c7-1c771f19686b",
-        "nickname": "Hqteful",
-        "place": 1,
-        "points": 2145721
-      },
-      {
-        "playerId": "7d7579d3-ad65-42ba-adb5-e47d9cc0c6e9",
-        "nickname": "RogueHonor51",
-        "place": 2,
-        "points": 1657273
-      },
-      {
-        "playerId": "74b56d8e-9ac2-47f9-9ba8-fb46324836d4",
-        "nickname": "bdawg1818",
-        "place": 3,
-        "points": 992702
-      },
-      {
-        "playerId": "7b64783e-a209-48b5-8da3-6e3b09a75698",
-        "nickname": "Lightbenjamin",
-        "place": 4,
-        "points": 187402
-      },
-      {
-        "playerId": "ba82634a-a6df-400e-9e7f-3640be4bc3a2",
-        "nickname": "freezingcold",
-        "place": 5,
-        "points": 156295
-      },
-      {
-        "playerId": "a97d93da-94ab-487b-8090-bf0c9ade63da",
-        "nickname": "EternalSnow",
-        "place": 6,
-        "points": 61170
-      },
-      {
-        "playerId": "ac038efd-2b47-4f9c-9d98-6c0f9ac98eff",
-        "nickname": "miyklovesu",
-        "place": 7,
-        "points": 58280
-      },
-      {
-        "playerId": "4e0dc6cb-2f60-47a4-9370-034ea4849362",
-        "nickname": "Uknown artist",
-        "place": 8,
-        "points": 17819
-      },
-      {
-        "playerId": "3fdf39bf-9680-4cc2-9eb9-05b92138a730",
-        "nickname": "Abrol001",
-        "place": 9,
-        "points": 13709
-      },
-      {
-        "playerId": "cfa86e69-05d2-4fdd-99f5-bf7a7bd657e6",
-        "nickname": "insanelyone",
-        "place": 10,
-        "points": 9800
-      },
-      {
-        "playerId": "7e8cdc57-77fb-44e2-9f60-89abaa8550dc",
-        "nickname": "ExtremeJack9",
-        "place": 11,
-        "points": 7874
-      },
-      {
-        "playerId": "fe81b39a-a3d1-49fe-991b-33db1040c7e1",
-        "nickname": "notshubhankar",
-        "place": 12,
-        "points": 3829
-      },
-      {
-        "playerId": "e4484b7a-c9c0-44f7-83c8-61ead1830b08",
-        "nickname": "mrevald",
-        "place": 13,
-        "points": 2971
-      },
-      {
-        "playerId": "ba1306a3-dd48-49a6-b0ac-eaf4eb2a2fcf",
-        "nickname": "Paradox123",
-        "place": 14,
-        "points": 1889
-      },
-      {
-        "playerId": "87413af4-8ce1-427d-8353-bc5b36132985",
-        "nickname": "demondihhh",
-        "place": 15,
-        "points": 1800
-      },
-      {
-        "playerId": "7c4140ab-e2cc-463d-a817-80060c72afc4",
-        "nickname": "Drwu",
-        "place": 16,
-        "points": 1179
-      },
-      {
-        "playerId": "b5d70e8f-be09-43f0-a31b-19a36af02ca4",
-        "nickname": "NightborneGate9",
-        "place": 17,
-        "points": 300
-      },
-      {
-        "playerId": "6fb48e95-f072-406f-bfef-7b72ed0f95d0",
-        "nickname": "fo3us",
-        "place": 18,
-        "points": 121
-      }
-    ]
+    "leaderboard": []
   }
 }
