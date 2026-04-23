@@ -1,4 +1,4 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+import type { VercelRequest, VercelResponse } from '../../lib/vercel-types';
 import { ensureSchema, getTop15ForPreviousPeriod } from '../../lib/db';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
